@@ -1,0 +1,4117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Platform {
+  X
+  WORDPRESS
+  CANVA
+  AFFILIATE
+  ANALYTICS
+  GROWTH_SCORE
+  OPERATIONS
+  SCHEDULER
+  ALERTS
+  NOTIFICATIONS
+  REPORTS
+  ARTICLE_IMPROVEMENT
+  REWRITE
+  IMPACT_MEASUREMENT
+  SOCIAL_API
+  SOCIAL_POSTING
+  SOCIAL_ANALYTICS
+  CAMPAIGN
+  CONTENT_CALENDAR
+  REPORT
+  BUSINESS_INSIGHT
+  INSTAGRAM
+  PINTEREST
+  THREADS
+  YOUTUBE
+  TIKTOK
+}
+
+enum MediaStatus {
+  PLANNING
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum AccountStatus {
+  ACTIVE
+  RATE_LIMITED
+  PAUSED
+  DISCONNECTED
+}
+
+enum PostStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  SCHEDULED
+  PUBLISHED
+  FAILED
+  CANCELLED
+  BLOCKED
+  STOPPED_RATE_LIMIT
+}
+
+enum PostType {
+  TEXT
+  TEXT_WITH_LINK
+  IMAGE
+  IMAGE_WITH_LINK
+  THREAD
+}
+
+enum LinkCheckStatus {
+  NOT_CHECKED
+  SAFE
+  WARNING
+  BLOCKED
+}
+
+enum ApprovalDecision {
+  APPROVED
+  REJECTED
+}
+
+enum ApiEventType {
+  REQUEST
+  RATE_LIMIT
+  ERROR
+  POST_STOPPED
+  DRY_RUN
+}
+
+enum RequestType {
+  POST_CREATE
+  POST_METRICS
+  AUTH
+  MEDIA_UPLOAD
+  MOCK_POST_CREATE
+  LINK_CHECK
+  SYSTEM
+  WP_CONNECTION_TEST
+  WP_POST_DUPLICATE_CHECK
+  WP_POST_CREATE
+  WP_POST_UPDATE
+  WP_CATEGORY_SYNC
+  WP_TAG_SYNC
+  WP_MEDIA_MOCK_UPLOAD
+  WP_MOCK_POST_CREATE
+  CANVA_OAUTH_START
+  CANVA_OAUTH_CALLBACK
+  CANVA_TEMPLATE_LIST
+  CANVA_AUTOFILL_CREATE
+  CANVA_EXPORT_CREATE
+  CANVA_EXPORT_STATUS
+  CANVA_MOCK_AUTOFILL
+  CANVA_MOCK_EXPORT
+  WP_MEDIA_UPLOAD
+  WP_FEATURED_MEDIA_UPDATE
+  X_MEDIA_UPLOAD
+  X_POST_CREATE_WITH_MEDIA
+  AFFILIATE_MANUAL_PROGRAM_CREATE
+  AFFILIATE_CSV_IMPORT
+  AFFILIATE_REVENUE_MANUAL_CREATE
+  GROWTH_SCORE_CALCULATE
+  GSB_REPORT_CREATE
+  ANALYTICS_MOCK_IMPORT
+  GOOGLE_MOCK_CONNECT
+  GA4_PROPERTY_CREATE
+  GA4_CSV_IMPORT
+  GA4_MOCK_IMPORT
+  SEARCH_CONSOLE_PROPERTY_CREATE
+  SEARCH_CONSOLE_CSV_IMPORT
+  SEARCH_CONSOLE_MOCK_IMPORT
+  SEO_ANALYSIS_RUN
+  SEO_RECOMMENDATION_CREATE
+  GOOGLE_OAUTH_START
+  GOOGLE_OAUTH_CALLBACK
+  GOOGLE_TOKEN_REFRESH
+  GOOGLE_CONNECTION_TEST
+  GA4_API_SYNC
+  GA4_API_TEST
+  SEARCH_CONSOLE_API_SYNC
+  SEARCH_CONSOLE_API_TEST
+  GOOGLE_SYNC_JOB_RUN
+  SCHEDULED_TASK_RUN
+  SCHEDULED_TASK_DRY_RUN
+  DATA_FRESHNESS_CHECK
+  SEO_DROP_DETECTION
+  REVENUE_DROP_DETECTION
+  SOCIAL_DROP_DETECTION
+  GROWTH_SCORE_RECALC
+  GSB_WEEKLY_REPORT_CREATE
+  NOTIFICATION_CREATE
+  NOTIFICATION_SEND
+  ALERT_DETECTION_RUN
+  OPERATIONS_HEALTH_CHECK
+  IMPROVEMENT_TASK_CREATE
+  REWRITE_DRAFT_CREATE
+  CONTENT_DIFF_CREATE
+  REWRITE_RISK_CHECK
+  REWRITE_APPROVAL
+  REWRITE_APPROVAL_STALE
+  WORDPRESS_SAFETY_CHECK
+  WORDPRESS_DRAFT_MOCK_UPDATE
+  WORDPRESS_DRAFT_UPDATE
+  IMPACT_MEASUREMENT_CREATE
+  IMPACT_MEASUREMENT_CALCULATE
+  X_OAUTH_START
+  X_OAUTH_CALLBACK
+  X_TOKEN_REFRESH
+  X_CONNECTION_TEST
+  X_CREATE_POST
+  X_MOCK_POST
+  SOCIAL_SAFETY_CHECK
+  SOCIAL_POST_QUEUE_EXECUTE
+  SOCIAL_POST_MANUAL_REVIEW
+  SOCIAL_PERFORMANCE_SYNC
+  SOCIAL_ATTRIBUTION_CALCULATE
+  SOCIAL_IMPROVEMENT_SUGGESTION_CREATE
+  CAMPAIGN_CREATE
+  CAMPAIGN_ITEM_ATTACH
+  CAMPAIGN_ITEM_DUPLICATE_BLOCK
+  CAMPAIGN_ROI_CALCULATE
+  CAMPAIGN_GROWTH_SCORE_CALCULATE
+  CAMPAIGN_RECOMMENDATION_CREATE
+  CAMPAIGN_RISK_CREATE
+  CALENDAR_EVENT_CREATE
+  CALENDAR_CONFLICT_DETECT
+  REPORT_GENERATE
+  REPORT_EXPORT
+  BUSINESS_INSIGHT_CREATE
+}
+
+enum CampaignType {
+  SEO_GROWTH
+  SNS_GROWTH
+  AFFILIATE_REVENUE
+  PRODUCT_LAUNCH
+  SEASONAL_CAMPAIGN
+  CONTENT_REFRESH
+  BRAND_AWARENESS
+  CONVERSION_IMPROVEMENT
+  MULTI_CHANNEL
+}
+
+enum CampaignStatus {
+  DRAFT
+  PLANNING
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+  ARCHIVED
+}
+
+enum CampaignObjectiveType {
+  ORGANIC_SESSIONS
+  SEARCH_CLICKS
+  SNS_URL_CLICKS
+  AFFILIATE_CLICKS
+  CONVERSIONS
+  APPROVED_REVENUE
+  PENDING_REVENUE
+  GROSS_PROFIT
+  ROI
+  ARTICLE_COUNT
+  POST_COUNT
+  GROWTH_SCORE
+}
+
+enum CampaignObjectiveStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  ACHIEVED
+  MISSED
+  CANCELLED
+}
+
+enum CampaignTargetType {
+  MEDIA
+  NICHE
+  AUDIENCE
+  KEYWORD
+  PLATFORM
+  CHANNEL
+}
+
+enum CampaignItemType {
+  WORDPRESS_POST
+  POST
+  SOCIAL_POST_QUEUE
+  SOCIAL_POST_EXECUTION
+  CREATIVE_ASSET
+  AFFILIATE_PROGRAM
+  AFFILIATE_LINK
+  REVENUE_EVENT
+  ARTICLE_IMPROVEMENT_TASK
+  SEO_IMPACT_MEASUREMENT
+  SOCIAL_ATTRIBUTION
+  SOCIAL_PERFORMANCE
+  GROWTH_SCORE_SNAPSHOT
+  GSB_REPORT
+  ALERT_INCIDENT
+  NOTIFICATION_EVENT
+  API_USAGE_LOG
+  OPERATING_COST
+}
+
+enum CampaignItemStatus {
+  PLANNED
+  IN_PROGRESS
+  READY
+  PUBLISHED
+  MEASURED
+  BLOCKED
+  CANCELLED
+}
+
+enum CampaignBudgetType {
+  CONTENT
+  CREATIVE
+  TOOL
+  OUTSOURCING
+  AD
+  OTHER
+}
+
+enum CampaignCostSource {
+  MANUAL
+  CSV
+  MOCK
+}
+
+enum AttributionSourceType {
+  REVENUE_EVENT
+  SOCIAL_POST_ATTRIBUTION
+  MANUAL
+  MOCK
+}
+
+enum CampaignRecommendationType {
+  IMPROVE_CTA
+  ADD_ARTICLE
+  RESHARE_SOCIAL
+  FIX_TRACKING
+  REDUCE_COST
+  REVIEW_LOW_ROI
+  RESOLVE_CALENDAR_CONFLICT
+  GENERATE_REPORT
+}
+
+enum CampaignRecommendationStatus {
+  PROPOSED
+  APPROVED
+  REJECTED
+  DONE
+  DISMISSED
+}
+
+enum CampaignRiskType {
+  OVER_BUDGET
+  LOW_ROI
+  DATA_INSUFFICIENT
+  REPORT_OVERDUE
+  CONTENT_DELAYED
+  TRACKING_MISSING
+  DOUBLE_COUNT_WARNING
+  CALENDAR_CONFLICT
+}
+
+enum CampaignRiskSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+enum CampaignRiskStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+  DISMISSED
+}
+
+enum CampaignMilestoneStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  DONE
+  DELAYED
+  CANCELLED
+}
+
+enum CalendarEventType {
+  WORDPRESS_PUBLISH
+  SNS_POST
+  CREATIVE_DUE
+  ARTICLE_IMPROVEMENT
+  CAMPAIGN_MILESTONE
+  REPORT_DUE
+}
+
+enum CalendarEventStatus {
+  PLANNED
+  READY
+  BLOCKED
+  DONE
+  CANCELLED
+}
+
+enum CalendarConflictType {
+  TOO_MANY_POSTS_SAME_DAY
+  TOO_MANY_CAMPAIGNS_OVERLAP
+  MISSING_APPROVAL
+  MISSING_CREATIVE
+  MISSING_LINK_CHECK
+  MISSING_TRACKING
+}
+
+enum CalendarConflictStatus {
+  OPEN
+  RESOLVED
+  DISMISSED
+}
+
+enum ReportType {
+  CAMPAIGN_SUMMARY
+  CAMPAIGN_ROI
+  WEEKLY_OPERATIONS
+  MONTHLY_OPERATIONS
+  GROWTH_STRATEGY_BOARD
+  EXECUTIVE_SUMMARY
+}
+
+enum ReportPeriod {
+  WEEKLY
+  MONTHLY
+  CUSTOM
+}
+
+enum GeneratedReportStatus {
+  DRAFT
+  READY_FOR_REVIEW
+  APPROVED
+  EXPORTED
+  ARCHIVED
+}
+
+enum ReportExportFormat {
+  MARKDOWN
+  CSV
+  JSON
+}
+
+enum ReportExportStatus {
+  MOCK_EXPORTED
+  EXPORTED
+  FAILED
+}
+
+enum BusinessInsightType {
+  HIGH_ROI_CAMPAIGN
+  LOW_ROI_CAMPAIGN
+  PENDING_REVENUE_GAP
+  TRACKING_ISSUE
+  CALENDAR_CONFLICT
+  REPORT_OVERDUE
+  GROWTH_OPPORTUNITY
+}
+
+enum BusinessInsightStatus {
+  PROPOSED
+  REVIEWED
+  CONVERTED
+  DISMISSED
+}
+
+enum SocialApiConnectionStatus {
+  NOT_CONNECTED
+  MOCK_CONNECTED
+  CONNECTED
+  EXPIRED
+  FAILED
+  DISABLED
+  REVOKED
+  INSUFFICIENT_SCOPE
+  MISSING_REFRESH_TOKEN
+}
+
+enum SocialPostQueueStatus {
+  DRAFT
+  SCHEDULED
+  READY
+  PROCESSING
+  POSTED
+  FAILED
+  BLOCKED
+  RATE_LIMITED
+  MANUAL_REVIEW
+  CANCELLED
+}
+
+enum SocialPostApprovalStatus {
+  NOT_REQUIRED
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum SocialPostCheckStatus {
+  NOT_CHECKED
+  PASSED
+  WARNING
+  FAILED
+  BLOCKED
+}
+
+enum SocialPostExecutionStatus {
+  STARTED
+  MOCK_POSTED
+  POSTED
+  FAILED
+  RATE_LIMITED
+  UNKNOWN
+  MANUAL_REVIEW
+  BLOCKED
+}
+
+enum SocialMediaUploadStatus {
+  QUEUED
+  MOCK_UPLOADED
+  UPLOADED
+  FAILED
+  BLOCKED
+}
+
+enum SocialRateLimitStatus {
+  OK
+  WARNING
+  RATE_LIMITED
+  COOLDOWN
+}
+
+enum SocialPostSourceType {
+  WORDPRESS_POST
+  SEO_RECOMMENDATION
+  GROWTH_RECOMMENDATION
+  ARTICLE_IMPROVEMENT
+  MANUAL
+}
+
+enum SocialPerformanceSource {
+  API
+  CSV
+  MANUAL
+  MOCK
+}
+
+enum SocialImprovementSuggestionType {
+  REPOST_WITH_NEW_HOOK
+  IMPROVE_TIME
+  ADD_IMAGE
+  IMPROVE_CTA
+  REWRITE_TEXT
+  LINK_TO_UPDATED_ARTICLE
+  PAUSE_TOPIC
+}
+
+enum SocialImprovementSuggestionStatus {
+  PROPOSED
+  APPROVED
+  REJECTED
+  DONE
+  DISMISSED
+}
+
+enum SocialManualReviewStatus {
+  OPEN
+  RESOLVED
+  DISMISSED
+}
+
+enum ArticleImprovementTaskType {
+  REWRITE_TITLE
+  REWRITE_META_DESCRIPTION
+  ADD_H2_SECTION
+  ADD_FAQ_SECTION
+  REWRITE_BODY
+  ADD_INTERNAL_LINKS
+  IMPROVE_CTA
+  IMPROVE_AFFILIATE_PLACEMENT
+  UPDATE_OUTDATED_CONTENT
+  COMPREHENSIVE_REWRITE
+}
+
+enum ArticleImprovementPriority {
+  HIGH
+  MEDIUM
+  LOW
+  MONITOR
+}
+
+enum ArticleImprovementStatus {
+  BACKLOG
+  DRAFTING
+  DIFF_REVIEW
+  PENDING_APPROVAL
+  APPROVED
+  WORDPRESS_DRAFT_UPDATED
+  MEASURING
+  DONE
+  REJECTED
+  DISMISSED
+}
+
+enum ImprovementSourceType {
+  SEO_OPPORTUNITY
+  SEO_RECOMMENDATION
+  ALERT_INCIDENT
+  GROWTH_RECOMMENDATION
+  MANUAL
+}
+
+enum ArticleRevisionSnapshotType {
+  BEFORE
+  AFTER_DRAFT
+  AFTER_APPROVED
+  AFTER_WORDPRESS_UPDATE
+}
+
+enum RewriteMode {
+  TITLE_ONLY
+  META_ONLY
+  SECTION_ADDITION
+  INTERNAL_LINKS
+  CTA_ONLY
+  PARTIAL_REWRITE
+  FULL_REWRITE
+}
+
+enum RewriteDraftStatus {
+  DRAFT
+  DIFF_READY
+  PENDING_APPROVAL
+  APPROVED
+  STALE_AFTER_CHANGE
+  CHANGES_REQUESTED
+  REJECTED
+  APPLIED_TO_WORDPRESS_DRAFT
+  ARCHIVED
+}
+
+enum RewriteSuggestionType {
+  TITLE
+  META_DESCRIPTION
+  H2
+  H3
+  PARAGRAPH
+  FAQ
+  INTERNAL_LINK
+  CTA
+  AFFILIATE_BOX
+  COMPARISON_TABLE
+}
+
+enum RewriteTargetField {
+  TITLE
+  META_DESCRIPTION
+  CONTENT_HTML
+  CONTENT_TEXT
+  EXCERPT
+}
+
+enum RewriteRiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RewriteSuggestionStatus {
+  PROPOSED
+  ACCEPTED
+  REJECTED
+  EDITED
+}
+
+enum ContentChangeType {
+  REPLACE
+  INSERT
+  DELETE
+  MOVE
+  METADATA_UPDATE
+}
+
+enum ContentChangeStatus {
+  PROPOSED
+  ACCEPTED
+  REJECTED
+  APPLIED
+}
+
+enum RewriteApprovalDecision {
+  APPROVED
+  REJECTED
+  CHANGES_REQUESTED
+}
+
+enum RewriteRiskCheckStatus {
+  PASSED
+  WARNING
+  BLOCKED
+}
+
+enum WordPressRewriteUpdateMode {
+  CREATE_NEW_DRAFT
+  UPDATE_EXISTING_DRAFT
+}
+
+enum WordPressRewriteSafetyStatus {
+  PASSED
+  FAILED
+  CONFLICT_DETECTED
+}
+
+enum WordPressDraftUpdateStatus {
+  MOCK_UPDATED
+  UPDATED
+  BLOCKED
+  FAILED
+}
+
+enum ImprovementExecutionEventType {
+  TASK_CREATED
+  SNAPSHOT_CREATED
+  DRAFT_CREATED
+  DIFF_CREATED
+  RISK_CHECKED
+  APPROVAL_REQUESTED
+  APPROVED
+  REJECTED
+  CHANGES_REQUESTED
+  SAFETY_CHECKED
+  WORDPRESS_DRAFT_UPDATED
+  MEASUREMENT_CREATED
+  STATUS_CHANGED
+}
+
+enum SeoImpactStatus {
+  PENDING
+  MEASURING
+  COMPLETED
+  INSUFFICIENT_DATA
+}
+
+enum SeoImpactVerdict {
+  IMPROVED
+  DECLINED
+  MIXED
+  NO_CHANGE
+  INSUFFICIENT_DATA
+}
+
+enum OperationSettingValueType {
+  STRING
+  NUMBER
+  BOOLEAN
+  JSON
+}
+
+enum ScheduledTaskType {
+  GA4_SYNC
+  GSC_QUERY_SYNC
+  GSC_PAGE_SYNC
+  GSC_QUERY_PAGE_SYNC
+  GROWTH_SCORE_RECALC
+  GSB_WEEKLY_REPORT
+  DATA_FRESHNESS_CHECK
+  SEO_DROP_DETECTION
+  REVENUE_DROP_DETECTION
+  SOCIAL_DROP_DETECTION
+  API_ERROR_SPIKE
+  HEALTH_CHECK
+}
+
+enum ScheduledTaskStatus {
+  ACTIVE
+  PAUSED
+  DISABLED
+  NEVER_RUN
+  SUCCESS
+  SUCCESS_WITH_WARNINGS
+  FAILED
+  SKIPPED
+  RATE_LIMITED
+  LOCKED
+  DRY_RUN
+}
+
+enum ScheduledTaskRunType {
+  SCHEDULED
+  MANUAL
+  RETRY
+  MOCK
+  DRY_RUN
+}
+
+enum ScheduledTaskRunStatus {
+  QUEUED
+  RUNNING
+  SUCCESS
+  SUCCESS_WITH_WARNINGS
+  FAILED
+  SKIPPED
+  CANCELLED
+  RATE_LIMITED
+  LOCKED
+  STALE_RECOVERED
+  DRY_RUN
+}
+
+enum DataFreshnessSource {
+  GA4
+  SEARCH_CONSOLE
+  REVENUE
+  SOCIAL_POSTS
+  WORDPRESS
+  GROWTH_SCORE
+}
+
+enum DataFreshnessPriority {
+  API
+  CSV
+  MANUAL
+  MOCK
+}
+
+enum FreshnessStatus {
+  FRESH
+  WARNING
+  CRITICAL
+  UNKNOWN
+  DISABLED
+}
+
+enum AlertRuleType {
+  DATA_FRESHNESS
+  SEO_CLICKS_DROP
+  SEO_IMPRESSIONS_DROP
+  SEO_POSITION_DROP
+  REVENUE_DROP
+  SOCIAL_IMPRESSIONS_DROP
+  API_ERROR_SPIKE
+  SYNC_FAILURE
+  QUOTA_WARNING
+  GROWTH_SCORE_DROP
+}
+
+enum AlertSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+enum AlertIncidentStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+  DISMISSED
+}
+
+enum NotificationType {
+  ALERT
+  TASK_RUN
+  DATA_FRESHNESS
+  HEALTH_REPORT
+  WEEKLY_REPORT
+  SYSTEM
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+  DISMISSED
+}
+
+enum NotificationChannelType {
+  IN_APP
+  MOCK
+  EMAIL
+  SLACK
+}
+
+enum NotificationChannelStatus {
+  ENABLED
+  DISABLED
+  FAILED
+}
+
+enum NotificationDeliveryStatus {
+  QUEUED
+  SENT
+  FAILED
+  SKIPPED
+  MOCK_SENT
+}
+
+enum OperationsHealthStatus {
+  HEALTHY
+  WARNING
+  CRITICAL
+  UNKNOWN
+}
+
+enum WordPressConnectionStatus {
+  NOT_CONNECTED
+  MOCK_CONNECTED
+  CONNECTED
+  FAILED
+  DISABLED
+}
+
+enum WordPressLocalStatus {
+  DRAFT_LOCAL
+  READY_TO_SYNC
+  SYNCING
+  SYNCED_DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  FAILED
+  ARCHIVED
+}
+
+enum DuplicateCheckStatus {
+  NOT_CHECKED
+  UNIQUE
+  DUPLICATE_FOUND
+  FAILED
+}
+
+enum WordPressMediaUploadStatus {
+  NOT_UPLOADED
+  MOCK_UPLOADED
+  UPLOADED
+  FAILED
+}
+
+enum CanvaConnectionStatus {
+  NOT_CONNECTED
+  MOCK_CONNECTED
+  CONNECTED
+  EXPIRED
+  FAILED
+  DISABLED
+}
+
+enum CanvaTemplateType {
+  WORDPRESS_FEATURED_IMAGE
+  X_POST_IMAGE
+  INSTAGRAM_SQUARE
+  INSTAGRAM_STORY
+  PINTEREST_PIN
+  BLOG_OGP
+}
+
+enum CanvaTemplateStatus {
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum CanvaJobType {
+  FEATURED_IMAGE
+  X_POST_IMAGE
+  INSTAGRAM_IMAGE
+  PINTEREST_PIN
+  OGP_IMAGE
+}
+
+enum CanvaJobStatus {
+  DRAFT
+  QUEUED
+  PROCESSING
+  GENERATED
+  EXPORTING
+  EXPORTED
+  FAILED
+  CANCELLED
+}
+
+enum CanvaExportStatus {
+  QUEUED
+  PROCESSING
+  EXPORTED
+  FAILED
+}
+
+enum CreativeAssetSource {
+  CANVA
+  AI_MOCK
+  UPLOAD
+  WORDPRESS
+  EXTERNAL
+}
+
+enum CreativeAssetType {
+  FEATURED_IMAGE
+  X_POST_IMAGE
+  INSTAGRAM_IMAGE
+  PINTEREST_PIN
+  OGP_IMAGE
+  GENERAL
+}
+
+enum AssetApprovalStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  BLOCKED
+}
+
+enum AssetUsageType {
+  WORDPRESS_FEATURED_IMAGE
+  X_POST_IMAGE
+  INSTAGRAM_POST_IMAGE
+  PINTEREST_PIN_IMAGE
+  OGP_IMAGE
+}
+
+enum MediaUploadStatus {
+  NOT_UPLOADED
+  UPLOADED_MOCK
+  UPLOADED
+  FAILED
+}
+
+enum AffiliateEntityStatus {
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum AffiliateProgramStatus {
+  DRAFT
+  APPLYING
+  APPROVED
+  REJECTED
+  ACTIVE
+  PAUSED
+  ENDED
+  ARCHIVED
+}
+
+enum AffiliateRewardType {
+  FIXED
+  PERCENTAGE
+  LEAD
+  INSTALL
+  SUBSCRIPTION
+  OTHER
+}
+
+enum AffiliateRiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AffiliateApplicationStatus {
+  NOT_APPLIED
+  APPLYING
+  APPROVED
+  REJECTED
+  PAUSED
+  ENDED
+}
+
+enum AffiliateLinkType {
+  TEXT
+  BANNER
+  BUTTON
+  PRODUCT
+  DEEP_LINK
+}
+
+enum AffiliatePlacementType {
+  ARTICLE_TEXT
+  BUTTON
+  BANNER
+  COMPARISON_TABLE
+  PRODUCT_CARD
+  CTA_BOX
+  SIDEBAR
+  FOOTER
+}
+
+enum AffiliatePlacementPosition {
+  INTRO
+  MIDDLE
+  AFTER_H2_1
+  AFTER_H2_2
+  CONCLUSION
+}
+
+enum RevenueStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+  ADJUSTED
+}
+
+enum RevenueSource {
+  MANUAL
+  CSV
+  MOCK
+  API_FUTURE
+}
+
+enum DataConfidence {
+  HIGH
+  MEDIUM
+  LOW
+  INSUFFICIENT
+}
+
+enum ImportStatus {
+  PREVIEWED
+  IMPORTED
+  PARTIAL
+  FAILED
+}
+
+enum GrowthRecommendationType {
+  SCALE
+  MAINTAIN
+  IMPROVE
+  PAUSE
+  STOP
+  RESEARCH_MORE
+}
+
+enum GrowthRecommendationStatus {
+  PROPOSED
+  APPROVED
+  REJECTED
+  DONE
+  ARCHIVED
+}
+
+enum OperatingCostCategory {
+  CONTENT
+  DESIGN
+  TOOL
+  ADS
+  OUTSOURCING
+  OTHER
+}
+
+enum GoogleConnectionStatus {
+  NOT_CONNECTED
+  MOCK_CONNECTED
+  CONNECTED
+  EXPIRED
+  FAILED
+  DISABLED
+  REVOKED
+  INSUFFICIENT_SCOPE
+  MISSING_REFRESH_TOKEN
+}
+
+enum GooglePropertyStatus {
+  NOT_CONNECTED
+  MOCK_CONNECTED
+  CONNECTED
+  FAILED
+  DISABLED
+}
+
+enum SearchConsolePropertyType {
+  URL_PREFIX
+  DOMAIN
+}
+
+enum SeoDataSource {
+  MANUAL
+  CSV
+  MOCK
+  GA4_API
+  SEARCH_CONSOLE_API
+  GA4_API_FUTURE
+  SEARCH_CONSOLE_API_FUTURE
+}
+
+enum GoogleSyncJobType {
+  GA4_SITE_DAILY
+  GA4_PAGE_DAILY
+  GSC_QUERY_DAILY
+  GSC_PAGE_DAILY
+  GSC_QUERY_PAGE_DAILY
+}
+
+enum GoogleSyncSource {
+  GA4
+  SEARCH_CONSOLE
+}
+
+enum GoogleSyncDateRangeType {
+  LAST_N_DAYS
+  CUSTOM
+}
+
+enum GoogleSyncJobStatus {
+  ACTIVE
+  PAUSED
+  DISABLED
+  FAILED
+}
+
+enum GoogleSyncRunType {
+  MANUAL
+  SCHEDULED
+  RETRY
+  MOCK
+}
+
+enum GoogleSyncRunStatus {
+  QUEUED
+  RUNNING
+  SUCCESS
+  SUCCESS_WITH_WARNINGS
+  FAILED
+  CANCELLED
+  RATE_LIMITED
+  AUTH_FAILED
+  PERMISSION_FAILED
+}
+
+enum GoogleApiName {
+  GA4
+  SEARCH_CONSOLE
+  GOOGLE_OAUTH
+}
+
+enum GoogleQuotaCategory {
+  GA4_CORE
+  GA4_REALTIME
+  GA4_FUNNEL
+  SEARCH_CONSOLE_SEARCH_ANALYTICS
+  UNKNOWN
+}
+
+enum GoogleApiActionRequired {
+  NONE
+  REAUTHORIZE
+  REDUCE_DATE_RANGE
+  WAIT_AND_RETRY
+  CHECK_PROPERTY_PERMISSION
+  ENABLE_API
+  CHECK_PROPERTY_ID
+  CHECK_SITE_URL
+}
+
+enum SearchType {
+  WEB
+  IMAGE
+  VIDEO
+  NEWS
+  DISCOVER
+  GOOGLE_NEWS
+}
+
+enum SearchDevice {
+  DESKTOP
+  MOBILE
+  TABLET
+  UNKNOWN
+}
+
+enum SeoKeywordIntent {
+  INFORMATIONAL
+  COMMERCIAL
+  TRANSACTIONAL
+  NAVIGATIONAL
+  LOCAL
+  UNKNOWN
+}
+
+enum SeoKeywordStatus {
+  NEW
+  TARGETING
+  RANKING
+  IMPROVING
+  PAUSED
+  ARCHIVED
+}
+
+enum SeoPageKeywordRole {
+  PRIMARY
+  SECONDARY
+  RELATED
+  LONG_TAIL
+}
+
+enum SeoOpportunityType {
+  HIGH_IMPRESSION_LOW_CTR
+  NEAR_TOP_10
+  NEAR_TOP_3
+  DECLINING_CLICKS
+  DECLINING_POSITION
+  CONTENT_GAP
+  MISSING_INTERNAL_LINKS
+  OUTDATED_CONTENT
+  NO_AFFILIATE_CTA
+  LOW_CONVERSION_ARTICLE
+}
+
+enum SeoPriority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum SeoOpportunityStatus {
+  NEW
+  REVIEWING
+  APPROVED
+  IN_PROGRESS
+  DONE
+  DISMISSED
+}
+
+enum SeoRecommendationType {
+  REWRITE_TITLE
+  REWRITE_META_DESCRIPTION
+  ADD_H2_SECTION
+  ADD_FAQ_SECTION
+  IMPROVE_INTRO
+  ADD_INTERNAL_LINKS
+  ADD_AFFILIATE_CTA
+  UPDATE_OUTDATED_INFO
+  EXPAND_COMPARISON_TABLE
+  IMPROVE_SCHEMA_MARKUP_FUTURE
+}
+
+enum SeoApprovalStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  DONE
+}
+
+enum SeoActionStatus {
+  TODO
+  DOING
+  DONE
+  SKIPPED
+}
+
+enum SeoImportSource {
+  GA4
+  SEARCH_CONSOLE
+  MANUAL
+  MOCK
+}
+
+enum SeoImportType {
+  GA4_PAGES_CSV
+  GA4_TRAFFIC_CSV
+  GSC_QUERIES_CSV
+  GSC_PAGES_CSV
+  GSC_QUERY_PAGE_CSV
+  GENERIC_CSV
+  MOCK
+}
+
+enum SeoImportStatus {
+  UPLOADED
+  PREVIEWED
+  PROCESSING
+  COMPLETED
+  COMPLETED_WITH_WARNINGS
+  FAILED
+  CANCELLED
+}
+
+model Media {
+  id          String      @id @default(cuid())
+  name        String
+  niche       String
+  wordpressUrl String
+  noteUrl     String?
+  bloggerUrl  String?
+  instagramUrl String?
+  pinterestUrl String?
+  growthScore Int         @default(0)
+  status      MediaStatus @default(ACTIVE)
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  accounts SocialAccount[]
+  posts    Post[]
+  wordpressSites WordPressSite[]
+  wordpressPosts WordPressPost[]
+  wordpressMedia WordPressMedia[]
+  canvaConnections CanvaConnection[]
+  canvaBrandTemplates CanvaBrandTemplate[]
+  canvaDesignJobs CanvaDesignJob[]
+  creativeAssets CreativeAsset[]
+  creativeAssetUsages CreativeAssetUsage[]
+  affiliateProgramMediaSites AffiliateProgramMediaSite[]
+  affiliateLinks AffiliateLink[]
+  affiliatePlacements AffiliatePlacement[]
+  revenueEvents RevenueEvent[]
+  trafficMetrics TrafficMetricDaily[]
+  contentPerformance ContentPerformanceDaily[]
+  operatingCosts OperatingCost[]
+  growthScoreSnapshots GrowthScoreSnapshot[]
+  growthRecommendations GrowthRecommendation[]
+  googleConnections GoogleConnection[]
+  ga4Properties GA4Property[]
+  searchConsoleProperties SearchConsoleProperty[]
+  ga4Metrics GA4MetricDaily[]
+  ga4PageMetrics GA4PageMetricDaily[]
+  searchConsoleQueries SearchConsoleQueryDaily[]
+  searchConsolePages SearchConsolePageDaily[]
+  searchConsoleQueryPages SearchConsoleQueryPageDaily[]
+  seoKeywords SeoKeyword[]
+  seoPageKeywords SeoPageKeyword[]
+  seoOpportunities SeoOpportunity[]
+  seoRecommendations SeoRecommendation[]
+  seoAnalysisSnapshots SeoAnalysisSnapshot[]
+  seoImportBatches SeoImportBatch[]
+  googleSyncJobs GoogleSyncJob[]
+  googleSyncRuns GoogleSyncRun[]
+  googleApiQuotaLogs GoogleApiQuotaLog[]
+  googleApiErrorLogs GoogleApiErrorLog[]
+  scheduledTasks ScheduledTask[]
+  scheduledTaskRuns ScheduledTaskRun[]
+  dataFreshnessStatuses DataFreshnessStatus[]
+  alertIncidents AlertIncident[]
+  notificationEvents NotificationEvent[]
+  operationsHealthSnapshots OperationsHealthSnapshot[]
+  weeklyOperationsReports WeeklyOperationsReport[]
+  articleImprovementTasks ArticleImprovementTask[]
+  articleRevisionSnapshots ArticleRevisionSnapshot[]
+  rewriteDrafts RewriteDraft[]
+  seoImpactMeasurements SeoImpactMeasurement[]
+  socialApiConnections SocialApiConnection[]
+  socialPostQueues SocialPostQueue[]
+  socialPostPerformanceSnapshots SocialPostPerformanceSnapshot[]
+  socialPostAttributions SocialPostAttribution[]
+  socialPostTemplates SocialPostTemplate[]
+  socialImprovementSuggestions SocialImprovementSuggestion[]
+  socialGrowthScoreSnapshots SocialGrowthScoreSnapshot[]
+  campaigns Campaign[]
+  campaignBudgets CampaignBudget[]
+  campaignCosts CampaignCost[]
+  campaignRevenueAttributions CampaignRevenueAttribution[]
+  campaignRoiSnapshots CampaignRoiSnapshot[]
+  campaignGrowthScoreSnapshots CampaignGrowthScoreSnapshot[]
+  contentCalendarEvents ContentCalendarEvent[]
+  reportTemplates ReportTemplate[]
+  reportSchedules ReportSchedule[]
+  generatedReports GeneratedReport[]
+  businessInsights BusinessInsight[]
+}
+
+model SocialAccount {
+  id             String        @id @default(cuid())
+  mediaId        String
+  platform       Platform
+  handle         String
+  displayName    String
+  accountUrl     String?
+  status         AccountStatus @default(ACTIVE)
+  apiConnected   Boolean       @default(false)
+  officialApiOnly Boolean      @default(true)
+  autoPostingEnabled Boolean   @default(true)
+  dailyLimit     Int           @default(50)
+  windowLimit    Int           @default(6)
+  windowMinutes  Int           @default(15)
+  defaultPostTimes String      @default("08:00,12:30,20:00")
+  apiStopFlag    Boolean       @default(false)
+  apiStopReason  String?
+  nextAllowedPostAt DateTime?
+  lastPostedAt   DateTime?
+  lastError      String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  posts Post[]
+  apiLogs ApiUsageLog[]
+  credentials PlatformCredential[]
+  socialApiConnections SocialApiConnection[]
+  socialPostQueues SocialPostQueue[]
+  socialPostPerformanceSnapshots SocialPostPerformanceSnapshot[]
+  socialImprovementSuggestions SocialImprovementSuggestion[]
+
+  @@unique([platform, handle])
+}
+
+model Post {
+  id              String     @id @default(cuid())
+  mediaId         String
+  socialAccountId String
+  platform        Platform
+  postType        PostType   @default(TEXT_WITH_LINK)
+  title           String
+  body            String
+  destinationUrl  String
+  linkUrl         String?
+  imageUrl        String?
+  creativeAssetId String?
+  mediaUploadStatus MediaUploadStatus @default(NOT_UPLOADED)
+  externalMediaId String?
+  mediaUploadError String?
+  madeWithAi      Boolean    @default(false)
+  status          PostStatus @default(DRAFT)
+  approvalStatus  ApprovalDecision?
+  linkCheckStatus LinkCheckStatus @default(NOT_CHECKED)
+  linkCheckReason String?
+  detectedUrls    Json?
+  checkedAt       DateTime?
+  aiGenerated     Boolean    @default(true)
+  aiPrompt        String?
+  aiResult        String?
+  complianceNotes String?
+  scheduledAt     DateTime?
+  publishedAt     DateTime?
+  externalPostId  String?
+  externalPostUrl String?
+  failureReason   String?
+  lastError        String?
+  retryCount       Int        @default(0)
+  lockedAt         DateTime?
+  processingStartedAt DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  approvals PostApproval[]
+  apiLogs ApiUsageLog[]
+  linkChecks LinkCheck[]
+  canvaDesignJobs CanvaDesignJob[]
+  creativeAssetUsages CreativeAssetUsage[]
+  revenueEvents RevenueEvent[]
+  socialPerformance SocialPostPerformanceDaily[]
+  socialPostQueues SocialPostQueue[]
+  socialPostPerformanceSnapshots SocialPostPerformanceSnapshot[]
+
+  @@index([status, scheduledAt])
+  @@index([linkCheckStatus, checkedAt])
+  @@index([lockedAt])
+}
+
+model PostApproval {
+  id        String           @id @default(cuid())
+  postId    String
+  reviewer  String
+  decision  ApprovalDecision
+  comment   String?
+  createdAt DateTime         @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model ApiUsageLog {
+  id              String       @id @default(cuid())
+  socialAccountId String?
+  postId          String?
+  platform        Platform
+  eventType       ApiEventType
+  endpoint        String
+  method          String       @default("POST")
+  statusCode      Int?
+  success         Boolean      @default(true)
+  requestCount    Int          @default(1)
+  requestType     RequestType  @default(SYSTEM)
+  mockMode        Boolean      @default(true)
+  costEstimate    Decimal?     @db.Decimal(12, 6)
+  rateLimitLimit  Int?
+  remaining       Int?
+  resetAt         DateTime?
+  message         String?
+  createdAt       DateTime     @default(now())
+
+  socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+
+  @@index([platform, eventType, createdAt])
+  @@index([socialAccountId, createdAt])
+}
+
+model LinkCheck {
+  id          String          @id @default(cuid())
+  postId      String?
+  url         String
+  status      LinkCheckStatus
+  reason      String?
+  checkedAt   DateTime        @default(now())
+  createdAt   DateTime        @default(now())
+
+  post Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([status, checkedAt])
+  @@index([url])
+}
+
+model Setting {
+  key       String   @id
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlatformCredential {
+  id              String   @id @default(cuid())
+  socialAccountId String
+  platform        Platform
+  credentialLabel String
+  encryptedValue  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  socialAccount SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+
+  @@index([platform])
+  @@index([socialAccountId])
+}
+
+model WordPressSite {
+  id                           String                    @id @default(cuid())
+  mediaId                      String
+  siteName                     String
+  siteUrl                      String
+  apiBaseUrl                   String
+  username                     String
+  applicationPasswordEncrypted String?
+  applicationPasswordMasked    String                    @default("********")
+  mockMode                     Boolean                   @default(true)
+  connectionStatus             WordPressConnectionStatus @default(NOT_CONNECTED)
+  lastConnectedAt              DateTime?
+  lastError                    String?
+  defaultStatus                String                    @default("draft")
+  allowPublish                 Boolean                   @default(false)
+  autoAddAllowedDomain         Boolean                   @default(true)
+  notes                        String?
+  createdAt                    DateTime                  @default(now())
+  updatedAt                    DateTime                  @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  posts WordPressPost[]
+  mediaItems WordPressMedia[]
+  categories WordPressCategory[]
+  tags WordPressTag[]
+  syncLogs WordPressSyncLog[]
+
+  @@unique([mediaId, siteUrl])
+  @@index([connectionStatus])
+}
+
+model WordPressPost {
+  id                   String                 @id @default(cuid())
+  mediaId              String
+  wordpressSiteId      String
+  title                String
+  slug                 String
+  excerpt              String?
+  contentMarkdown      String
+  contentHtml          String
+  status               String                 @default("draft")
+  localStatus          WordPressLocalStatus   @default(DRAFT_LOCAL)
+  wordpressPostId      String?
+  wordpressPostUrl     String?
+  wordpressEditUrl     String?
+  featuredMediaId      String?
+  creativeAssetId      String?
+  categoryIds          Json?
+  tagIds               Json?
+  seoTitle             String?
+  seoDescription       String?
+  focusKeyword         String?
+  aiPrompt             String?
+  aiModel              String?
+  approvalStatus       ApprovalDecision?
+  approvedBy           String?
+  approvedAt           DateTime?
+  scheduledPublishAt   DateTime?
+  publishedAt          DateTime?
+  lastSyncedAt         DateTime?
+  lastError            String?
+  duplicateCheckStatus DuplicateCheckStatus   @default(NOT_CHECKED)
+  duplicateCheckResult String?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  syncLogs WordPressSyncLog[]
+  canvaDesignJobs CanvaDesignJob[]
+  creativeAssetUsages CreativeAssetUsage[]
+  affiliatePlacements AffiliatePlacement[]
+  revenueEvents RevenueEvent[]
+  contentPerformance ContentPerformanceDaily[]
+  ga4PageMetrics GA4PageMetricDaily[]
+  searchConsolePages SearchConsolePageDaily[]
+  searchConsoleQueryPages SearchConsoleQueryPageDaily[]
+  seoPageKeywords SeoPageKeyword[]
+  seoOpportunities SeoOpportunity[]
+  seoRecommendations SeoRecommendation[]
+  articleImprovementTasks ArticleImprovementTask[]
+  articleRevisionSnapshots ArticleRevisionSnapshot[]
+  rewriteDrafts RewriteDraft[]
+  wordpressDraftUpdates WordPressDraftUpdate[]
+  seoImpactMeasurements SeoImpactMeasurement[]
+  socialPostQueues SocialPostQueue[]
+  socialPostAttributions SocialPostAttribution[]
+
+  @@unique([wordpressSiteId, slug])
+  @@index([localStatus, updatedAt])
+  @@index([duplicateCheckStatus])
+}
+
+model WordPressMedia {
+  id                String                     @id @default(cuid())
+  wordpressSiteId   String
+  mediaId           String
+  localFileUrl      String?
+  sourceImageUrl    String?
+  creativeAssetId   String?
+  wordpressMediaId  String?
+  wordpressMediaUrl String?
+  altText           String?
+  caption           String?
+  description       String?
+  uploadStatus      WordPressMediaUploadStatus @default(NOT_UPLOADED)
+  lastError         String?
+  createdAt         DateTime                   @default(now())
+  updatedAt         DateTime                   @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+  creativeAsset CreativeAsset? @relation("WordPressMediaAsset", fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  usedByCreativeAssets CreativeAsset[] @relation("AssetFeaturedWordPressMedia")
+}
+
+model WordPressCategory {
+  id                  String   @id @default(cuid())
+  wordpressSiteId     String
+  wordpressCategoryId Int
+  name                String
+  slug                String
+  description         String?
+  count               Int      @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+
+  @@unique([wordpressSiteId, wordpressCategoryId])
+  @@index([slug])
+}
+
+model WordPressTag {
+  id             String   @id @default(cuid())
+  wordpressSiteId String
+  wordpressTagId Int
+  name           String
+  slug           String
+  description    String?
+  count          Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+
+  @@unique([wordpressSiteId, wordpressTagId])
+  @@index([slug])
+}
+
+model WordPressSyncLog {
+  id                     String   @id @default(cuid())
+  wordpressSiteId         String
+  wordpressPostId         String?
+  action                 String
+  endpoint               String
+  method                 String
+  statusCode             Int?
+  success                Boolean  @default(true)
+  requestPayloadSummary  String?
+  responsePayloadSummary String?
+  errorMessage           String?
+  mockMode               Boolean  @default(true)
+  createdAt              DateTime @default(now())
+
+  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+
+  @@index([wordpressSiteId, createdAt])
+  @@index([action, success, createdAt])
+}
+
+model CanvaConnection {
+  id                    String                @id @default(cuid())
+  mediaId               String
+  connectionName        String
+  canvaUserId           String?
+  canvaUserEmail        String?
+  accessTokenEncrypted  String?
+  refreshTokenEncrypted String?
+  tokenExpiresAt        DateTime?
+  scopes                String?
+  connectionStatus      CanvaConnectionStatus @default(NOT_CONNECTED)
+  mockMode              Boolean               @default(true)
+  lastConnectedAt       DateTime?
+  lastError             String?
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  brandTemplates CanvaBrandTemplate[]
+  designJobs CanvaDesignJob[]
+  syncLogs CanvaSyncLog[]
+
+  @@index([mediaId, connectionStatus])
+}
+
+model CanvaBrandTemplate {
+  id                  String              @id @default(cuid())
+  mediaId             String
+  canvaConnectionId   String?
+  templateName        String
+  canvaTemplateId     String
+  templateType        CanvaTemplateType
+  platform            Platform
+  aspectRatio         String
+  width               Int
+  height              Int
+  autofillFields      Json?
+  requiredFields      Json?
+  optionalFields      Json?
+  status              CanvaTemplateStatus @default(ACTIVE)
+  memo                String?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  canvaConnection CanvaConnection? @relation(fields: [canvaConnectionId], references: [id], onDelete: SetNull)
+  designJobs CanvaDesignJob[]
+
+  @@index([mediaId, templateType, status])
+}
+
+model CanvaDesignJob {
+  id                    String         @id @default(cuid())
+  mediaId               String
+  canvaConnectionId     String?
+  canvaBrandTemplateId  String?
+  wordpressPostId       String?
+  postId                String?
+  jobType               CanvaJobType
+  inputData             Json?
+  prompt                String?
+  status                CanvaJobStatus @default(DRAFT)
+  canvaDesignId         String?
+  canvaDesignUrl        String?
+  mockMode              Boolean        @default(true)
+  lastError             String?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  canvaConnection CanvaConnection? @relation(fields: [canvaConnectionId], references: [id], onDelete: SetNull)
+  canvaBrandTemplate CanvaBrandTemplate? @relation(fields: [canvaBrandTemplateId], references: [id], onDelete: SetNull)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  exports CanvaExport[]
+  creativeAssets CreativeAsset[]
+  syncLogs CanvaSyncLog[]
+
+  @@index([mediaId, status, createdAt])
+}
+
+model CanvaExport {
+  id                String            @id @default(cuid())
+  canvaDesignJobId  String
+  exportFormat      String            @default("png")
+  exportStatus      CanvaExportStatus @default(QUEUED)
+  canvaExportJobId  String?
+  downloadUrl       String?
+  localFileUrl      String?
+  publicUrl         String?
+  fileSize          Int?
+  width             Int?
+  height            Int?
+  mimeType          String?
+  expiresAt         DateTime?
+  mockMode          Boolean           @default(true)
+  lastError         String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  canvaDesignJob CanvaDesignJob @relation(fields: [canvaDesignJobId], references: [id], onDelete: Cascade)
+  creativeAssets CreativeAsset[]
+}
+
+model CreativeAsset {
+  id                 String              @id @default(cuid())
+  mediaId            String
+  source             CreativeAssetSource @default(AI_MOCK)
+  assetType          CreativeAssetType
+  title              String
+  description        String?
+  altText            String?
+  localFileUrl       String?
+  publicUrl          String?
+  mimeType           String?
+  fileSize           Int?
+  width              Int?
+  height             Int?
+  canvaDesignJobId   String?
+  canvaExportId      String?
+  wordpressMediaId   String?
+  approvalStatus     AssetApprovalStatus @default(PENDING_APPROVAL)
+  approvedBy         String?
+  approvedAt         DateTime?
+  riskCheckStatus    LinkCheckStatus     @default(NOT_CHECKED)
+  riskCheckReason    String?
+  madeWithAi         Boolean             @default(true)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  canvaDesignJob CanvaDesignJob? @relation(fields: [canvaDesignJobId], references: [id], onDelete: SetNull)
+  canvaExport CanvaExport? @relation(fields: [canvaExportId], references: [id], onDelete: SetNull)
+  wordpressMedia WordPressMedia? @relation("AssetFeaturedWordPressMedia", fields: [wordpressMediaId], references: [id], onDelete: SetNull)
+  posts Post[]
+  wordpressPosts WordPressPost[]
+  wordpressMediaItems WordPressMedia[] @relation("WordPressMediaAsset")
+  usages CreativeAssetUsage[]
+  approvals ImageApproval[]
+  socialMediaUploads SocialMediaUpload[]
+  socialPostQueues SocialPostQueue[]
+
+  @@index([mediaId, assetType, approvalStatus])
+  @@index([riskCheckStatus])
+}
+
+model CreativeAssetUsage {
+  id              String         @id @default(cuid())
+  creativeAssetId String
+  mediaId         String
+  wordpressPostId String?
+  postId          String?
+  usageType       AssetUsageType
+  platform        Platform
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  creativeAsset CreativeAsset @relation(fields: [creativeAssetId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+
+  @@index([creativeAssetId, usageType])
+}
+
+model ImageApproval {
+  id              String              @id @default(cuid())
+  creativeAssetId String
+  status          AssetApprovalStatus
+  reviewer        String
+  comment         String?
+  riskNotes       String?
+  approvedAt      DateTime?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  creativeAsset CreativeAsset @relation(fields: [creativeAssetId], references: [id], onDelete: Cascade)
+}
+
+model CanvaSyncLog {
+  id                     String   @id @default(cuid())
+  canvaConnectionId       String?
+  canvaDesignJobId        String?
+  action                 String
+  endpoint               String
+  method                 String
+  statusCode             Int?
+  success                Boolean  @default(true)
+  requestPayloadSummary  String?
+  responsePayloadSummary String?
+  errorMessage           String?
+  mockMode               Boolean  @default(true)
+  createdAt              DateTime @default(now())
+
+  canvaConnection CanvaConnection? @relation(fields: [canvaConnectionId], references: [id], onDelete: SetNull)
+  canvaDesignJob CanvaDesignJob? @relation(fields: [canvaDesignJobId], references: [id], onDelete: SetNull)
+
+  @@index([action, success, createdAt])
+  @@index([canvaConnectionId, createdAt])
+}
+
+model AffiliateNetwork {
+  id         String                @id @default(cuid())
+  name       String
+  slug       String                @unique
+  websiteUrl String?
+  loginUrl   String?
+  status     AffiliateEntityStatus @default(ACTIVE)
+  memo       String?
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+
+  programs AffiliateProgram[]
+  revenueEvents RevenueEvent[]
+  importBatches RevenueImportBatch[]
+
+  @@index([status])
+}
+
+model AffiliateProgram {
+  id                    String                 @id @default(cuid())
+  affiliateNetworkId    String
+  programName           String
+  advertiserName        String?
+  genre                 String?
+  category              String?
+  programUrl            String?
+  rewardType            AffiliateRewardType    @default(FIXED)
+  rewardAmount          Decimal?               @db.Decimal(14, 2)
+  rewardRate            Decimal?               @db.Decimal(8, 4)
+  currency              String                 @default("JPY")
+  approvalRate          Decimal?               @db.Decimal(6, 4)
+  epc                   Decimal?               @db.Decimal(14, 4)
+  cookieDurationDays    Int?
+  conversionCondition   String?
+  prohibitedTerms       Json?
+  allowedMediaTypes     Json?
+  complianceNotes       String?
+  riskLevel             AffiliateRiskLevel     @default(MEDIUM)
+  status                AffiliateProgramStatus @default(DRAFT)
+  startDate             DateTime?
+  endDate               DateTime?
+  memo                  String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  affiliateNetwork AffiliateNetwork @relation(fields: [affiliateNetworkId], references: [id], onDelete: Cascade)
+  mediaSites AffiliateProgramMediaSite[]
+  links AffiliateLink[]
+  revenueEvents RevenueEvent[]
+
+  @@index([affiliateNetworkId, status])
+  @@index([riskLevel])
+}
+
+model AffiliateProgramMediaSite {
+  id                 String                     @id @default(cuid())
+  mediaId            String
+  affiliateProgramId String
+  applicationStatus  AffiliateApplicationStatus @default(NOT_APPLIED)
+  approvedAt         DateTime?
+  rejectedAt         DateTime?
+  mainProgram        Boolean                    @default(false)
+  priority           Int                        @default(50)
+  memo               String?
+  createdAt          DateTime                   @default(now())
+  updatedAt          DateTime                   @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  affiliateProgram AffiliateProgram @relation(fields: [affiliateProgramId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, affiliateProgramId])
+  @@index([applicationStatus, priority])
+}
+
+model AffiliateLink {
+  id                  String                @id @default(cuid())
+  affiliateProgramId  String
+  mediaId             String
+  name                String
+  destinationUrl      String
+  affiliateUrl        String
+  affiliateUrlMasked  String
+  trackingId          String?
+  utmSource           String?
+  utmMedium           String?
+  utmCampaign         String?
+  utmContent          String?
+  linkType            AffiliateLinkType     @default(TEXT)
+  status              AffiliateEntityStatus @default(ACTIVE)
+  memo                String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  affiliateProgram AffiliateProgram @relation(fields: [affiliateProgramId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  placements AffiliatePlacement[]
+  revenueEvents RevenueEvent[]
+
+  @@index([mediaId, status])
+  @@index([affiliateProgramId])
+}
+
+model AffiliatePlacement {
+  id               String                     @id @default(cuid())
+  affiliateLinkId  String
+  mediaId          String
+  wordpressPostId  String?
+  placementType    AffiliatePlacementType     @default(ARTICLE_TEXT)
+  placementLabel   String?
+  position         AffiliatePlacementPosition @default(MIDDLE)
+  status           AffiliateEntityStatus      @default(ACTIVE)
+  createdAt        DateTime                   @default(now())
+  updatedAt        DateTime                   @updatedAt
+
+  affiliateLink AffiliateLink @relation(fields: [affiliateLinkId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, status])
+  @@index([wordpressPostId])
+}
+
+model RevenueEvent {
+  id                  String         @id @default(cuid())
+  affiliateNetworkId  String
+  affiliateProgramId  String?
+  affiliateLinkId     String?
+  mediaId             String
+  wordpressPostId     String?
+  postId              String?
+  eventDate           DateTime
+  clickIdHash         String?
+  orderIdHash         String?
+  conversionType      String?
+  status              RevenueStatus  @default(PENDING)
+  estimatedReward     Decimal        @default(0) @db.Decimal(14, 2)
+  pendingReward       Decimal        @default(0) @db.Decimal(14, 2)
+  approvedReward      Decimal        @default(0) @db.Decimal(14, 2)
+  rejectedReward      Decimal        @default(0) @db.Decimal(14, 2)
+  adjustedReward      Decimal        @default(0) @db.Decimal(14, 2)
+  currency            String         @default("JPY")
+  quantity            Int            @default(1)
+  memo                String?
+  source              RevenueSource  @default(MANUAL)
+  dataConfidence      DataConfidence @default(MEDIUM)
+  importBatchId       String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  affiliateNetwork AffiliateNetwork @relation(fields: [affiliateNetworkId], references: [id], onDelete: Cascade)
+  affiliateProgram AffiliateProgram? @relation(fields: [affiliateProgramId], references: [id], onDelete: SetNull)
+  affiliateLink AffiliateLink? @relation(fields: [affiliateLinkId], references: [id], onDelete: SetNull)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  importBatch RevenueImportBatch? @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, eventDate])
+  @@index([status, eventDate])
+  @@index([orderIdHash])
+}
+
+model RevenueImportBatch {
+  id                 String       @id @default(cuid())
+  affiliateNetworkId String?
+  fileName           String
+  importType         String       @default("csv")
+  status             ImportStatus @default(PREVIEWED)
+  totalRows          Int          @default(0)
+  successRows        Int          @default(0)
+  failedRows         Int          @default(0)
+  warningRows        Int          @default(0)
+  duplicateRows      Int          @default(0)
+  errorSummary       String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  affiliateNetwork AffiliateNetwork? @relation(fields: [affiliateNetworkId], references: [id], onDelete: SetNull)
+  errors RevenueImportRowError[]
+  revenueEvents RevenueEvent[]
+}
+
+model RevenueImportRowError {
+  id          String   @id @default(cuid())
+  importBatchId String
+  rowNumber   Int
+  severity    String   @default("error")
+  message     String
+  rawRow       Json?
+  createdAt   DateTime @default(now())
+
+  importBatch RevenueImportBatch @relation(fields: [importBatchId], references: [id], onDelete: Cascade)
+
+  @@index([importBatchId, severity])
+}
+
+model TrafficMetricDaily {
+  id              String         @id @default(cuid())
+  mediaId          String
+  metricDate       DateTime
+  impressions      Int            @default(0)
+  linkClicks       Int            @default(0)
+  articleSessions  Int            @default(0)
+  sessions         Int            @default(0)
+  pageviews        Int            @default(0)
+  users            Int            @default(0)
+  source           RevenueSource  @default(MOCK)
+  dataConfidence   DataConfidence @default(MEDIUM)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, metricDate])
+  @@index([metricDate])
+}
+
+model ContentPerformanceDaily {
+  id              String         @id @default(cuid())
+  mediaId          String
+  wordpressPostId  String?
+  metricDate       DateTime
+  sessions         Int            @default(0)
+  pageviews        Int            @default(0)
+  affiliateClicks  Int            @default(0)
+  conversions      Int            @default(0)
+  estimatedRevenue Decimal        @default(0) @db.Decimal(14, 2)
+  approvedRevenue  Decimal        @default(0) @db.Decimal(14, 2)
+  source           RevenueSource  @default(MOCK)
+  dataConfidence   DataConfidence @default(MEDIUM)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, metricDate])
+  @@index([wordpressPostId, metricDate])
+}
+
+model SocialPostPerformanceDaily {
+  id              String         @id @default(cuid())
+  postId           String
+  metricDate       DateTime
+  impressions      Int            @default(0)
+  linkClicks       Int            @default(0)
+  articleSessions  Int            @default(0)
+  conversions      Int            @default(0)
+  estimatedRevenue Decimal        @default(0) @db.Decimal(14, 2)
+  approvedRevenue  Decimal        @default(0) @db.Decimal(14, 2)
+  source           RevenueSource  @default(MOCK)
+  dataConfidence   DataConfidence @default(MEDIUM)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, metricDate])
+}
+
+model OperatingCost {
+  id             String                @id @default(cuid())
+  mediaId         String?
+  costDate        DateTime
+  category        OperatingCostCategory @default(OTHER)
+  amount          Decimal               @db.Decimal(14, 2)
+  currency        String                @default("JPY")
+  description     String?
+  recurring       Boolean               @default(false)
+  dataConfidence  DataConfidence        @default(HIGH)
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, costDate])
+}
+
+model GrowthScoreSnapshot {
+  id                String                   @id @default(cuid())
+  mediaId            String
+  periodStart        DateTime
+  periodEnd          DateTime
+  trafficScore       Int                      @default(0)
+  revenueScore       Int                      @default(0)
+  conversionScore    Int                      @default(0)
+  contentScore       Int                      @default(0)
+  riskScore          Int                      @default(0)
+  totalScore         Int                      @default(0)
+  recommendation     GrowthRecommendationType @default(RESEARCH_MORE)
+  dataConfidence     DataConfidence           @default(INSUFFICIENT)
+  dataWarnings       Json?
+  reasoning          String?
+  requiresHumanReview Boolean                 @default(true)
+  createdAt          DateTime                 @default(now())
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([mediaId, periodEnd])
+  @@index([totalScore])
+}
+
+model GrowthScoreRule {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  label       String
+  weight      Int      @default(10)
+  enabled     Boolean  @default(true)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GrowthRecommendation {
+  id          String                     @id @default(cuid())
+  mediaId     String
+  snapshotId  String?
+  type        GrowthRecommendationType
+  title       String
+  description String
+  priority    Int                        @default(50)
+  status      GrowthRecommendationStatus @default(PROPOSED)
+  riskNotes   String?
+  createdAt   DateTime                   @default(now())
+  updatedAt   DateTime                   @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  articleImprovementTasks ArticleImprovementTask[]
+
+  @@index([mediaId, status, priority])
+}
+
+model GrowthStrategyBoardReport {
+  id                   String   @id @default(cuid())
+  periodStart           DateTime
+  periodEnd             DateTime
+  totalEstimatedRevenue Decimal  @default(0) @db.Decimal(14, 2)
+  totalPendingRevenue   Decimal  @default(0) @db.Decimal(14, 2)
+  totalApprovedRevenue  Decimal  @default(0) @db.Decimal(14, 2)
+  totalCost             Decimal  @default(0) @db.Decimal(14, 2)
+  totalProfit           Decimal  @default(0) @db.Decimal(14, 2)
+  topMedia              Json?
+  improveMedia          Json?
+  pauseMedia            Json?
+  insufficientMedia     Json?
+  riskWarnings          Json?
+  nextActions           Json?
+  requiresHumanReview   Boolean  @default(true)
+  createdAt             DateTime @default(now())
+}
+
+model GoogleConnection {
+  id                    String                 @id @default(cuid())
+  mediaId               String
+  connectionName        String
+  googleAccountEmail    String?
+  accessTokenEncrypted  String?
+  refreshTokenEncrypted String?
+  tokenExpiresAt        DateTime?
+  scopes                String?
+  connectionStatus      GoogleConnectionStatus @default(NOT_CONNECTED)
+  mockMode              Boolean                @default(true)
+  lastConnectedAt       DateTime?
+  lastTokenRefreshAt    DateTime?
+  refreshTokenAvailable Boolean                @default(false)
+  lastError             String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  ga4Properties GA4Property[]
+  searchConsoleProperties SearchConsoleProperty[]
+  syncJobs GoogleSyncJob[]
+  syncRuns GoogleSyncRun[]
+  quotaLogs GoogleApiQuotaLog[]
+  errorLogs GoogleApiErrorLog[]
+
+  @@index([mediaId, connectionStatus])
+}
+
+model GA4Property {
+  id                  String               @id @default(cuid())
+  mediaId             String
+  googleConnectionId  String?
+  propertyName        String
+  propertyId          String
+  propertyDisplayName String?
+  defaultUrl          String?
+  timezone            String               @default("Asia/Tokyo")
+  currency            String               @default("JPY")
+  connectionStatus    GooglePropertyStatus @default(NOT_CONNECTED)
+  mockMode            Boolean              @default(true)
+  lastSyncedAt        DateTime?
+  lastSuccessfulSyncAt DateTime?
+  lastError           String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+  metrics GA4MetricDaily[]
+  pageMetrics GA4PageMetricDaily[]
+
+  @@unique([mediaId, propertyId])
+}
+
+model SearchConsoleProperty {
+  id                 String                    @id @default(cuid())
+  mediaId            String
+  googleConnectionId String?
+  siteUrl            String
+  propertyType       SearchConsolePropertyType @default(URL_PREFIX)
+  connectionStatus   GooglePropertyStatus      @default(NOT_CONNECTED)
+  mockMode           Boolean                   @default(true)
+  lastSyncedAt       DateTime?
+  lastSuccessfulSyncAt DateTime?
+  lastError          String?
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+  queries SearchConsoleQueryDaily[]
+  pages SearchConsolePageDaily[]
+  queryPages SearchConsoleQueryPageDaily[]
+
+  @@unique([mediaId, siteUrl])
+}
+
+model GA4MetricDaily {
+  id                     String         @id @default(cuid())
+  mediaId                String
+  ga4PropertyId          String?
+  date                   DateTime
+  sessions               Int            @default(0)
+  users                  Int            @default(0)
+  activeUsers            Int            @default(0)
+  newUsers               Int            @default(0)
+  pageviews              Int            @default(0)
+  screenPageViews        Int            @default(0)
+  engagedSessions        Int            @default(0)
+  averageSessionDuration Float          @default(0)
+  engagementRate         Float          @default(0)
+  bounceRate             Float          @default(0)
+  conversions            Int            @default(0)
+  totalRevenue           Decimal        @default(0) @db.Decimal(14, 2)
+  source                 SeoDataSource  @default(MOCK)
+  dataConfidence         DataConfidence @default(MEDIUM)
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  ga4Property GA4Property? @relation(fields: [ga4PropertyId], references: [id], onDelete: SetNull)
+
+  @@unique([mediaId, ga4PropertyId, date, source])
+}
+
+model GA4PageMetricDaily {
+  id                    String         @id @default(cuid())
+  mediaId               String
+  wordpressPostId       String?
+  ga4PropertyId         String?
+  date                  DateTime
+  pagePath              String
+  pageTitle             String?
+  sessions              Int            @default(0)
+  users                 Int            @default(0)
+  activeUsers           Int            @default(0)
+  views                 Int            @default(0)
+  screenPageViews       Int            @default(0)
+  engagedSessions       Int            @default(0)
+  averageEngagementTime Float          @default(0)
+  entrances             Int            @default(0)
+  exits                 Int            @default(0)
+  conversions           Int            @default(0)
+  affiliateClicks       Int            @default(0)
+  source                SeoDataSource  @default(MOCK)
+  dataConfidence        DataConfidence @default(MEDIUM)
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  ga4Property GA4Property? @relation(fields: [ga4PropertyId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, date])
+  @@index([wordpressPostId, date])
+  @@unique([mediaId, ga4PropertyId, date, pagePath, source])
+}
+
+model SearchConsoleQueryDaily {
+  id                      String         @id @default(cuid())
+  mediaId                 String
+  searchConsolePropertyId String?
+  date                    DateTime
+  query                   String
+  searchType              SearchType     @default(WEB)
+  country                 String?
+  device                  SearchDevice   @default(UNKNOWN)
+  clicks                  Int            @default(0)
+  impressions             Int            @default(0)
+  ctr                     Float          @default(0)
+  position                Float          @default(0)
+  source                  SeoDataSource  @default(MOCK)
+  dataConfidence          DataConfidence @default(MEDIUM)
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  searchConsoleProperty SearchConsoleProperty? @relation(fields: [searchConsolePropertyId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, date])
+  @@index([query])
+  @@unique([mediaId, searchConsolePropertyId, date, query, searchType, country, device, source])
+}
+
+model SearchConsolePageDaily {
+  id                      String         @id @default(cuid())
+  mediaId                 String
+  wordpressPostId         String?
+  searchConsolePropertyId String?
+  date                    DateTime
+  pageUrl                 String
+  searchType              SearchType     @default(WEB)
+  clicks                  Int            @default(0)
+  impressions             Int            @default(0)
+  ctr                     Float          @default(0)
+  position                Float          @default(0)
+  source                  SeoDataSource  @default(MOCK)
+  dataConfidence          DataConfidence @default(MEDIUM)
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  searchConsoleProperty SearchConsoleProperty? @relation(fields: [searchConsolePropertyId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, date])
+  @@index([wordpressPostId, date])
+  @@unique([mediaId, searchConsolePropertyId, date, pageUrl, searchType, source])
+}
+
+model SearchConsoleQueryPageDaily {
+  id                      String         @id @default(cuid())
+  mediaId                 String
+  wordpressPostId         String?
+  searchConsolePropertyId String?
+  date                    DateTime
+  query                   String
+  pageUrl                 String
+  searchType              SearchType     @default(WEB)
+  country                 String?
+  device                  SearchDevice   @default(UNKNOWN)
+  clicks                  Int            @default(0)
+  impressions             Int            @default(0)
+  ctr                     Float          @default(0)
+  position                Float          @default(0)
+  source                  SeoDataSource  @default(MOCK)
+  dataConfidence          DataConfidence @default(MEDIUM)
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  searchConsoleProperty SearchConsoleProperty? @relation(fields: [searchConsolePropertyId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, date])
+  @@index([query])
+  @@index([wordpressPostId, date])
+  @@unique([mediaId, searchConsolePropertyId, date, query, pageUrl, searchType, country, device, source])
+}
+
+model SeoKeyword {
+  id                String           @id @default(cuid())
+  mediaId            String
+  keyword           String
+  normalizedKeyword String
+  intent            SeoKeywordIntent @default(UNKNOWN)
+  topic             String?
+  difficulty        Int              @default(50)
+  priority          Int              @default(50)
+  status            SeoKeywordStatus @default(NEW)
+  memo              String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  pageKeywords SeoPageKeyword[]
+  opportunities SeoOpportunity[]
+
+  @@unique([mediaId, normalizedKeyword])
+  @@index([priority])
+}
+
+model SeoPageKeyword {
+  id                 String             @id @default(cuid())
+  mediaId            String
+  wordpressPostId    String
+  seoKeywordId       String
+  role               SeoPageKeywordRole @default(PRIMARY)
+  targetPosition     Float?
+  currentPosition    Float?
+  currentClicks      Int                @default(0)
+  currentImpressions Int                @default(0)
+  currentCtr         Float              @default(0)
+  priority           Int                @default(50)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
+  seoKeyword SeoKeyword @relation(fields: [seoKeywordId], references: [id], onDelete: Cascade)
+
+  @@unique([wordpressPostId, seoKeywordId])
+}
+
+model SeoOpportunity {
+  id                 String               @id @default(cuid())
+  mediaId            String
+  wordpressPostId    String?
+  seoKeywordId       String?
+  opportunityType    SeoOpportunityType
+  priority           SeoPriority          @default(MEDIUM)
+  title              String
+  description        String
+  evidence           Json?
+  expectedImpact     String?
+  status             SeoOpportunityStatus @default(NEW)
+  opportunityScore   Int                  @default(0)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  seoKeyword SeoKeyword? @relation(fields: [seoKeywordId], references: [id], onDelete: SetNull)
+  recommendations SeoRecommendation[]
+  articleImprovementTasks ArticleImprovementTask[]
+
+  @@index([mediaId, priority, status])
+  @@index([wordpressPostId])
+}
+
+model SeoRecommendation {
+  id                  String                @id @default(cuid())
+  mediaId             String
+  wordpressPostId     String?
+  seoOpportunityId    String?
+  recommendationType  SeoRecommendationType
+  priority            SeoPriority           @default(MEDIUM)
+  title               String
+  description         String
+  beforeValue         String?
+  afterSuggestion     String?
+  reason              String?
+  requiresHumanReview Boolean               @default(true)
+  approvalStatus      SeoApprovalStatus     @default(PENDING_APPROVAL)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  seoOpportunity SeoOpportunity? @relation(fields: [seoOpportunityId], references: [id], onDelete: SetNull)
+  actions SeoRecommendationAction[]
+  articleImprovementTasks ArticleImprovementTask[]
+
+  @@index([mediaId, approvalStatus, priority])
+  @@index([wordpressPostId])
+}
+
+model SeoRecommendationAction {
+  id                  String          @id @default(cuid())
+  seoRecommendationId String
+  actionOrder         Int             @default(1)
+  actionText          String
+  status              SeoActionStatus @default(TODO)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  seoRecommendation SeoRecommendation @relation(fields: [seoRecommendationId], references: [id], onDelete: Cascade)
+}
+
+model SeoAnalysisSnapshot {
+  id                String         @id @default(cuid())
+  mediaId            String
+  periodStart        DateTime
+  periodEnd          DateTime
+  totalClicks        Int            @default(0)
+  totalImpressions   Int            @default(0)
+  averageCtr         Float          @default(0)
+  averagePosition    Float          @default(0)
+  organicSessions    Int            @default(0)
+  topQueries         Json?
+  topPages           Json?
+  decliningPages     Json?
+  opportunityCount   Int            @default(0)
+  dataConfidence     DataConfidence @default(INSUFFICIENT)
+  summary            String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([mediaId, periodEnd])
+}
+
+model SeoImportBatch {
+  id            String          @id @default(cuid())
+  mediaId        String
+  importSource  SeoImportSource
+  fileName      String
+  importType    SeoImportType
+  status        SeoImportStatus @default(UPLOADED)
+  totalRows     Int             @default(0)
+  successRows   Int             @default(0)
+  failedRows    Int             @default(0)
+  warningRows   Int             @default(0)
+  duplicateRows Int             @default(0)
+  errorSummary  String?
+  importedBy    String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  errors SeoImportRowError[]
+}
+
+model SeoImportRowError {
+  id               String   @id @default(cuid())
+  seoImportBatchId String
+  rowNumber        Int
+  severity         String   @default("error")
+  fieldName        String?
+  rawValue         String?
+  errorMessage     String
+  createdAt        DateTime @default(now())
+
+  seoImportBatch SeoImportBatch @relation(fields: [seoImportBatchId], references: [id], onDelete: Cascade)
+
+  @@index([seoImportBatchId, severity])
+}
+
+model GoogleSyncJob {
+  id                 String                  @id @default(cuid())
+  mediaId            String
+  googleConnectionId String?
+  jobName            String
+  jobType            GoogleSyncJobType
+  targetPropertyId   String?
+  syncSource         GoogleSyncSource
+  dateRangeType      GoogleSyncDateRangeType @default(LAST_N_DAYS)
+  defaultDays        Int                     @default(28)
+  maxDays            Int                     @default(90)
+  status             GoogleSyncJobStatus     @default(ACTIVE)
+  lastRunAt          DateTime?
+  nextRunAt          DateTime?
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+  runs GoogleSyncRun[]
+
+  @@index([mediaId, jobType, status])
+}
+
+model GoogleSyncRun {
+  id                 String              @id @default(cuid())
+  googleSyncJobId    String?
+  mediaId            String
+  googleConnectionId String?
+  runType            GoogleSyncRunType   @default(MANUAL)
+  status             GoogleSyncRunStatus @default(QUEUED)
+  periodStart        DateTime
+  periodEnd          DateTime
+  startedAt          DateTime?
+  finishedAt         DateTime?
+  requestedRows      Int                 @default(0)
+  savedRows          Int                 @default(0)
+  skippedRows        Int                 @default(0)
+  failedRows         Int                 @default(0)
+  apiCalls           Int                 @default(0)
+  quotaConsumed      Int                 @default(0)
+  errorSummary       String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  googleSyncJob GoogleSyncJob? @relation(fields: [googleSyncJobId], references: [id], onDelete: SetNull)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, status, startedAt])
+  @@index([googleSyncJobId, status])
+}
+
+model GoogleApiQuotaLog {
+  id                 String              @id @default(cuid())
+  mediaId            String?
+  googleConnectionId String?
+  apiName            GoogleApiName
+  propertyId         String?
+  endpoint           String
+  requestType        RequestType
+  quotaCategory      GoogleQuotaCategory @default(UNKNOWN)
+  tokensConsumed     Int                 @default(0)
+  quotaRemaining     Int?
+  statusCode         Int?
+  success            Boolean             @default(false)
+  createdAt          DateTime            @default(now())
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+
+  @@index([apiName, createdAt])
+  @@index([mediaId, apiName, createdAt])
+}
+
+model GoogleApiErrorLog {
+  id                 String                  @id @default(cuid())
+  mediaId            String?
+  googleConnectionId String?
+  apiName            GoogleApiName
+  endpoint           String
+  requestType        RequestType
+  statusCode         Int?
+  errorCode          String?
+  errorMessage       String
+  retryable          Boolean                 @default(false)
+  actionRequired     GoogleApiActionRequired @default(NONE)
+  createdAt          DateTime                @default(now())
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+
+  @@index([apiName, createdAt])
+  @@index([mediaId, actionRequired, createdAt])
+}
+
+model OperationSetting {
+  key         String                    @id
+  value       String
+  valueType   OperationSettingValueType @default(STRING)
+  description String?
+  isSecret    Boolean                   @default(false)
+  updatedBy   String?
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+}
+
+model ScheduledTask {
+  id             String              @id @default(cuid())
+  mediaId        String?
+  taskKey        String              @unique
+  taskName       String
+  taskType       ScheduledTaskType
+  cronExpression String
+  timezone       String              @default("Asia/Tokyo")
+  enabled        Boolean             @default(false)
+  dryRun         Boolean             @default(true)
+  status         ScheduledTaskStatus @default(NEVER_RUN)
+  lastRunAt      DateTime?
+  nextRunAt      DateTime?
+  lastSuccessAt  DateTime?
+  lastError      String?
+  maxRetries     Int                 @default(2)
+  metadata       Json?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  runs ScheduledTaskRun[]
+  leases TaskLease[]
+
+  @@index([enabled, nextRunAt])
+  @@index([taskType, status])
+}
+
+model ScheduledTaskRun {
+  id              String                 @id @default(cuid())
+  scheduledTaskId String?
+  mediaId         String?
+  runType         ScheduledTaskRunType   @default(MANUAL)
+  status          ScheduledTaskRunStatus @default(QUEUED)
+  startedAt       DateTime?
+  heartbeatAt     DateTime?
+  finishedAt      DateTime?
+  attempt         Int                    @default(1)
+  rowsRead        Int                    @default(0)
+  rowsWritten     Int                    @default(0)
+  warningCount    Int                    @default(0)
+  errorCount      Int                    @default(0)
+  summary         String?
+  errorMessage    String?
+  metadata        Json?
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+
+  scheduledTask ScheduledTask? @relation(fields: [scheduledTaskId], references: [id], onDelete: SetNull)
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  notificationEvents NotificationEvent[]
+
+  @@index([status, startedAt])
+  @@index([scheduledTaskId, createdAt])
+}
+
+model TaskLease {
+  id              String   @id @default(cuid())
+  scheduledTaskId String
+  leaseKey        String   @unique
+  ownerId         String
+  acquiredAt      DateTime @default(now())
+  heartbeatAt     DateTime @default(now())
+  expiresAt       DateTime
+  releasedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  scheduledTask ScheduledTask @relation(fields: [scheduledTaskId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt, releasedAt])
+}
+
+model DataFreshnessStatus {
+  id              String                @id @default(cuid())
+  mediaId         String?
+  source          DataFreshnessSource
+  priority        DataFreshnessPriority @default(MOCK)
+  status          FreshnessStatus       @default(UNKNOWN)
+  lastDataAt      DateTime?
+  checkedAt       DateTime              @default(now())
+  warningAfterHours Int                 @default(48)
+  criticalAfterHours Int                @default(96)
+  staleHours      Int?
+  message         String?
+  metadata        Json?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaId, source])
+  @@index([status, checkedAt])
+}
+
+model AlertRule {
+  id              String        @id @default(cuid())
+  ruleKey         String        @unique
+  ruleName        String
+  ruleType        AlertRuleType
+  severity        AlertSeverity @default(WARNING)
+  enabled         Boolean       @default(true)
+  thresholdValue  Float?
+  lookbackDays    Int           @default(7)
+  compareDays     Int           @default(7)
+  dedupWindowHours Int          @default(24)
+  cooldownHours   Int           @default(24)
+  description     String?
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  incidents AlertIncident[]
+}
+
+model AlertIncident {
+  id              String              @id @default(cuid())
+  alertRuleId     String
+  mediaId         String?
+  severity        AlertSeverity
+  status          AlertIncidentStatus @default(OPEN)
+  dedupKey        String
+  title           String
+  message         String
+  detectedAt      DateTime            @default(now())
+  acknowledgedAt  DateTime?
+  resolvedAt      DateTime?
+  dismissedAt     DateTime?
+  cooldownUntil   DateTime?
+  evidence        Json?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  alertRule AlertRule @relation(fields: [alertRuleId], references: [id], onDelete: Cascade)
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  notificationEvents NotificationEvent[]
+  articleImprovementTasks ArticleImprovementTask[]
+
+  @@unique([dedupKey])
+  @@index([status, severity, detectedAt])
+  @@index([mediaId, status])
+}
+
+model NotificationChannel {
+  id          String                    @id @default(cuid())
+  channelKey  String                    @unique
+  name        String
+  channelType NotificationChannelType
+  status      NotificationChannelStatus @default(ENABLED)
+  mockMode    Boolean                   @default(true)
+  config      Json?
+  lastError   String?
+  createdAt   DateTime                  @default(now())
+  updatedAt   DateTime                  @updatedAt
+
+  deliveries NotificationDelivery[]
+}
+
+model NotificationEvent {
+  id                 String             @id @default(cuid())
+  mediaId            String?
+  alertIncidentId    String?
+  scheduledTaskRunId String?
+  type               NotificationType
+  status             NotificationStatus @default(UNREAD)
+  title              String
+  message            String
+  priority           AlertSeverity      @default(INFO)
+  dedupKey           String?
+  metadata           Json?
+  createdAt          DateTime           @default(now())
+  readAt             DateTime?
+  dismissedAt        DateTime?
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  alertIncident AlertIncident? @relation(fields: [alertIncidentId], references: [id], onDelete: SetNull)
+  scheduledTaskRun ScheduledTaskRun? @relation(fields: [scheduledTaskRunId], references: [id], onDelete: SetNull)
+  deliveries NotificationDelivery[]
+
+  @@index([status, priority, createdAt])
+  @@index([dedupKey])
+}
+
+model NotificationDelivery {
+  id                    String                     @id @default(cuid())
+  notificationEventId   String
+  notificationChannelId String
+  status                NotificationDeliveryStatus @default(QUEUED)
+  attemptedAt           DateTime?
+  deliveredAt           DateTime?
+  errorMessage          String?
+  providerMessageId     String?
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @updatedAt
+
+  notificationEvent NotificationEvent @relation(fields: [notificationEventId], references: [id], onDelete: Cascade)
+  notificationChannel NotificationChannel @relation(fields: [notificationChannelId], references: [id], onDelete: Cascade)
+
+  @@unique([notificationEventId, notificationChannelId])
+  @@index([status, attemptedAt])
+}
+
+model OperationsHealthSnapshot {
+  id              String                 @id @default(cuid())
+  mediaId         String?
+  status          OperationsHealthStatus @default(UNKNOWN)
+  checkedAt       DateTime               @default(now())
+  scheduledTasksOk Boolean               @default(true)
+  freshnessOk     Boolean                @default(true)
+  apiQuotaOk      Boolean                @default(true)
+  openAlerts      Int                    @default(0)
+  failedRuns      Int                    @default(0)
+  summary         String?
+  details         Json?
+  createdAt       DateTime               @default(now())
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+
+  @@index([status, checkedAt])
+}
+
+model WeeklyOperationsReport {
+  id                String                 @id @default(cuid())
+  mediaId           String?
+  periodStart       DateTime
+  periodEnd         DateTime
+  status            OperationsHealthStatus @default(UNKNOWN)
+  taskRunCount      Int                    @default(0)
+  failedRunCount    Int                    @default(0)
+  openAlertCount    Int                    @default(0)
+  criticalAlertCount Int                   @default(0)
+  notificationCount Int                    @default(0)
+  summary           String
+  recommendations   Json?
+  createdAt         DateTime               @default(now())
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+
+  @@index([periodEnd, status])
+}
+
+model ArticleImprovementTask {
+  id                     String                     @id @default(cuid())
+  mediaId                String
+  wordpressPostId        String?
+  seoOpportunityId       String?
+  seoRecommendationId    String?
+  alertIncidentId        String?
+  growthRecommendationId String?
+  taskTitle              String
+  taskType               ArticleImprovementTaskType
+  priority               ArticleImprovementPriority @default(MEDIUM)
+  status                 ArticleImprovementStatus   @default(BACKLOG)
+  sourceType             ImprovementSourceType      @default(MANUAL)
+  sourceId               String?
+  targetKeyword          String?
+  targetUrl              String?
+  reason                 String
+  expectedImpact         String?
+  assignedTo             String?
+  dueDate                DateTime?
+  createdBy              String                     @default("local-admin")
+  createdAt              DateTime                   @default(now())
+  updatedAt              DateTime                   @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  seoOpportunity SeoOpportunity? @relation(fields: [seoOpportunityId], references: [id], onDelete: SetNull)
+  seoRecommendation SeoRecommendation? @relation(fields: [seoRecommendationId], references: [id], onDelete: SetNull)
+  alertIncident AlertIncident? @relation(fields: [alertIncidentId], references: [id], onDelete: SetNull)
+  growthRecommendation GrowthRecommendation? @relation(fields: [growthRecommendationId], references: [id], onDelete: SetNull)
+  sources ImprovementTaskSource[]
+  snapshots ArticleRevisionSnapshot[]
+  rewriteDrafts RewriteDraft[]
+  contentChangeSets ContentChangeSet[]
+  approvals RewriteApproval[]
+  executionLogs ImprovementExecutionLog[]
+  seoImpactMeasurements SeoImpactMeasurement[]
+
+  @@index([mediaId, status, priority])
+  @@index([sourceType, sourceId])
+  @@index([wordpressPostId, status])
+}
+
+model ImprovementTaskSource {
+  id                       String                @id @default(cuid())
+  articleImprovementTaskId String
+  sourceType               ImprovementSourceType
+  sourceId                 String
+  createdAt                DateTime              @default(now())
+
+  articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
+
+  @@unique([articleImprovementTaskId, sourceType, sourceId])
+}
+
+model ArticleRevisionSnapshot {
+  id                       String                      @id @default(cuid())
+  mediaId                  String
+  wordpressPostId          String
+  articleImprovementTaskId String?
+  snapshotType             ArticleRevisionSnapshotType
+  wordpressPostStatus      String?
+  wordpressRevisionId      String?
+  wordpressModifiedGmt     DateTime?
+  title                    String
+  slug                     String?
+  excerpt                  String?
+  contentHtml              String
+  contentText              String?
+  metaDescription          String?
+  canonicalUrl             String?
+  contentHash              String
+  capturedAt               DateTime                    @default(now())
+  createdAt                DateTime                    @default(now())
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
+  articleImprovementTask ArticleImprovementTask? @relation(fields: [articleImprovementTaskId], references: [id], onDelete: SetNull)
+  rewriteDrafts RewriteDraft[]
+
+  @@index([wordpressPostId, snapshotType, capturedAt])
+  @@index([articleImprovementTaskId])
+}
+
+model RewriteDraft {
+  id                       String             @id @default(cuid())
+  articleImprovementTaskId String
+  mediaId                  String
+  wordpressPostId          String
+  draftTitle               String
+  draftStatus              RewriteDraftStatus @default(DRAFT)
+  rewriteMode              RewriteMode        @default(PARTIAL_REWRITE)
+  version                  Int                @default(1)
+  baseSnapshotId           String?
+  approvedVersion          Int?
+  summary                  String?
+  createdBy                String             @default("local-admin")
+  createdAt                DateTime           @default(now())
+  updatedAt                DateTime           @updatedAt
+
+  articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
+  baseSnapshot ArticleRevisionSnapshot? @relation(fields: [baseSnapshotId], references: [id], onDelete: SetNull)
+  suggestions RewriteSuggestion[]
+  contentChangeSets ContentChangeSet[]
+  approvals RewriteApproval[]
+  riskChecks RewriteRiskCheck[]
+  safetyChecks WordPressRewriteSafetyCheck[]
+  wordpressDraftUpdates WordPressDraftUpdate[]
+
+  @@index([articleImprovementTaskId, draftStatus])
+  @@index([wordpressPostId, version])
+}
+
+model RewriteSuggestion {
+  id               String                  @id @default(cuid())
+  rewriteDraftId   String
+  suggestionType   RewriteSuggestionType
+  targetField      RewriteTargetField
+  targetSelector   String?
+  beforeText       String?
+  afterText        String
+  reason           String
+  evidence         Json?
+  riskLevel        RewriteRiskLevel        @default(LOW)
+  status           RewriteSuggestionStatus @default(PROPOSED)
+  version          Int                     @default(1)
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+
+  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+
+  @@index([rewriteDraftId, status, riskLevel])
+}
+
+model ContentChangeSet {
+  id                       String              @id @default(cuid())
+  rewriteDraftId           String
+  articleImprovementTaskId String
+  changeType               ContentChangeType
+  targetField              RewriteTargetField
+  beforeValue              String?
+  afterValue               String?
+  beforeHash               String?
+  afterHash                String?
+  diffSummary              String
+  diffJson                 Json?
+  version                  Int                 @default(1)
+  status                   ContentChangeStatus @default(PROPOSED)
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
+
+  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+  articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
+
+  @@index([rewriteDraftId, version, status])
+}
+
+model RewriteApproval {
+  id                       String                  @id @default(cuid())
+  articleImprovementTaskId String
+  rewriteDraftId           String
+  version                  Int
+  reviewer                 String                  @default("local-admin")
+  decision                 RewriteApprovalDecision
+  comment                  String?
+  createdAt                DateTime                @default(now())
+
+  articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
+  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+
+  @@index([rewriteDraftId, version])
+}
+
+model RewriteRiskCheck {
+  id             String                 @id @default(cuid())
+  rewriteDraftId String
+  status         RewriteRiskCheckStatus @default(PASSED)
+  maxRiskLevel   RewriteRiskLevel       @default(LOW)
+  criticalCount  Int                    @default(0)
+  highCount      Int                    @default(0)
+  warningCount   Int                    @default(0)
+  findings       Json?
+  checkedAt      DateTime               @default(now())
+  createdAt      DateTime               @default(now())
+
+  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+
+  @@index([rewriteDraftId, status, checkedAt])
+}
+
+model WordPressRewriteSafetyCheck {
+  id                 String                      @id @default(cuid())
+  rewriteDraftId     String
+  status             WordPressRewriteSafetyStatus
+  updateMode         WordPressRewriteUpdateMode   @default(CREATE_NEW_DRAFT)
+  checkedAt          DateTime                    @default(now())
+  reason             String?
+  wordpressModifiedGmt DateTime?
+  expectedVersion    Int?
+  approvedVersion    Int?
+  details            Json?
+  createdAt          DateTime                    @default(now())
+
+  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+
+  @@index([rewriteDraftId, status, checkedAt])
+}
+
+model WordPressDraftUpdate {
+  id             String                     @id @default(cuid())
+  rewriteDraftId String
+  wordpressPostId String
+  updateMode     WordPressRewriteUpdateMode @default(CREATE_NEW_DRAFT)
+  status         WordPressDraftUpdateStatus
+  mockMode       Boolean                    @default(true)
+  wordpressDraftId String?
+  wordpressDraftUrl String?
+  safetyCheckId String?
+  requestSummary String?
+  responseSummary String?
+  errorMessage   String?
+  createdAt      DateTime                   @default(now())
+  updatedAt      DateTime                   @updatedAt
+
+  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
+
+  @@index([rewriteDraftId, status])
+}
+
+model ImprovementExecutionLog {
+  id                       String                        @id @default(cuid())
+  articleImprovementTaskId String?
+  rewriteDraftId           String?
+  eventType                ImprovementExecutionEventType
+  message                  String
+  metadata                 Json?
+  createdAt                DateTime                      @default(now())
+
+  articleImprovementTask ArticleImprovementTask? @relation(fields: [articleImprovementTaskId], references: [id], onDelete: SetNull)
+
+  @@index([articleImprovementTaskId, createdAt])
+  @@index([eventType, createdAt])
+}
+
+model SeoImpactMeasurement {
+  id                       String           @id @default(cuid())
+  articleImprovementTaskId String
+  mediaId                  String
+  wordpressPostId          String?
+  status                   SeoImpactStatus  @default(PENDING)
+  verdict                  SeoImpactVerdict @default(INSUFFICIENT_DATA)
+  beforeStart              DateTime
+  beforeEnd                DateTime
+  afterStart               DateTime
+  afterEnd                 DateTime
+  beforeClicks             Int              @default(0)
+  afterClicks              Int              @default(0)
+  beforeImpressions        Int              @default(0)
+  afterImpressions         Int              @default(0)
+  beforeCtr                Float            @default(0)
+  afterCtr                 Float            @default(0)
+  beforeAveragePosition    Float            @default(0)
+  afterAveragePosition     Float            @default(0)
+  beforeOrganicSessions    Int              @default(0)
+  afterOrganicSessions     Int              @default(0)
+  beforeAffiliateClicks    Int              @default(0)
+  afterAffiliateClicks     Int              @default(0)
+  beforeConversions        Int              @default(0)
+  afterConversions         Int              @default(0)
+  beforeApprovedRevenue    Decimal          @default(0) @db.Decimal(14, 2)
+  afterApprovedRevenue     Decimal          @default(0) @db.Decimal(14, 2)
+  dataConfidence           DataConfidence   @default(INSUFFICIENT)
+  summary                  String?
+  measuredAt               DateTime         @default(now())
+  createdAt                DateTime         @default(now())
+  updatedAt                DateTime         @updatedAt
+
+  articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+
+  @@index([status, verdict, measuredAt])
+  @@index([mediaId, measuredAt])
+}
+
+model SocialApiConnection {
+  id                 String                    @id @default(cuid())
+  mediaId            String
+  socialAccountId    String?
+  platform           Platform
+  connectionName     String
+  accountHandle      String
+  accountDisplayName String?
+  platformUserId     String?
+  connectionStatus   SocialApiConnectionStatus @default(NOT_CONNECTED)
+  mockMode           Boolean                   @default(true)
+  lastConnectedAt    DateTime?
+  lastTokenRefreshAt DateTime?
+  lastError          String?
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
+  tokens SocialApiToken[]
+  queues SocialPostQueue[]
+  executions SocialPostExecution[]
+  rateLimitLogs SocialPostRateLimitLog[]
+
+  @@index([platform, connectionStatus])
+  @@index([mediaId, platform])
+}
+
+model SocialApiToken {
+  id                    String   @id @default(cuid())
+  socialApiConnectionId String
+  platform              Platform
+  accessTokenEncrypted  String?
+  refreshTokenEncrypted String?
+  tokenExpiresAt        DateTime?
+  scopes                String?
+  refreshTokenAvailable Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  socialApiConnection SocialApiConnection @relation(fields: [socialApiConnectionId], references: [id], onDelete: Cascade)
+
+  @@index([platform, tokenExpiresAt])
+}
+
+model SocialPostQueue {
+  id                    String                   @id @default(cuid())
+  mediaId               String
+  socialAccountId       String
+  postId                String?
+  wordpressPostId       String?
+  creativeAssetId       String?
+  socialApiConnectionId String?
+  platform              Platform
+  sourceType            SocialPostSourceType     @default(MANUAL)
+  sourceId              String?
+  queueStatus           SocialPostQueueStatus    @default(DRAFT)
+  approvalStatus        SocialPostApprovalStatus @default(PENDING)
+  linkCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
+  riskCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
+  dedupCheckStatus      SocialPostCheckStatus    @default(NOT_CHECKED)
+  rateLimitStatus       SocialRateLimitStatus    @default(OK)
+  manualReviewStatus    SocialManualReviewStatus?
+  postText              String
+  linkUrl               String?
+  destinationUrl        String?
+  imageUrl              String?
+  scheduledAt           DateTime?
+  queuedAt              DateTime                 @default(now())
+  lockedAt              DateTime?
+  processingStartedAt   DateTime?
+  requestIdempotencyKey String                   @unique
+  madeWithAi            Boolean                  @default(true)
+  paidPartnership       Boolean                  @default(false)
+  utmCampaign           String?
+  failureReason         String?
+  retryCount            Int                      @default(0)
+  nextRetryAt           DateTime?
+  platformPostId        String?
+  platformPostUrl       String?
+  postedAt              DateTime?
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  socialApiConnection SocialApiConnection? @relation(fields: [socialApiConnectionId], references: [id], onDelete: SetNull)
+  executions SocialPostExecution[]
+  uploads SocialMediaUpload[]
+  safetyChecks SocialPostSafetyCheck[]
+  rateLimitLogs SocialPostRateLimitLog[]
+  retryLogs SocialPostRetryLog[]
+  performanceSnapshots SocialPostPerformanceSnapshot[]
+  attributions SocialPostAttribution[]
+  improvementSuggestions SocialImprovementSuggestion[]
+  locks SocialPostLock[]
+  manualReviews SocialPostManualReview[]
+
+  @@index([queueStatus, scheduledAt])
+  @@index([mediaId, platform])
+  @@index([socialAccountId, queueStatus])
+}
+
+model SocialPostExecution {
+  id                    String                    @id @default(cuid())
+  socialPostQueueId     String
+  socialApiConnectionId String?
+  status                SocialPostExecutionStatus @default(STARTED)
+  platform              Platform
+  requestIdempotencyKey String
+  platformPostId        String?
+  platformPostUrl       String?
+  endpoint              String
+  method                String                    @default("POST")
+  httpStatus            Int?
+  responseSummary       String?
+  errorCode             String?
+  errorMessage          String?
+  rateLimitResetAt      DateTime?
+  startedAt             DateTime                  @default(now())
+  finishedAt            DateTime?
+  mockMode              Boolean                   @default(true)
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+
+  socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
+  socialApiConnection SocialApiConnection? @relation(fields: [socialApiConnectionId], references: [id], onDelete: SetNull)
+  retryLogs SocialPostRetryLog[]
+
+  @@index([platform, status, createdAt])
+  @@index([socialPostQueueId, createdAt])
+}
+
+model SocialMediaUpload {
+  id                  String                  @id @default(cuid())
+  socialPostQueueId   String?
+  creativeAssetId     String?
+  platform            Platform
+  uploadStatus        SocialMediaUploadStatus @default(QUEUED)
+  mediaIdOnPlatform   String?
+  mediaKey            String?
+  mimeType            String?
+  fileSize            Int?
+  expiresAfterSecs    Int?
+  madeWithAi          Boolean                 @default(true)
+  errorMessage        String?
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+
+  socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
+  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+
+  @@index([platform, uploadStatus])
+}
+
+model SocialPostSafetyCheck {
+  id                    String                   @id @default(cuid())
+  socialPostQueueId     String
+  status                SocialPostCheckStatus    @default(NOT_CHECKED)
+  linkCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
+  riskCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
+  dedupCheckStatus      SocialPostCheckStatus    @default(NOT_CHECKED)
+  rateLimitStatus       SocialRateLimitStatus    @default(OK)
+  approvalStatus        SocialPostApprovalStatus @default(PENDING)
+  manualReviewRequired  Boolean                  @default(false)
+  reasons               Json?
+  checkedAt             DateTime                 @default(now())
+  createdAt             DateTime                 @default(now())
+
+  socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
+
+  @@index([status, checkedAt])
+}
+
+model SocialPostRateLimitLog {
+  id                    String                @id @default(cuid())
+  socialApiConnectionId String?
+  socialPostQueueId     String?
+  platform              Platform
+  endpoint              String
+  limit                 Int?
+  remaining             Int?
+  resetAt               DateTime?
+  status                SocialRateLimitStatus @default(OK)
+  createdAt             DateTime              @default(now())
+
+  socialApiConnection SocialApiConnection? @relation(fields: [socialApiConnectionId], references: [id], onDelete: SetNull)
+  socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
+
+  @@index([platform, status, createdAt])
+}
+
+model SocialPostRetryLog {
+  id                    String   @id @default(cuid())
+  socialPostQueueId     String
+  socialPostExecutionId String?
+  attempt               Int
+  retryAt               DateTime
+  reason                String
+  status                String   @default("scheduled")
+  createdAt             DateTime @default(now())
+
+  socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
+  socialPostExecution SocialPostExecution? @relation(fields: [socialPostExecutionId], references: [id], onDelete: SetNull)
+
+  @@index([socialPostQueueId, retryAt])
+}
+
+model SocialPostPerformanceSnapshot {
+  id                String                  @id @default(cuid())
+  socialPostQueueId String?
+  postId            String?
+  socialAccountId   String?
+  mediaId           String
+  platform          Platform
+  platformPostId    String?
+  snapshotDate      DateTime
+  impressions       Int                     @default(0)
+  engagements       Int                     @default(0)
+  likes             Int                     @default(0)
+  reposts           Int                     @default(0)
+  replies           Int                     @default(0)
+  urlClicks         Int                     @default(0)
+  engagementRate    Float                   @default(0)
+  source            SocialPerformanceSource @default(MOCK)
+  dataConfidence    DataConfidence          @default(INSUFFICIENT)
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
+
+  socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
+  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([mediaId, snapshotDate])
+  @@index([platform, source])
+}
+
+model SocialPostAttribution {
+  id                    String                  @id @default(cuid())
+  socialPostQueueId     String?
+  mediaId               String
+  wordpressPostId       String?
+  date                  DateTime
+  sessions              Int                     @default(0)
+  conversions           Int                     @default(0)
+  approvedRevenue       Decimal                 @default(0) @db.Decimal(14, 2)
+  source                SocialPerformanceSource @default(MOCK)
+  dataConfidence        DataConfidence          @default(INSUFFICIENT)
+  createdAt             DateTime                @default(now())
+
+  socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, date])
+}
+
+model SocialPostTemplate {
+  id           String   @id @default(cuid())
+  mediaId      String?
+  platform     Platform
+  templateName String
+  templateText String
+  enabled      Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([platform, enabled])
+}
+
+model SocialImprovementSuggestion {
+  id                String                            @id @default(cuid())
+  mediaId           String
+  socialAccountId   String?
+  socialPostQueueId String?
+  suggestionType    SocialImprovementSuggestionType
+  priority          Int                               @default(50)
+  title             String
+  description       String
+  expectedImpact    String?
+  status            SocialImprovementSuggestionStatus @default(PROPOSED)
+  createdAt         DateTime                          @default(now())
+  updatedAt         DateTime                          @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
+  socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
+
+  @@index([mediaId, status, priority])
+}
+
+model SocialGrowthScoreSnapshot {
+  id              String         @id @default(cuid())
+  mediaId         String
+  periodStart     DateTime
+  periodEnd       DateTime
+  postingScore    Int            @default(0)
+  engagementScore Int            @default(0)
+  trafficScore    Int            @default(0)
+  conversionScore Int            @default(0)
+  riskScore       Int            @default(0)
+  totalScore      Int            @default(0)
+  recommendation  String
+  dataConfidence  DataConfidence @default(INSUFFICIENT)
+  reasoning       String?
+  createdAt       DateTime       @default(now())
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([mediaId, periodEnd])
+}
+
+model SocialPostLock {
+  id                String    @id @default(cuid())
+  socialPostQueueId String
+  lockKey           String    @unique
+  ownerId           String
+  acquiredAt        DateTime  @default(now())
+  heartbeatAt       DateTime  @default(now())
+  expiresAt         DateTime
+  releasedAt        DateTime?
+
+  socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt, releasedAt])
+}
+
+model SocialPostManualReview {
+  id                String                   @id @default(cuid())
+  socialPostQueueId String
+  status            SocialManualReviewStatus @default(OPEN)
+  reason            String
+  resolution        String?
+  reviewer          String?
+  createdAt         DateTime                 @default(now())
+  resolvedAt        DateTime?
+
+  socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+}
+
+model Campaign {
+  id             String         @id @default(cuid())
+  mediaId        String
+  campaignName   String
+  campaignCode   String         @unique
+  campaignType   CampaignType
+  status         CampaignStatus @default(PLANNING)
+  periodStart    DateTime
+  periodEnd      DateTime
+  owner          String?
+  description    String?
+  primaryGoal    String?
+  targetAudience String?
+  currency       String         @default("JPY")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  objectives CampaignObjective[]
+  targets CampaignTarget[]
+  items CampaignItem[]
+  budgets CampaignBudget[]
+  costs CampaignCost[]
+  revenueAttributions CampaignRevenueAttribution[]
+  roiSnapshots CampaignRoiSnapshot[]
+  growthScoreSnapshots CampaignGrowthScoreSnapshot[]
+  recommendations CampaignRecommendation[]
+  risks CampaignRisk[]
+  milestones CampaignMilestone[]
+  calendarEvents ContentCalendarEvent[]
+  calendarConflicts ContentCalendarConflict[]
+  reportSchedules ReportSchedule[]
+  generatedReports GeneratedReport[]
+  businessInsights BusinessInsight[]
+
+  @@index([mediaId, status, periodStart])
+  @@index([periodStart, periodEnd])
+}
+
+model CampaignObjective {
+  id            String                  @id @default(cuid())
+  campaignId    String
+  objectiveType CampaignObjectiveType
+  objectiveName String
+  targetValue   Decimal                 @default(0) @db.Decimal(14, 2)
+  currentValue  Decimal                 @default(0) @db.Decimal(14, 2)
+  unit          String
+  priority      Int                     @default(50)
+  status        CampaignObjectiveStatus @default(NOT_STARTED)
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, objectiveType, status])
+}
+
+model CampaignTarget {
+  id          String             @id @default(cuid())
+  campaignId  String
+  targetType  CampaignTargetType
+  targetValue String
+  description String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, targetType, targetValue])
+}
+
+model CampaignItem {
+  id             String             @id @default(cuid())
+  campaignId     String
+  itemType       CampaignItemType
+  itemId         String
+  itemTitle      String?
+  allocationRate Float              @default(1)
+  status         CampaignItemStatus @default(PLANNED)
+  plannedAt      DateTime?
+  completedAt    DateTime?
+  notes          String?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, itemType, itemId])
+  @@index([itemType, itemId])
+  @@index([campaignId, status])
+}
+
+model CampaignBudget {
+  id            String             @id @default(cuid())
+  campaignId    String
+  mediaId       String
+  budgetType    CampaignBudgetType
+  plannedAmount Decimal            @default(0) @db.Decimal(14, 2)
+  currency      String             @default("JPY")
+  memo          String?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, budgetType])
+}
+
+model CampaignCost {
+  id           String             @id @default(cuid())
+  campaignId   String
+  mediaId      String
+  costType     CampaignBudgetType
+  actualAmount Decimal            @default(0) @db.Decimal(14, 2)
+  currency     String             @default("JPY")
+  costDate     DateTime
+  source       CampaignCostSource @default(MANUAL)
+  memo         String?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, costDate])
+}
+
+model CampaignRevenueAttribution {
+  id                   String                @id @default(cuid())
+  campaignId           String
+  mediaId              String
+  sourceType           AttributionSourceType
+  sourceId             String
+  allocationRate       Float                 @default(1)
+  pendingRevenue       Decimal               @default(0) @db.Decimal(14, 2)
+  approvedRevenue      Decimal               @default(0) @db.Decimal(14, 2)
+  conversionCount      Int                   @default(0)
+  eventDate            DateTime
+  dataConfidence       DataConfidence        @default(LOW)
+  doubleCountProtected Boolean               @default(true)
+  notes                String?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, sourceType, sourceId])
+  @@index([sourceType, sourceId])
+  @@index([campaignId, eventDate])
+}
+
+model CampaignRoiSnapshot {
+  id              String         @id @default(cuid())
+  campaignId      String
+  mediaId         String
+  periodStart     DateTime
+  periodEnd       DateTime
+  pendingRevenue  Decimal        @default(0) @db.Decimal(14, 2)
+  approvedRevenue Decimal        @default(0) @db.Decimal(14, 2)
+  plannedCost     Decimal        @default(0) @db.Decimal(14, 2)
+  actualCost      Decimal        @default(0) @db.Decimal(14, 2)
+  profitPending   Decimal        @default(0) @db.Decimal(14, 2)
+  profitApproved  Decimal        @default(0) @db.Decimal(14, 2)
+  roiPending      Float          @default(0)
+  roiApproved     Float          @default(0)
+  dataConfidence  DataConfidence @default(LOW)
+  calculationKey  String         @unique
+  dataSource      String         @default("local")
+  warnings        Json?
+  createdAt       DateTime       @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, periodEnd])
+}
+
+model CampaignGrowthScoreSnapshot {
+  id             String         @id @default(cuid())
+  campaignId     String
+  mediaId        String
+  periodStart    DateTime
+  periodEnd      DateTime
+  contentScore   Int            @default(0)
+  seoScore       Int            @default(0)
+  snsScore       Int            @default(0)
+  revenueScore   Int            @default(0)
+  roiScore       Int            @default(0)
+  executionScore Int            @default(0)
+  riskScore      Int            @default(0)
+  totalScore     Int            @default(0)
+  dataConfidence DataConfidence @default(LOW)
+  reasoning      String?
+  createdAt      DateTime       @default(now())
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, periodEnd])
+}
+
+model CampaignRecommendation {
+  id             String                         @id @default(cuid())
+  campaignId     String
+  recommendationType CampaignRecommendationType
+  priority       Int                            @default(50)
+  title          String
+  description    String
+  expectedImpact String?
+  status         CampaignRecommendationStatus   @default(PROPOSED)
+  requiresHumanReview Boolean                   @default(true)
+  sourceInsightId String?
+  createdAt      DateTime                       @default(now())
+  updatedAt      DateTime                       @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, status, priority])
+}
+
+model CampaignRisk {
+  id          String               @id @default(cuid())
+  campaignId  String
+  riskType    CampaignRiskType
+  severity    CampaignRiskSeverity @default(WARNING)
+  status      CampaignRiskStatus   @default(OPEN)
+  title       String
+  description String
+  detectedAt  DateTime             @default(now())
+  resolvedAt  DateTime?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, status, severity])
+}
+
+model CampaignMilestone {
+  id          String                  @id @default(cuid())
+  campaignId  String
+  title       String
+  dueAt       DateTime
+  status      CampaignMilestoneStatus @default(NOT_STARTED)
+  description String?
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, dueAt, status])
+}
+
+model ContentCalendarEvent {
+  id              String              @id @default(cuid())
+  campaignId      String?
+  mediaId         String
+  eventType       CalendarEventType
+  status          CalendarEventStatus @default(PLANNED)
+  title           String
+  scheduledAt     DateTime
+  itemType        CampaignItemType?
+  itemId          String?
+  requiresApproval Boolean            @default(true)
+  approvalStatus  String?
+  linkCheckStatus String?
+  hasCreative     Boolean             @default(false)
+  notes           String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  conflicts ContentCalendarConflict[]
+
+  @@index([scheduledAt, eventType])
+  @@index([campaignId, scheduledAt])
+}
+
+model ContentCalendarConflict {
+  id           String                 @id @default(cuid())
+  campaignId   String?
+  calendarEventId String?
+  conflictType CalendarConflictType
+  status       CalendarConflictStatus @default(OPEN)
+  severity     CampaignRiskSeverity   @default(WARNING)
+  title        String
+  description  String
+  detectedAt   DateTime               @default(now())
+  resolvedAt   DateTime?
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  calendarEvent ContentCalendarEvent? @relation(fields: [calendarEventId], references: [id], onDelete: SetNull)
+
+  @@index([status, conflictType, detectedAt])
+  @@index([campaignId, status])
+}
+
+model ReportTemplate {
+  id           String     @id @default(cuid())
+  mediaId      String?
+  reportType   ReportType
+  templateName String
+  sectionOrder Json
+  enabled      Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  generatedReports GeneratedReport[]
+  reportSchedules ReportSchedule[]
+
+  @@index([reportType, enabled])
+}
+
+model ReportSchedule {
+  id             String       @id @default(cuid())
+  mediaId        String?
+  campaignId     String?
+  reportTemplateId String?
+  reportType     ReportType
+  period         ReportPeriod @default(WEEKLY)
+  cronExpression String
+  enabled        Boolean      @default(false)
+  nextRunAt      DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  reportTemplate ReportTemplate? @relation(fields: [reportTemplateId], references: [id], onDelete: SetNull)
+
+  @@index([enabled, nextRunAt])
+}
+
+model GeneratedReport {
+  id              String                @id @default(cuid())
+  mediaId         String?
+  campaignId      String?
+  reportTemplateId String?
+  reportType      ReportType
+  status          GeneratedReportStatus @default(DRAFT)
+  periodStart     DateTime
+  periodEnd       DateTime
+  title           String
+  summary         String
+  contentMarkdown String
+  dataJson        Json?
+  sourceSummaryJson Json?
+  dataSource      String                @default("local")
+  generationKey   String                @unique
+  requiresHumanReview Boolean           @default(true)
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  reportTemplate ReportTemplate? @relation(fields: [reportTemplateId], references: [id], onDelete: SetNull)
+  sections ReportSection[]
+  exports ReportExport[]
+
+  @@index([reportType, status, createdAt])
+  @@index([campaignId, periodEnd])
+}
+
+model ReportSection {
+  id                String   @id @default(cuid())
+  generatedReportId String
+  sectionKey        String
+  sectionTitle      String
+  sectionOrder      Int
+  contentMarkdown   String
+  dataJson          Json?
+  createdAt         DateTime @default(now())
+
+  generatedReport GeneratedReport @relation(fields: [generatedReportId], references: [id], onDelete: Cascade)
+
+  @@unique([generatedReportId, sectionKey])
+}
+
+model ReportExport {
+  id                String             @id @default(cuid())
+  generatedReportId String
+  exportFormat      ReportExportFormat
+  status            ReportExportStatus @default(MOCK_EXPORTED)
+  filePath          String?
+  downloadUrl       String?
+  contentPreview    String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  generatedReport GeneratedReport @relation(fields: [generatedReportId], references: [id], onDelete: Cascade)
+
+  @@unique([generatedReportId, exportFormat])
+}
+
+model BusinessInsight {
+  id             String                @id @default(cuid())
+  mediaId        String?
+  campaignId     String?
+  insightType    BusinessInsightType
+  status         BusinessInsightStatus @default(PROPOSED)
+  priority       Int                   @default(50)
+  title          String
+  summary        String
+  evidenceJson   Json?
+  recommendation String?
+  requiresHumanReview Boolean          @default(true)
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+
+  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  @@index([status, priority, createdAt])
+  @@index([campaignId, insightType])
+}
