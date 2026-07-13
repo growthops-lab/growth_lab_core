@@ -7,13 +7,14 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Codex
-- Last Updated: 2026-07-13 13:04 JST
+- Last Updated: 2026-07-13 14:52 JST
 
 ## 2. Current Status
 
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
+GitHub publication export files have been excluded from Git tracking as regenerable human-readable artifacts. Initial push remains pending.
 
 ## 3. Completed
 
@@ -30,6 +31,9 @@ GitHub initial publication pre-review and local publication commit preparation h
 - Project Progress Update Rule added to AGENTS.md
 - GitHub publication preparation guide created as Word and PDF files
 - _backup and _inbox Git exclusion rules added to .gitignore
+- docs_export/github_publication/ set as Git-ignored regenerable publication exports
+- Initial pre-push worktree cleanup completed
+- Generated human-readable output exclusion confirmed
 
 ## 4. In Progress
 
@@ -38,19 +42,21 @@ GitHub initial publication pre-review and local publication commit preparation h
 - Prepare private GitHub repository creation for growth_lab_core
 - Human Owner review of the GitHub publication preparation guide
 - Human Owner review before initial GitHub push
+- Human Owner review of the latest local commits before initial GitHub push
 
 ## 5. Next Actions
 
 1. Confirm Recovery codes are outside C:\claudcode_ap\growth_lab_core
 2. Confirm Recovery codes are not shown by git status
-3. Review the GitHub publication preparation guide
-4. Confirm growth_lab_core repository creation policy
-5. Create a private GitHub repository
-6. Run the pre-push checklist
-7. Run secret and credential exposure checks
-8. Push the local repository for the first time
-9. Confirm the OpenAPI Lint workflow is visible in GitHub Actions
-10. Run the GitHub Actions manual workflow
+3. Review the latest local commits
+4. Review the GitHub publication preparation guide
+5. Confirm growth_lab_core repository creation policy
+6. Create a private GitHub repository
+7. Run the pre-push checklist
+8. Run secret and credential exposure checks
+9. Push the local repository for the first time
+10. Confirm the OpenAPI Lint workflow is visible in GitHub Actions
+11. Run the GitHub Actions manual workflow
 
 ## 6. Human Owner Decisions
 
@@ -70,6 +76,7 @@ GitHub initial publication pre-review and local publication commit preparation h
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-07-13 14:52 JST | DOCS-EXPORT-EXCLUSION | Set docs_export/github_publication/ as Git-ignored regenerable publication exports and cleaned the pre-push worktree | Codex |
 | 2026-07-13 13:04 JST | INITIAL-GITHUB-PUBLICATION | Completed GitHub initial publication pre-review and prepared the local publication commit; initial push remains pending | Codex |
 | 2026-07-13 12:11 JST | GITHUB-PUBLICATION-GUIDE | Created Word and PDF guide summarizing GitHub publication requirements, specification management policy, security boundary, repository setup, and pre-publication checklist | Codex |
 | 2026-07-13 09:52 JST | PROGRESS-INIT | Created Project_Progress.md and established the update rule in AGENTS.md | Codex |

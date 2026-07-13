@@ -2,6 +2,9 @@
 
 ## Version 1.0 Draft
 
+- Excluded generated human-readable GitHub publication exports from Git tracking.
+- Treated `docs_export/github_publication/` as regenerable Word, PDF, and rendered image output, added a targeted Git ignore rule for that folder only, and cleaned the pre-push worktree without deleting generated files.
+- Kept `docs_export/` as a future-usable parent folder, and kept GitHub push, GitHub Web UI operation, repository settings changes, branch changes, history rewriting, generated file deletion, credential reading, and secret value reporting out of scope.
 - Prepared Growth Lab Core for initial GitHub Private Repository publication.
 - Added Git exclusion rules for `_backup/` and `_inbox/`, confirmed publication review scope, and completed local pre-publication validation for formal artifacts, secret exclusion, OpenAPI Lint workflow dependencies, Project_Progress.md, AGENTS.md, and GitHub publication readiness.
 - Kept GitHub push, GitHub Web UI operation, repository settings changes, branch changes, history rewriting, Recovery codes handling, credential reading, and secret value reporting out of scope.

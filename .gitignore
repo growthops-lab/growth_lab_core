@@ -34,3 +34,6 @@ _inbox/
 Thumbs.db
 *.tmp
 *.temp
+
+# Generated human-readable publication exports
+docs_export/github_publication/
