@@ -2,6 +2,9 @@
 
 ## Version 1.0 Draft
 
+- Added GitHub Actions workflow recognition diagnostic workflow.
+- Created `.github/workflows/workflow-recognition-test.yml` as a minimal manual `workflow_dispatch` workflow that does not use external actions, Node.js, pnpm, repository files, secrets, variables, artifacts, or caches.
+- Kept the existing `.github/workflows/openapi-lint.yml` unchanged while preparing Human Owner-led GitHub Actions recognition troubleshooting.
 - Excluded generated human-readable GitHub publication exports from Git tracking.
 - Treated `docs_export/github_publication/` as regenerable Word, PDF, and rendered image output, added a targeted Git ignore rule for that folder only, and cleaned the pre-push worktree without deleting generated files.
 - Kept `docs_export/` as a future-usable parent folder, and kept GitHub push, GitHub Web UI operation, repository settings changes, branch changes, history rewriting, generated file deletion, credential reading, and secret value reporting out of scope.
