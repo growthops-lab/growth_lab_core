@@ -1,0 +1,719 @@
+extends:
+  - spectral:oas
+documentationUrl: https://api.example.invalid
+rules:
+  glc-openapi-version-3-1-0:
+    description: "[Critical] OpenAPI version must be 3.1.0."
+    message: "OpenAPI version must be 3.1.0."
+    severity: error
+    given: "$"
+    then:
+      field: openapi
+      function: pattern
+      functionOptions:
+        match: "^3\\.1\\.0$"
+
+  glc-root-required-fields:
+    description: "[Critical] OpenAPI root object must include required top-level fields."
+    message: "OpenAPI root object must include openapi, info, servers, tags, paths, and components."
+    severity: error
+    given: "$"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - openapi
+            - info
+            - servers
+            - tags
+            - paths
+            - components
+
+  glc-info-required-fields:
+    description: "[Critical] info must include title and version."
+    message: "info must include title and version."
+    severity: error
+    given: "$.info"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - title
+            - version
+
+  glc-components-required-fields:
+    description: "[Critical] components must include schemas, responses, parameters, and securitySchemes."
+    message: "components must include schemas, responses, parameters, and securitySchemes."
+    severity: error
+    given: "$.components"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - schemas
+            - responses
+            - parameters
+            - securitySchemes
+
+  glc-server-placeholder-only:
+    description: "[Blocker] Only the approved placeholder server URL is allowed."
+    message: "servers.url must be the approved placeholder URL only."
+    severity: error
+    given: "$.servers[*]"
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: "^(?:https)://api\\.example\\.invalid$"
+
+  glc-no-oauth-authorization-url:
+    description: "[Blocker] OAuth authorizationUrl must not be finalized in the MVP OpenAPI draft."
+    message: "authorizationUrl must not be defined in the MVP OpenAPI draft."
+    severity: error
+    given: "$..authorizationUrl"
+    then:
+      function: falsy
+
+  glc-no-oauth-token-url:
+    description: "[Blocker] OAuth tokenUrl must not be finalized in the MVP OpenAPI draft."
+    message: "tokenUrl must not be defined in the MVP OpenAPI draft."
+    severity: error
+    given: "$..tokenUrl"
+    then:
+      function: falsy
+
+  glc-no-oauth-scopes:
+    description: "[Blocker] OAuth scopes must not be finalized in the MVP OpenAPI draft."
+    message: "OAuth scopes must not be defined in the MVP OpenAPI draft."
+    severity: error
+    given: "$..scopes"
+    then:
+      function: falsy
+
+  glc-required-paths:
+    description: "[Major] Required Approval Gate API paths must exist."
+    message: "Required Approval Gate API paths are missing."
+    severity: warn
+    given: "$.paths"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - /approval-gates
+            - /approval-gates/{approval_gate_id}
+            - /approval-gates/{approval_gate_id}/transition
+            - /approval-gates/{approval_gate_id}/review-logs
+            - /approval-gates/{approval_gate_id}/evidence-references
+            - /approval-gates/{approval_gate_id}/audit-logs
+            - /approval-gates/{approval_gate_id}/archive
+            - /approval-gates/{approval_gate_id}/invalidate
+
+  glc-required-approval-gates-operations:
+    description: "[Major] /approval-gates must include GET and POST operations."
+    message: "/approval-gates must include GET and POST operations."
+    severity: warn
+    given: "$.paths['/approval-gates']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - get
+            - post
+
+  glc-required-approval-gate-id-operations:
+    description: "[Major] /approval-gates/{approval_gate_id} must include GET and PATCH operations."
+    message: "/approval-gates/{approval_gate_id} must include GET and PATCH operations."
+    severity: warn
+    given: "$.paths['/approval-gates/{approval_gate_id}']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - get
+            - patch
+
+  glc-required-transition-operation:
+    description: "[Major] Transition endpoint must include POST operation."
+    message: "/approval-gates/{approval_gate_id}/transition must include POST operation."
+    severity: warn
+    given: "$.paths['/approval-gates/{approval_gate_id}/transition']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - post
+
+  glc-required-review-log-operations:
+    description: "[Major] Review Log endpoint must include GET and POST operations."
+    message: "/approval-gates/{approval_gate_id}/review-logs must include GET and POST operations."
+    severity: warn
+    given: "$.paths['/approval-gates/{approval_gate_id}/review-logs']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - get
+            - post
+
+  glc-required-evidence-reference-operations:
+    description: "[Major] Evidence Reference endpoint must include GET and POST operations."
+    message: "/approval-gates/{approval_gate_id}/evidence-references must include GET and POST operations."
+    severity: warn
+    given: "$.paths['/approval-gates/{approval_gate_id}/evidence-references']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - get
+            - post
+
+  glc-required-audit-log-operation:
+    description: "[Major] Audit Log endpoint must include GET operation."
+    message: "/approval-gates/{approval_gate_id}/audit-logs must include GET operation."
+    severity: warn
+    given: "$.paths['/approval-gates/{approval_gate_id}/audit-logs']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - get
+
+  glc-required-archive-operation:
+    description: "[Major] Archive endpoint must include POST operation."
+    message: "/approval-gates/{approval_gate_id}/archive must include POST operation."
+    severity: warn
+    given: "$.paths['/approval-gates/{approval_gate_id}/archive']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - post
+
+  glc-required-invalidate-operation:
+    description: "[Major] Invalidate endpoint must include POST operation."
+    message: "/approval-gates/{approval_gate_id}/invalidate must include POST operation."
+    severity: warn
+    given: "$.paths['/approval-gates/{approval_gate_id}/invalidate']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - post
+
+  glc-required-operation-ids:
+    description: "[Major] Required Approval Gate operationIds must exist."
+    message: "Required Approval Gate operationIds are missing."
+    severity: warn
+    given: "$.paths"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            /approval-gates:
+              type: object
+              properties:
+                get:
+                  type: object
+                  properties:
+                    operationId:
+                      const: listApprovalGates
+                  required:
+                    - operationId
+                post:
+                  type: object
+                  properties:
+                    operationId:
+                      const: createApprovalGate
+                  required:
+                    - operationId
+            /approval-gates/{approval_gate_id}:
+              type: object
+              properties:
+                get:
+                  type: object
+                  properties:
+                    operationId:
+                      const: getApprovalGate
+                  required:
+                    - operationId
+                patch:
+                  type: object
+                  properties:
+                    operationId:
+                      const: updateApprovalGateMetadata
+                  required:
+                    - operationId
+            /approval-gates/{approval_gate_id}/transition:
+              type: object
+              properties:
+                post:
+                  type: object
+                  properties:
+                    operationId:
+                      const: transitionApprovalGate
+                  required:
+                    - operationId
+            /approval-gates/{approval_gate_id}/review-logs:
+              type: object
+              properties:
+                get:
+                  type: object
+                  properties:
+                    operationId:
+                      const: listApprovalGateReviewLogs
+                  required:
+                    - operationId
+                post:
+                  type: object
+                  properties:
+                    operationId:
+                      const: createApprovalGateReviewLog
+                  required:
+                    - operationId
+            /approval-gates/{approval_gate_id}/evidence-references:
+              type: object
+              properties:
+                get:
+                  type: object
+                  properties:
+                    operationId:
+                      const: listApprovalGateEvidenceReferences
+                  required:
+                    - operationId
+                post:
+                  type: object
+                  properties:
+                    operationId:
+                      const: createApprovalGateEvidenceReference
+                  required:
+                    - operationId
+            /approval-gates/{approval_gate_id}/audit-logs:
+              type: object
+              properties:
+                get:
+                  type: object
+                  properties:
+                    operationId:
+                      const: listApprovalGateAuditLogs
+                  required:
+                    - operationId
+            /approval-gates/{approval_gate_id}/archive:
+              type: object
+              properties:
+                post:
+                  type: object
+                  properties:
+                    operationId:
+                      const: archiveApprovalGate
+                  required:
+                    - operationId
+            /approval-gates/{approval_gate_id}/invalidate:
+              type: object
+              properties:
+                post:
+                  type: object
+                  properties:
+                    operationId:
+                      const: invalidateApprovalGate
+                  required:
+                    - operationId
+
+  glc-required-schemas:
+    description: "[Major] Required reusable schemas must exist."
+    message: "Required reusable schemas are missing."
+    severity: warn
+    given: "$.components.schemas"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - ApprovalGate
+            - ApprovalGateCreateRequest
+            - ApprovalGateUpdateRequest
+            - ApprovalGateTransitionRequest
+            - ApprovalGateTransitionResponse
+            - ReviewLog
+            - ReviewLogCreateRequest
+            - EvidenceReference
+            - EvidenceReferenceCreateRequest
+            - AuditLog
+            - ErrorResponse
+            - ValidationResult
+            - ApprovalGateStatus
+            - DecisionCategory
+            - ReviewStatus
+            - TermsCheckStatus
+            - LabelCheckStatus
+            - AutomationAllowedStatus
+            - Role
+
+  glc-required-responses:
+    description: "[Major] Required reusable response components must exist."
+    message: "Required reusable response components are missing."
+    severity: warn
+    given: "$.components.responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - BadRequest
+            - Unauthorized
+            - Forbidden
+            - NotFound
+            - ValidationError
+            - SecretValueRejected
+            - InternalServerError
+
+  glc-required-parameters:
+    description: "[Major] Required reusable parameter components must exist."
+    message: "Required reusable parameter components are missing."
+    severity: warn
+    given: "$.components.parameters"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - ApprovalGateIdPath
+            - LimitQuery
+            - OffsetQuery
+
+  glc-required-security-scheme:
+    description: "[Critical] BearerAuthPlaceholder security scheme must exist."
+    message: "BearerAuthPlaceholder security scheme is missing."
+    severity: error
+    given: "$.components.securitySchemes"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - BearerAuthPlaceholder
+
+  glc-approval-gate-status-enum:
+    description: "[Major] ApprovalGateStatus enum must contain the MVP status values."
+    message: "ApprovalGateStatus enum must contain all MVP status values."
+    severity: warn
+    given: "$.components.schemas.ApprovalGateStatus"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 8
+          allOf:
+            - contains:
+                const: Draft
+            - contains:
+                const: Review Required
+            - contains:
+                const: Approved
+            - contains:
+                const: Blocked
+            - contains:
+                const: Deferred
+            - contains:
+                const: Published
+            - contains:
+                const: Archived
+            - contains:
+                const: Invalidated
+
+  glc-decision-category-enum:
+    description: "[Major] DecisionCategory enum must contain the MVP decision category values."
+    message: "DecisionCategory enum must contain all MVP decision category values."
+    severity: warn
+    given: "$.components.schemas.DecisionCategory"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 7
+          allOf:
+            - contains:
+                const: Approved for MVP publishing
+            - contains:
+                const: Approved with manual review
+            - contains:
+                const: Blocked due to missing evidence
+            - contains:
+                const: Blocked due to terms uncertainty
+            - contains:
+                const: Deferred to later specification
+            - contains:
+                const: Requires Human Owner decision
+            - contains:
+                const: Requires official-source confirmation
+
+  glc-review-status-enum:
+    description: "[Major] ReviewStatus enum must contain the MVP review status values."
+    message: "ReviewStatus enum must contain all MVP review status values."
+    severity: warn
+    given: "$.components.schemas.ReviewStatus"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 6
+          allOf:
+            - contains:
+                const: Not Reviewed
+            - contains:
+                const: Review Required
+            - contains:
+                const: Reviewed
+            - contains:
+                const: Approved
+            - contains:
+                const: Blocked
+            - contains:
+                const: Deferred
+
+  glc-terms-check-status-enum:
+    description: "[Major] TermsCheckStatus enum must contain the MVP terms check status values."
+    message: "TermsCheckStatus enum must contain all MVP terms check status values."
+    severity: warn
+    given: "$.components.schemas.TermsCheckStatus"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 6
+          allOf:
+            - contains:
+                const: Not Required
+            - contains:
+                const: Required
+            - contains:
+                const: Passed
+            - contains:
+                const: Failed
+            - contains:
+                const: Unknown
+            - contains:
+                const: Deferred
+
+  glc-label-check-status-enum:
+    description: "[Major] LabelCheckStatus enum must contain the MVP label check status values."
+    message: "LabelCheckStatus enum must contain all MVP label check status values."
+    severity: warn
+    given: "$.components.schemas.LabelCheckStatus"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 6
+          allOf:
+            - contains:
+                const: Not Required
+            - contains:
+                const: Required
+            - contains:
+                const: Applied
+            - contains:
+                const: Missing
+            - contains:
+                const: Unknown
+            - contains:
+                const: Deferred
+
+  glc-automation-allowed-status-enum:
+    description: "[Major] AutomationAllowedStatus enum must contain the MVP automation status values."
+    message: "AutomationAllowedStatus enum must contain all MVP automation status values."
+    severity: warn
+    given: "$.components.schemas.AutomationAllowedStatus"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 4
+          allOf:
+            - contains:
+                const: Allowed
+            - contains:
+                const: Not Allowed
+            - contains:
+                const: Unknown
+            - contains:
+                const: Deferred
+
+  glc-role-enum:
+    description: "[Major] Role enum must contain the MVP role values."
+    message: "Role enum must contain all MVP role values."
+    severity: warn
+    given: "$.components.schemas.Role"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 6
+          allOf:
+            - contains:
+                const: Human Owner
+            - contains:
+                const: Reviewer
+            - contains:
+                const: Operator
+            - contains:
+                const: Developer
+            - contains:
+                const: Auditor
+            - contains:
+                const: System
+
+  glc-transition-request-required-fields:
+    description: "[Major] ApprovalGateTransitionRequest must include key transition fields."
+    message: "ApprovalGateTransitionRequest must include from_status, to_status, and decision_category."
+    severity: warn
+    given: "$.components.schemas.ApprovalGateTransitionRequest"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - properties
+          properties:
+            properties:
+              type: object
+              required:
+                - from_status
+                - to_status
+                - decision_category
+
+  glc-blocked-reason-description:
+    description: "[Major] Blocked transition must document blocked_reason requirement."
+    message: "ApprovalGateTransitionRequest description should document blocked_reason requirement."
+    severity: warn
+    given: "$.components.schemas.ApprovalGateTransitionRequest"
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        match: "blocked_reason"
+
+  glc-deferred-items-description:
+    description: "[Major] Deferred transition must document deferred_items requirement."
+    message: "ApprovalGateTransitionRequest description should document deferred_items requirement."
+    severity: warn
+    given: "$.components.schemas.ApprovalGateTransitionRequest"
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        match: "deferred_items"
+
+  glc-published-condition-description:
+    description: "[Major] Published transition must document published_at or publish_request_reference requirement."
+    message: "ApprovalGateTransitionRequest description should document published_at or publish_request_reference requirement."
+    severity: warn
+    given: "$.components.schemas.ApprovalGateTransitionRequest"
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        match: "published_at|publish_request_reference"
+
+  glc-human-owner-condition-description:
+    description: "[Major] Human Owner approval condition must be documented for publish-related transitions."
+    message: "ApprovalGateTransitionRequest description should document Human Owner approval condition."
+    severity: warn
+    given: "$.components.schemas.ApprovalGateTransitionRequest"
+    then:
+      field: description
+      function: pattern
+      functionOptions:
+        match: "Human Owner"
+
+  glc-error-response-schema-required:
+    description: "[Major] ErrorResponse schema must include safe error response fields."
+    message: "ErrorResponse must include error_code and error_message properties."
+    severity: warn
+    given: "$.components.schemas.ErrorResponse"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - properties
+          properties:
+            properties:
+              type: object
+              required:
+                - error_code
+                - error_message
+
+  glc-no-secret-like-fields:
+    description: "[Blocker] Secret-like fields must not be defined in the OpenAPI draft."
+    message: "Secret-like fields must not be defined in the OpenAPI draft."
+    severity: error
+    given:
+      - "$..secret"
+      - "$..secrets"
+      - "$..password"
+      - "$..passwords"
+      - "$..api_key"
+      - "$..apiKey"
+      - "$..token"
+      - "$..tokens"
+      - "$..recovery_code"
+      - "$..totp_secret"
+    then:
+      function: falsy
+
+  glc-dummy-example-url-safety:
+    description: "[Blocker] Example URL values must not use real service URLs."
+    message: "Only approved placeholder URL may be used for server URL examples."
+    severity: error
+    given: "$.servers[*]"
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: "^(?:https)://api\\.example\\.invalid$"

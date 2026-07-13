@@ -21,7 +21,9 @@
     "prisma:validate": "prisma validate",
     "worker:publish-due": "tsx scripts/publish-due.ts",
     "smoke:phase9": "tsx scripts/phase9-smoke.ts",
-    "smoke:phase10": "tsx scripts/phase10-smoke.ts"
+    "smoke:phase10": "tsx scripts/phase10-smoke.ts",
+    "lint:openapi": "spectral lint -r implementation/lint_configs/openapi/approval_gate_openapi_spectral.yaml implementation/openapi/Approval_Gate_OpenAPI_Draft.yaml",
+    "lint:openapi:version": "spectral --version"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -34,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
+    "@stoplight/spectral-cli": "^6.16.1",
     "@types/node": "^22.9.0",
     "@types/node-cron": "^3.0.11",
     "@types/react": "^19.0.0",
@@ -43,6 +46,7 @@
     "eslint-config-next": "^15.0.3",
     "postcss": "^8.4.49",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "yaml": "^2.9.0"
   }
 }

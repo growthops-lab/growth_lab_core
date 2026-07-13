@@ -8,3 +8,29 @@ coverage
 *.log
 tsconfig.tsbuildinfo
 prisma/migrations
+
+# Local backups and import work files
+_backup/
+_inbox/
+
+# Environment files
+.env.*
+!.env.example
+
+# Credentials and private key materials
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Recovery code files
+*recovery-code*
+*recovery_code*
+*recovery-codes*
+*recovery_codes*
+
+# Common local and temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp

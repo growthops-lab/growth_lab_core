@@ -1,0 +1,947 @@
+openapi: 3.1.0
+info:
+  title: Growth Lab Core Approval Gate API
+  version: 0.1.0-draft
+  contact:
+    name: Human Owner
+  summary: Draft OpenAPI specification for Approval Gate MVP API candidates.
+  description: |
+    This OpenAPI document is a draft for MVP implementation planning.
+    It does not implement API endpoints, authentication, OAuth, database, SQL, or UI.
+    It does not finalize SNS, ASP, or affiliate terms interpretation.
+    Endpoint paths, schemas, responses, and security are candidates only.
+    Draft to Published is not allowed. Published requires prior Approved status.
+    Blocked requires blocked_reason. Deferred requires deferred_items.
+    Published requires published_at or publish_request_reference.
+servers:
+  - url: https://api.example.invalid
+    description: Placeholder server for draft only. Not a real endpoint.
+tags:
+  - name: Approval Gates
+    description: Draft endpoint candidates for Approval Gate records.
+  - name: Status Transitions
+    description: Draft endpoint candidates for Approval Gate status transitions.
+  - name: Review Logs
+    description: Draft endpoint candidates for Review Log relationships.
+  - name: Evidence References
+    description: Draft endpoint candidates for Evidence Reference relationships.
+  - name: Audit Logs
+    description: Draft endpoint candidates for Audit Log references.
+paths:
+  /approval-gates:
+    get:
+      operationId: listApprovalGates
+      tags:
+        - Approval Gates
+      summary: List Approval Gate candidates.
+      description: |
+        Returns Approval Gate records for MVP planning.
+        This is a draft endpoint candidate and not a final implementation contract.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/LimitQuery"
+        - $ref: "#/components/parameters/OffsetQuery"
+      responses:
+        "200":
+          description: Approval Gate list response candidate.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ApprovalGate"
+                  limit:
+                    type: integer
+                    example: 20
+                  offset:
+                    type: integer
+                    example: 0
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+    post:
+      operationId: createApprovalGate
+      tags:
+        - Approval Gates
+      summary: Create an Approval Gate candidate.
+      description: |
+        Creates a draft Approval Gate record candidate.
+        This endpoint must not accept secret values, token values, API key values,
+        password values, recovery code values, or TOTP secret values.
+      security:
+        - BearerAuthPlaceholder: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApprovalGateCreateRequest"
+            examples:
+              dummy:
+                value:
+                  content_id: CONTENT-0001
+                  source_system: dummy-source-system
+                  platform: dummy-platform
+                  content_type: sns_post
+                  content_title: dummy-content-title
+                  content_url_or_reference: dummy-reference
+      responses:
+        "201":
+          description: Approval Gate created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalGate"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /approval-gates/{approval_gate_id}:
+    get:
+      operationId: getApprovalGate
+      tags:
+        - Approval Gates
+      summary: Get an Approval Gate candidate.
+      description: Returns one Approval Gate record candidate without credential values.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      responses:
+        "200":
+          description: Approval Gate response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalGate"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      operationId: updateApprovalGateMetadata
+      tags:
+        - Approval Gates
+      summary: Update Approval Gate metadata.
+      description: |
+        Updates metadata fields only.
+        This operation must not directly change approval_gate_status.
+        Status changes must use POST /approval-gates/{approval_gate_id}/transition.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApprovalGateUpdateRequest"
+      responses:
+        "200":
+          description: Approval Gate metadata updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalGate"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+  /approval-gates/{approval_gate_id}/transition:
+    post:
+      operationId: transitionApprovalGate
+      tags:
+        - Status Transitions
+      summary: Request an Approval Gate status transition.
+      description: |
+        Dedicated status transition endpoint candidate.
+        from_status must match the current approval_gate_status.
+        Draft to Published is not allowed.
+        Published without Review Required path is forbidden.
+        Published requires prior Approved status.
+        Blocked requires blocked_reason.
+        Deferred requires deferred_items.
+        Published requires published_at or publish_request_reference.
+        Unknown terms check status cannot be approved for MVP publishing.
+        Human Owner approval is required before this approval gate can transition into an approved execution state.
+        Unknown automation_allowed_status cannot be connected to automated publishing.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApprovalGateTransitionRequest"
+      responses:
+        "200":
+          description: Transition accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalGateTransitionResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+  /approval-gates/{approval_gate_id}/review-logs:
+    get:
+      operationId: listApprovalGateReviewLogs
+      tags:
+        - Review Logs
+      summary: List Review Logs linked to an Approval Gate.
+      description: Review Log is treated as evidence for Approval Gate decisions.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      responses:
+        "200":
+          description: Review Log list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ReviewLog"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: createApprovalGateReviewLog
+      tags:
+        - Review Logs
+      summary: Create a Review Log relationship candidate.
+      description: |
+        Creates a Review Log candidate linked to an Approval Gate.
+        Review Log creation must not include secret values.
+        Correction after creation should be captured in history or Audit Log.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewLogCreateRequest"
+      responses:
+        "201":
+          description: Review Log created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewLog"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+  /approval-gates/{approval_gate_id}/evidence-references:
+    get:
+      operationId: listApprovalGateEvidenceReferences
+      tags:
+        - Evidence References
+      summary: List Evidence References linked to an Approval Gate.
+      description: Evidence body storage and file upload are deferred to later specifications.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      responses:
+        "200":
+          description: Evidence Reference list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/EvidenceReference"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    post:
+      operationId: createApprovalGateEvidenceReference
+      tags:
+        - Evidence References
+      summary: Create an Evidence Reference relationship candidate.
+      description: |
+        evidence_reference is a reference ID or safe storage identifier, not the evidence body.
+        Secret, Token, API Key, Password, Recovery Code, and TOTP Secret values must not be accepted as Evidence.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EvidenceReferenceCreateRequest"
+      responses:
+        "201":
+          description: Evidence Reference created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EvidenceReference"
+        "422":
+          $ref: "#/components/responses/SecretValueRejected"
+  /approval-gates/{approval_gate_id}/audit-logs:
+    get:
+      operationId: listApprovalGateAuditLogs
+      tags:
+        - Audit Logs
+      summary: List Audit Logs linked to an Approval Gate.
+      description: |
+        Audit Log is used for status transitions, reason changes,
+        evidence reference changes, and Human Owner decisions.
+        Tamper resistance is delegated to later specifications.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      responses:
+        "200":
+          description: Audit Log list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AuditLog"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /approval-gates/{approval_gate_id}/archive:
+    post:
+      operationId: archiveApprovalGate
+      tags:
+        - Approval Gates
+      summary: Archive an Approval Gate candidate.
+      description: Archive is not deletion. This operation may map to the transition endpoint in later specifications.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                archive_reference:
+                  type: string
+                  example: dummy-reference
+                requested_by:
+                  $ref: "#/components/schemas/Role"
+                requested_at:
+                  type: string
+                  format: date-time
+                  example: 2026-07-08T00:00:00Z
+      responses:
+        "200":
+          description: Approval Gate archived.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalGate"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+  /approval-gates/{approval_gate_id}/invalidate:
+    post:
+      operationId: invalidateApprovalGate
+      tags:
+        - Approval Gates
+      summary: Invalidate an Approval Gate candidate.
+      description: Invalidation is a safer alternative to deletion and requires an audit candidate.
+      security:
+        - BearerAuthPlaceholder: []
+      parameters:
+        - $ref: "#/components/parameters/ApprovalGateIdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - invalidation_reason
+                - requested_by
+              properties:
+                invalidation_reason:
+                  type: string
+                  example: dummy-reference
+                requested_by:
+                  $ref: "#/components/schemas/Role"
+                requested_at:
+                  type: string
+                  format: date-time
+                  example: 2026-07-08T00:00:00Z
+      responses:
+        "200":
+          description: Approval Gate invalidated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalGate"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+components:
+  parameters:
+    ApprovalGateIdPath:
+      name: approval_gate_id
+      in: path
+      required: true
+      description: Approval Gate ID candidate.
+      schema:
+        type: string
+        example: AG-20260708-0001
+    LimitQuery:
+      name: limit
+      in: query
+      required: false
+      description: Draft pagination limit candidate.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetQuery:
+      name: offset
+      in: query
+      required: false
+      description: Draft pagination offset candidate.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  securitySchemes:
+    BearerAuthPlaceholder:
+      type: http
+      scheme: bearer
+      bearerFormat: Placeholder
+      description: |
+        Placeholder security scheme for draft only.
+        This document does not define token issuance, OAuth scopes, or authentication implementation.
+        Do not include real token examples.
+  responses:
+    BadRequest:
+      description: Bad request candidate. No internal stack trace or secret value is returned.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: Unauthorized response candidate. Authentication method is not finalized.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Forbidden:
+      description: Forbidden response candidate.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Not found response candidate.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    ValidationError:
+      description: Validation error response candidate.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    SecretValueRejected:
+      description: Secret-like value rejected. The rejected value is not echoed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InternalServerError:
+      description: Internal server error candidate. Internal stack traces are not returned.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+  schemas:
+    ApprovalGateStatus:
+      type: string
+      description: |
+        Approval Gate status candidate.
+        Invalidated is included as an alternative to deletion.
+        Published is allowed only after Approved and must not be reached directly from Draft.
+      enum:
+        - Draft
+        - Review Required
+        - Approved
+        - Blocked
+        - Deferred
+        - Published
+        - Archived
+        - Invalidated
+    DecisionCategory:
+      type: string
+      enum:
+        - Approved for MVP publishing
+        - Approved with manual review
+        - Blocked due to missing evidence
+        - Blocked due to terms uncertainty
+        - Deferred to later specification
+        - Requires Human Owner decision
+        - Requires official-source confirmation
+    ReviewStatus:
+      type: string
+      enum:
+        - Not Reviewed
+        - Review Required
+        - Reviewed
+        - Approved
+        - Blocked
+        - Deferred
+    TermsCheckStatus:
+      type: string
+      enum:
+        - Not Required
+        - Required
+        - Passed
+        - Failed
+        - Unknown
+        - Deferred
+    LabelCheckStatus:
+      type: string
+      enum:
+        - Not Required
+        - Required
+        - Applied
+        - Missing
+        - Unknown
+        - Deferred
+    AutomationAllowedStatus:
+      type: string
+      enum:
+        - Allowed
+        - Not Allowed
+        - Unknown
+        - Deferred
+    Role:
+      type: string
+      enum:
+        - Human Owner
+        - Reviewer
+        - Operator
+        - Developer
+        - Auditor
+        - System
+    ApprovalGate:
+      type: object
+      required:
+        - approval_gate_id
+        - review_id
+        - content_id
+        - source_system
+        - platform
+        - content_type
+        - approval_gate_status
+        - review_status
+        - human_owner_decision_required
+        - created_at
+        - updated_at
+      properties:
+        approval_gate_id:
+          type: string
+          example: AG-20260708-0001
+        review_id:
+          type: string
+          example: REV-20260708-0001
+        content_id:
+          type: string
+          example: CONTENT-0001
+        source_system:
+          type: string
+          example: dummy-source-system
+        platform:
+          type: string
+          example: dummy-platform
+        content_type:
+          type: string
+          example: sns_post
+        content_title:
+          type: string
+          example: dummy-content-title
+        content_url_or_reference:
+          type: string
+          example: dummy-reference
+        approval_gate_status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        decision_category:
+          $ref: "#/components/schemas/DecisionCategory"
+        review_status:
+          $ref: "#/components/schemas/ReviewStatus"
+        reviewer:
+          $ref: "#/components/schemas/Role"
+        reviewed_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+        human_owner_decision_required:
+          type: boolean
+          example: true
+        evidence_reference:
+          type: string
+          example: dummy-evidence-reference
+        decision_reason:
+          type: string
+          example: dummy-reference
+        blocked_reason:
+          type: string
+          example: dummy-reference
+        deferred_items:
+          type: string
+          example: dummy-reference
+        follow_up_owner:
+          $ref: "#/components/schemas/Role"
+        follow_up_due_date:
+          type: string
+          format: date
+          example: 2026-07-08
+        published_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+        archive_reference:
+          type: string
+          example: dummy-reference
+        created_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+    ApprovalGateCreateRequest:
+      type: object
+      required:
+        - content_id
+        - source_system
+        - platform
+        - content_type
+      properties:
+        content_id:
+          type: string
+          example: CONTENT-0001
+        source_system:
+          type: string
+          example: dummy-source-system
+        platform:
+          type: string
+          example: dummy-platform
+        content_type:
+          type: string
+          example: sns_post
+        content_title:
+          type: string
+          example: dummy-content-title
+        content_url_or_reference:
+          type: string
+          example: dummy-reference
+    ApprovalGateUpdateRequest:
+      type: object
+      description: Metadata update candidate. approval_gate_status must not be changed by this schema.
+      properties:
+        content_title:
+          type: string
+          example: dummy-content-title
+        content_url_or_reference:
+          type: string
+          example: dummy-reference
+        follow_up_owner:
+          $ref: "#/components/schemas/Role"
+        follow_up_due_date:
+          type: string
+          format: date
+          example: 2026-07-08
+        archive_reference:
+          type: string
+          example: dummy-reference
+        record_version:
+          type: integer
+          example: 1
+    ApprovalGateTransitionRequest:
+      type: object
+      description: |
+        from_status must match the current approval_gate_status.
+        Draft to Published is not allowed.
+        Published requires prior Approved status.
+        Blocked requires blocked_reason.
+        Deferred requires deferred_items.
+        Published requires published_at or publish_request_reference.
+        Unknown terms check status cannot be approved for MVP publishing.
+        Human Owner approval is required before this transition request can move an approval gate into an approved execution state.
+      required:
+        - from_status
+        - to_status
+        - requested_by
+        - requested_at
+      properties:
+        from_status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        to_status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        decision_category:
+          $ref: "#/components/schemas/DecisionCategory"
+        review_id:
+          type: string
+          example: REV-20260708-0001
+        evidence_reference:
+          type: string
+          example: dummy-evidence-reference
+        decision_reason:
+          type: string
+          example: dummy-reference
+        blocked_reason:
+          type: string
+          example: dummy-reference
+        deferred_items:
+          type: string
+          example: dummy-reference
+        human_owner_decision_required:
+          type: boolean
+          example: true
+        requested_by:
+          $ref: "#/components/schemas/Role"
+        requested_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+        published_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+        publish_request_reference:
+          type: string
+          example: dummy-reference
+        sns_terms_check_status:
+          $ref: "#/components/schemas/TermsCheckStatus"
+        asp_terms_check_status:
+          $ref: "#/components/schemas/TermsCheckStatus"
+        affiliate_terms_check_status:
+          $ref: "#/components/schemas/TermsCheckStatus"
+        automation_allowed_status:
+          $ref: "#/components/schemas/AutomationAllowedStatus"
+    ApprovalGateTransitionResponse:
+      type: object
+      required:
+        - approval_gate_id
+        - current_status
+        - validation_result
+      properties:
+        approval_gate_id:
+          type: string
+          example: AG-20260708-0001
+        previous_status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        current_status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        decision_category:
+          $ref: "#/components/schemas/DecisionCategory"
+        evidence_reference:
+          type: string
+          example: dummy-evidence-reference
+        validation_result:
+          $ref: "#/components/schemas/ValidationResult"
+        audit_log_reference:
+          type: string
+          example: dummy-audit-log-reference
+    ReviewLog:
+      type: object
+      properties:
+        review_id:
+          type: string
+          example: REV-20260708-0001
+        approval_gate_id:
+          type: string
+          example: AG-20260708-0001
+        review_status:
+          $ref: "#/components/schemas/ReviewStatus"
+        reviewer:
+          $ref: "#/components/schemas/Role"
+        reviewed_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+        decision_reason:
+          type: string
+          example: dummy-reference
+        advertising_label_status:
+          $ref: "#/components/schemas/LabelCheckStatus"
+        pr_label_status:
+          $ref: "#/components/schemas/LabelCheckStatus"
+        affiliate_label_status:
+          $ref: "#/components/schemas/LabelCheckStatus"
+    ReviewLogCreateRequest:
+      type: object
+      description: Review Log body storage format is not finalized. Secret values are prohibited.
+      required:
+        - review_id
+        - review_status
+        - reviewer
+      properties:
+        review_id:
+          type: string
+          example: REV-20260708-0001
+        review_status:
+          $ref: "#/components/schemas/ReviewStatus"
+        reviewer:
+          $ref: "#/components/schemas/Role"
+        reviewed_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+        decision_reason:
+          type: string
+          example: dummy-reference
+        advertising_label_status:
+          $ref: "#/components/schemas/LabelCheckStatus"
+        pr_label_status:
+          $ref: "#/components/schemas/LabelCheckStatus"
+        affiliate_label_status:
+          $ref: "#/components/schemas/LabelCheckStatus"
+    EvidenceReference:
+      type: object
+      properties:
+        evidence_reference:
+          type: string
+          example: dummy-evidence-reference
+        approval_gate_id:
+          type: string
+          example: AG-20260708-0001
+        evidence_type:
+          type: string
+          example: dummy-reference
+        created_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+    EvidenceReferenceCreateRequest:
+      type: object
+      description: Evidence is reference-only. Evidence body and file upload are out of scope.
+      required:
+        - evidence_reference
+      properties:
+        evidence_reference:
+          type: string
+          example: dummy-evidence-reference
+        evidence_type:
+          type: string
+          example: dummy-reference
+    AuditLog:
+      type: object
+      properties:
+        audit_log_reference:
+          type: string
+          example: dummy-audit-log-reference
+        event:
+          type: string
+          example: status_transition_requested
+        approval_gate_id:
+          type: string
+          example: AG-20260708-0001
+        requested_by:
+          $ref: "#/components/schemas/Role"
+        requested_at:
+          type: string
+          format: date-time
+          example: 2026-07-08T00:00:00Z
+    ValidationResult:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          example: true
+        messages:
+          type: array
+          items:
+            type: string
+          example:
+            - dummy-reference
+    ErrorResponse:
+      type: object
+      description: |
+        Error response candidate. Internal stack traces and secret values are not returned.
+        Error code candidates include APPROVAL_GATE_NOT_FOUND, INVALID_STATUS_TRANSITION,
+        MISSING_BLOCKED_REASON, MISSING_DEFERRED_ITEMS, MISSING_EVIDENCE_REFERENCE,
+        HUMAN_OWNER_DECISION_REQUIRED, TERMS_CHECK_UNKNOWN,
+        AUTOMATION_ALLOWED_STATUS_UNKNOWN, FORBIDDEN_ROLE, SECRET_VALUE_REJECTED,
+        and VALIDATION_FAILED.
+      required:
+        - error_code
+        - error_message
+      properties:
+        error_code:
+          type: string
+          enum:
+            - APPROVAL_GATE_NOT_FOUND
+            - INVALID_STATUS_TRANSITION
+            - MISSING_BLOCKED_REASON
+            - MISSING_DEFERRED_ITEMS
+            - MISSING_EVIDENCE_REFERENCE
+            - HUMAN_OWNER_DECISION_REQUIRED
+            - TERMS_CHECK_UNKNOWN
+            - AUTOMATION_ALLOWED_STATUS_UNKNOWN
+            - FORBIDDEN_ROLE
+            - SECRET_VALUE_REJECTED
+            - VALIDATION_FAILED
+          example: VALIDATION_FAILED
+        error_message:
+          type: string
+          example: Request validation failed.
+        validation_result:
+          $ref: "#/components/schemas/ValidationResult"
+        audit_log_reference:
+          type: string
+          example: dummy-audit-log-reference
