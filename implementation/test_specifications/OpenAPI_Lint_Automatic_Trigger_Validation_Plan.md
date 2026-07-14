@@ -110,3 +110,5 @@ Automatic trigger validation is complete when:
 - README-only pull requests also start OpenAPI Lint.
 - The actual GitHub status check name has been recorded.
 - Branch Protection or Ruleset configuration can proceed with a verified required check candidate.
+
+<!-- PR_TRIGGER_TEST: temporary validation change; do not merge -->
