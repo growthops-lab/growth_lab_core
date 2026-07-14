@@ -2,6 +2,9 @@
 
 ## Version 1.0 Draft
 
+- Added automatic OpenAPI Lint quality gate triggers for `master`.
+- Added `push` execution for `master` and `pull_request` execution for pull requests targeting `master` while preserving `workflow_dispatch`.
+- Added the OpenAPI Lint Automatic Trigger Validation Plan and updated the GitHub Branch Protection Implementation Plan for post-validation required status check setup.
 - Finalized OpenAPI Lint GitHub Actions manual CI operation.
 - Recorded the successful OpenAPI Lint manual workflow_dispatch run with Spectral 6.16.1 and 0 / 0 / 0 / 0 errors, warnings, infos, and hints.
 - Added the manual workflow execution report, removed the diagnostic Workflow Recognition Test workflow, added the OpenAPI Lint README badge, and added the GitHub Branch Protection implementation plan.
