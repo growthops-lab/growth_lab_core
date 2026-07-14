@@ -112,3 +112,5 @@ Automatic trigger validation is complete when:
 - Branch Protection or Ruleset configuration can proceed with a verified required check candidate.
 
 <!-- PR_TRIGGER_TEST: temporary validation change; do not merge -->
+
+<!-- PR_TRIGGER_TEST: temporary validation change; do not merge -->
