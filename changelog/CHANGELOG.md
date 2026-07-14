@@ -2,6 +2,9 @@
 
 ## Version 1.0 Draft
 
+- Added TypeScript Type Check GitHub Actions workflow.
+- Configured TypeScript Type Check for `workflow_dispatch`, `master` push, and pull requests targeting `master`.
+- Added the TypeScript Type Check Validation Plan and Local Execution Report while keeping the existing OpenAPI Lint workflow and Ruleset unchanged.
 - Formalized the GitHub quality gate for `master`.
 - Recorded active GitHub Ruleset Protect master, pull request requirement, force push protection, and Required Status Check OpenAPI Spectral Lint.
 - Confirmed OpenAPI Spectral Lint succeeded on the pull_request event for PR #2, and recorded test pull request and test branch cleanup.
