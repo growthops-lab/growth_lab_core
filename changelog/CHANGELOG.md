@@ -2,6 +2,9 @@
 
 ## Version 1.0 Draft
 
+- Finalized OpenAPI Lint GitHub Actions manual CI operation.
+- Recorded the successful OpenAPI Lint manual workflow_dispatch run with Spectral 6.16.1 and 0 / 0 / 0 / 0 errors, warnings, infos, and hints.
+- Added the manual workflow execution report, removed the diagnostic Workflow Recognition Test workflow, added the OpenAPI Lint README badge, and added the GitHub Branch Protection implementation plan.
 - Added GitHub Actions workflow recognition diagnostic workflow.
 - Created `.github/workflows/workflow-recognition-test.yml` as a minimal manual `workflow_dispatch` workflow that does not use external actions, Node.js, pnpm, repository files, secrets, variables, artifacts, or caches.
 - Kept the existing `.github/workflows/openapi-lint.yml` unchanged while preparing Human Owner-led GitHub Actions recognition troubleshooting.

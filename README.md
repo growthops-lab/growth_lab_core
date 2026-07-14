@@ -1,5 +1,7 @@
 # Growth Lab Core
 
+[![OpenAPI Lint](https://github.com/growthops-lab/growth_lab_core/actions/workflows/openapi-lint.yml/badge.svg?branch=master)](https://github.com/growthops-lab/growth_lab_core/actions/workflows/openapi-lint.yml)
+
 Growth Lab Core は、20以上の専門アフィリエイトメディアと複数SNSアカウントを管理するためのローカルMVPです。Phase 1ではX投稿を中心に、AIモック生成、下書き、人間承認、リンクチェック、予約投稿、投稿履歴、API使用量ログを扱います。
 
 ## Phase 1の方針

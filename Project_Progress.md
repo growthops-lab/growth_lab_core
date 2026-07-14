@@ -7,7 +7,7 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Codex
-- Last Updated: 2026-07-13 19:22 JST
+- Last Updated: 2026-07-14 11:10 JST
 
 ## 2. Current Status
 
@@ -16,6 +16,7 @@ GitHub publication preparation guide has been created as Word and PDF review art
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
 GitHub publication export files have been excluded from Git tracking as regenerable human-readable artifacts. Initial push remains pending.
 GitHub Actions workflow recognition troubleshooting local commit preparation has been completed with a minimal diagnostic workflow. Human Owner push remains pending.
+OpenAPI Lint manual CI formal operation has been completed locally. Branch Protection decision remains pending.
 
 ## 3. Completed
 
@@ -38,6 +39,13 @@ GitHub Actions workflow recognition troubleshooting local commit preparation has
 - Minimal Workflow Recognition Test workflow created
 - External-action-free diagnostic workflow prepared
 - Local validation for GitHub Actions workflow recognition troubleshooting completed
+- Workflow Recognition Test execution succeeded
+- OpenAPI Lint workflow registration refreshed
+- OpenAPI Lint manual workflow execution succeeded
+- Manual Workflow Execution Report created
+- Diagnostic Workflow Recognition Test workflow removed
+- OpenAPI Lint status badge added to README
+- GitHub Branch Protection implementation plan created
 
 ## 4. In Progress
 
@@ -48,18 +56,20 @@ GitHub Actions workflow recognition troubleshooting local commit preparation has
 - Human Owner review before initial GitHub push
 - Human Owner review of the latest local commits before initial GitHub push
 - Human Owner push and GitHub Actions recognition check for Workflow Recognition Test
+- Human Owner review of OpenAPI Lint formal operation commit
+- Human Owner decision on GitHub Branch Protection policy
 
 ## 5. Next Actions
 
 1. Confirm Recovery codes are outside C:\claudcode_ap\growth_lab_core
 2. Confirm Recovery codes are not shown by git status
-3. Review the latest local commits
-4. Push the diagnostic workflow commit to GitHub
-5. Confirm whether Workflow Recognition Test appears in the GitHub Actions sidebar
-6. Confirm whether the Run workflow button appears
-7. Run Workflow Recognition Test on master
-8. Share the diagnostic result
-9. Decide whether OpenAPI Lint workflow remediation is required
+3. Review the latest OpenAPI Lint formal operation commit
+4. Push the formal operation commit to GitHub
+5. Confirm the README OpenAPI Lint badge display
+6. Confirm the diagnostic Workflow Recognition Test workflow is removed
+7. Review the GitHub Branch Protection implementation plan
+8. Decide whether to add pull_request or push trigger support
+9. Decide whether to configure Branch Protection or Rulesets
 
 ## 6. Human Owner Decisions
 
@@ -79,6 +89,7 @@ GitHub Actions workflow recognition troubleshooting local commit preparation has
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-07-14 11:10 JST | OPENAPI-LINT-FORMAL-OPERATION | Added OpenAPI Lint manual execution report, removed diagnostic workflow, added README badge, and created Branch Protection implementation plan | Codex |
 | 2026-07-13 19:22 JST | WORKFLOW-RECOGNITION-TEST | Created a minimal external-action-free GitHub Actions diagnostic workflow for workflow recognition troubleshooting | Codex |
 | 2026-07-13 14:52 JST | DOCS-EXPORT-EXCLUSION | Set docs_export/github_publication/ as Git-ignored regenerable publication exports and cleaned the pre-push worktree | Codex |
 | 2026-07-13 13:04 JST | INITIAL-GITHUB-PUBLICATION | Completed GitHub initial publication pre-review and prepared the local publication commit; initial push remains pending | Codex |
