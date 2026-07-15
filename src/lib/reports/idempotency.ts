@@ -18,8 +18,8 @@ export function createReportGenerationKey(input: {
         input.mediaId ?? "",
         input.periodStart.toISOString().slice(0, 10),
         input.periodEnd.toISOString().slice(0, 10),
-        input.templateId ?? ""
-      ].join("|")
+        input.templateId ?? "",
+      ].join("|"),
     )
     .digest("hex");
 }

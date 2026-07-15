@@ -1,11 +1,22 @@
-const allowedMimeTypes = new Set(["image/png", "image/jpeg", "image/webp", "image/svg+xml"]);
+const allowedMimeTypes = new Set([
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "image/svg+xml",
+]);
 
-export function assertAllowedImage(input: { mimeType?: string | null; fileSize?: number | null; mock?: boolean }) {
+export function assertAllowedImage(input: {
+  mimeType?: string | null;
+  fileSize?: number | null;
+  mock?: boolean;
+}) {
   if (input.mimeType && !allowedMimeTypes.has(input.mimeType)) {
     throw new Error(`Unsupported image MIME type: ${input.mimeType}`);
   }
   if (input.mimeType === "image/svg+xml" && !input.mock) {
-    throw new Error("SVG is only allowed for local mock image generation in Phase 3.");
+    throw new Error(
+      "SVG is only allowed for local mock image generation in Phase 3.",
+    );
   }
   const maxMb = Number(process.env.IMAGE_MAX_FILE_SIZE_MB ?? 10);
   const maxBytes = maxMb * 1024 * 1024;

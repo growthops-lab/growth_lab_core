@@ -75,8 +75,11 @@ function inlineMarkdown(value: string) {
   return escaped
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/\[(.*?)\]\((https?:\/\/.*?)\)/g, (_match, label: string, url: string) => {
-      const safeUrl = sanitizeHref(url);
-      return `<a href="${safeUrl}" rel="nofollow noopener noreferrer">${label}</a>`;
-    });
+    .replace(
+      /\[(.*?)\]\((https?:\/\/.*?)\)/g,
+      (_match, label: string, url: string) => {
+        const safeUrl = sanitizeHref(url);
+        return `<a href="${safeUrl}" rel="nofollow noopener noreferrer">${label}</a>`;
+      },
+    );
 }

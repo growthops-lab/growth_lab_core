@@ -9,7 +9,10 @@ import { calculateSocialGrowthScore } from "@/src/lib/social-analytics/growth-sc
 import { createMockSocialPerformanceSnapshot } from "@/src/lib/social-analytics/performance";
 import { createSocialImprovementSuggestion } from "@/src/lib/social-analytics/recommendations";
 import { executeSocialPostQueue } from "@/src/lib/social-posting/execute";
-import { approveSocialQueuedPost, enqueueManualSocialPost } from "@/src/lib/social-posting/queue";
+import {
+  approveSocialQueuedPost,
+  enqueueManualSocialPost,
+} from "@/src/lib/social-posting/queue";
 
 function dateFromInput(value: FormDataEntryValue | null) {
   const raw = String(value ?? "").trim();
@@ -30,7 +33,7 @@ export async function enqueueSocialPostAction(formData: FormData) {
     postText: String(formData.get("postText")),
     linkUrl: String(formData.get("linkUrl") || ""),
     scheduledAt: dateFromInput(formData.get("scheduledAt")),
-    sourceType: SocialPostSourceType.MANUAL
+    sourceType: SocialPostSourceType.MANUAL,
   });
   revalidatePath("/");
 }
@@ -46,7 +49,10 @@ export async function runSocialSafetyCheckAction(formData: FormData) {
 }
 
 export async function executeSocialQueueAction(formData: FormData) {
-  await executeSocialPostQueue(String(formData.get("queueId")), "server-action");
+  await executeSocialPostQueue(
+    String(formData.get("queueId")),
+    "server-action",
+  );
   revalidatePath("/");
 }
 

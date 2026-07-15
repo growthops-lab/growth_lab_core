@@ -9,7 +9,7 @@ import {
   Platform,
   RequestType,
   type Prisma,
-  type PrismaClient
+  type PrismaClient,
 } from "@prisma/client";
 import { createNotification } from "@/src/lib/notifications/center";
 
@@ -40,7 +40,7 @@ export async function logImprovementEvent(
     eventType: ImprovementExecutionEventType;
     message: string;
     metadata?: Prisma.InputJsonValue;
-  }
+  },
 ) {
   return prisma.improvementExecutionLog.create({
     data: {
@@ -48,12 +48,15 @@ export async function logImprovementEvent(
       rewriteDraftId: input.rewriteDraftId,
       eventType: input.eventType,
       message: input.message,
-      metadata: input.metadata
-    }
+      metadata: input.metadata,
+    },
   });
 }
 
-export async function createArticleImprovementTask(prisma: PrismaClient, input: CreateTaskInput) {
+export async function createArticleImprovementTask(
+  prisma: PrismaClient,
+  input: CreateTaskInput,
+) {
   const task = await prisma.articleImprovementTask.create({
     data: {
       mediaId: input.mediaId,
@@ -72,8 +75,8 @@ export async function createArticleImprovementTask(prisma: PrismaClient, input: 
       seoOpportunityId: input.seoOpportunityId,
       seoRecommendationId: input.seoRecommendationId,
       alertIncidentId: input.alertIncidentId,
-      growthRecommendationId: input.growthRecommendationId
-    }
+      growthRecommendationId: input.growthRecommendationId,
+    },
   });
   if (input.sourceId) {
     await prisma.improvementTaskSource.upsert({
@@ -81,17 +84,21 @@ export async function createArticleImprovementTask(prisma: PrismaClient, input: 
         articleImprovementTaskId_sourceType_sourceId: {
           articleImprovementTaskId: task.id,
           sourceType: input.sourceType,
-          sourceId: input.sourceId
-        }
+          sourceId: input.sourceId,
+        },
       },
       update: {},
-      create: { articleImprovementTaskId: task.id, sourceType: input.sourceType, sourceId: input.sourceId }
+      create: {
+        articleImprovementTaskId: task.id,
+        sourceType: input.sourceType,
+        sourceId: input.sourceId,
+      },
     });
   }
   await logImprovementEvent(prisma, {
     articleImprovementTaskId: task.id,
     eventType: ImprovementExecutionEventType.TASK_CREATED,
-    message: `Improvement task created from ${input.sourceType}.`
+    message: `Improvement task created from ${input.sourceType}.`,
   });
   await prisma.apiUsageLog.create({
     data: {
@@ -102,8 +109,8 @@ export async function createArticleImprovementTask(prisma: PrismaClient, input: 
       method: "CREATE",
       success: true,
       mockMode: true,
-      message: task.taskTitle
-    }
+      message: task.taskTitle,
+    },
   });
   if (task.priority === ArticleImprovementPriority.HIGH) {
     await createNotification(prisma, {
@@ -112,38 +119,49 @@ export async function createArticleImprovementTask(prisma: PrismaClient, input: 
       title: "High priority article improvement task",
       message: task.taskTitle,
       priority: "WARNING",
-      dedupKey: `article-improvement-task:${task.id}`
+      dedupKey: `article-improvement-task:${task.id}`,
     });
   }
   return task;
 }
 
-export async function createTaskFromSeoRecommendation(prisma: PrismaClient, seoRecommendationId: string) {
+export async function createTaskFromSeoRecommendation(
+  prisma: PrismaClient,
+  seoRecommendationId: string,
+) {
   const recommendation = await prisma.seoRecommendation.findUniqueOrThrow({
     where: { id: seoRecommendationId },
-    include: { seoOpportunity: true, wordpressPost: true }
+    include: { seoOpportunity: true, wordpressPost: true },
   });
   const typeMap: Partial<Record<string, ArticleImprovementTaskType>> = {
     REWRITE_TITLE: ArticleImprovementTaskType.REWRITE_TITLE,
-    REWRITE_META_DESCRIPTION: ArticleImprovementTaskType.REWRITE_META_DESCRIPTION,
+    REWRITE_META_DESCRIPTION:
+      ArticleImprovementTaskType.REWRITE_META_DESCRIPTION,
     ADD_H2_SECTION: ArticleImprovementTaskType.ADD_H2_SECTION,
     ADD_FAQ_SECTION: ArticleImprovementTaskType.ADD_FAQ_SECTION,
     ADD_INTERNAL_LINKS: ArticleImprovementTaskType.ADD_INTERNAL_LINKS,
     ADD_AFFILIATE_CTA: ArticleImprovementTaskType.IMPROVE_CTA,
-    UPDATE_OUTDATED_INFO: ArticleImprovementTaskType.UPDATE_OUTDATED_CONTENT
+    UPDATE_OUTDATED_INFO: ArticleImprovementTaskType.UPDATE_OUTDATED_CONTENT,
   };
   return createArticleImprovementTask(prisma, {
     mediaId: recommendation.mediaId,
     wordpressPostId: recommendation.wordpressPostId,
     taskTitle: recommendation.title,
-    taskType: typeMap[recommendation.recommendationType] ?? ArticleImprovementTaskType.COMPREHENSIVE_REWRITE,
-    priority: recommendation.priority === "HIGH" ? ArticleImprovementPriority.HIGH : recommendation.priority === "LOW" ? ArticleImprovementPriority.LOW : ArticleImprovementPriority.MEDIUM,
+    taskType:
+      typeMap[recommendation.recommendationType] ??
+      ArticleImprovementTaskType.COMPREHENSIVE_REWRITE,
+    priority:
+      recommendation.priority === "HIGH"
+        ? ArticleImprovementPriority.HIGH
+        : recommendation.priority === "LOW"
+          ? ArticleImprovementPriority.LOW
+          : ArticleImprovementPriority.MEDIUM,
     sourceType: ImprovementSourceType.SEO_RECOMMENDATION,
     sourceId: recommendation.id,
     seoRecommendationId: recommendation.id,
     targetKeyword: recommendation.seoOpportunity?.title,
     targetUrl: recommendation.wordpressPost?.wordpressPostUrl ?? null,
     reason: recommendation.reason ?? recommendation.description,
-    expectedImpact: "Improve SEO performance after human-reviewed rewrite."
+    expectedImpact: "Improve SEO performance after human-reviewed rewrite.",
   });
 }

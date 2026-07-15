@@ -1,4 +1,9 @@
-import type { GoogleApiActionRequired, GoogleApiName, PrismaClient, RequestType } from "@prisma/client";
+import type {
+  GoogleApiActionRequired,
+  GoogleApiName,
+  PrismaClient,
+  RequestType,
+} from "@prisma/client";
 
 export async function logGoogleApiError(
   prisma: PrismaClient,
@@ -13,7 +18,7 @@ export async function logGoogleApiError(
     errorMessage: string;
     retryable?: boolean;
     actionRequired: GoogleApiActionRequired;
-  }
+  },
 ) {
   await prisma.googleApiErrorLog.create({
     data: {
@@ -26,8 +31,7 @@ export async function logGoogleApiError(
       errorCode: input.errorCode,
       errorMessage: input.errorMessage.slice(0, 2000),
       retryable: input.retryable ?? false,
-      actionRequired: input.actionRequired
-    }
+      actionRequired: input.actionRequired,
+    },
   });
 }
-

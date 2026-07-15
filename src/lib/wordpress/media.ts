@@ -6,7 +6,7 @@ import {
   WordPressMediaUploadStatus,
   type CreativeAsset,
   type WordPressPost,
-  type WordPressSite
+  type WordPressSite,
 } from "@prisma/client";
 import { randomUUID } from "node:crypto";
 import { prisma } from "@/lib/prisma";
@@ -19,10 +19,14 @@ export async function attachFeaturedImageMock(input: {
 }) {
   assertAssetUsable(input.asset);
   if (input.asset.assetType !== CreativeAssetType.FEATURED_IMAGE) {
-    throw new Error("Only FEATURED_IMAGE assets can be used as WordPress featured images.");
+    throw new Error(
+      "Only FEATURED_IMAGE assets can be used as WordPress featured images.",
+    );
   }
 
-  const mockMode = process.env.WORDPRESS_MEDIA_MOCK_MODE !== "false" || process.env.WORDPRESS_ENABLE_MEDIA_UPLOAD !== "true";
+  const mockMode =
+    process.env.WORDPRESS_MEDIA_MOCK_MODE !== "false" ||
+    process.env.WORDPRESS_ENABLE_MEDIA_UPLOAD !== "true";
   if (!mockMode) {
     throw new Error("Real WordPress media upload is not enabled for Phase 3.");
   }
@@ -39,29 +43,29 @@ export async function attachFeaturedImageMock(input: {
         wordpressMediaId: mockMediaId,
         wordpressMediaUrl: `${input.site.siteUrl.replace(/\/$/, "")}/wp-content/uploads/${mockMediaId}.svg`,
         altText: input.asset.altText,
-        uploadStatus: WordPressMediaUploadStatus.MOCK_UPLOADED
-      }
+        uploadStatus: WordPressMediaUploadStatus.MOCK_UPLOADED,
+      },
     });
 
     const existingUsage = await tx.creativeAssetUsage.findFirst({
       where: {
         creativeAssetId: input.asset.id,
         wordpressPostId: input.post.id,
-        usageType: "WORDPRESS_FEATURED_IMAGE"
+        usageType: "WORDPRESS_FEATURED_IMAGE",
       },
-      select: { id: true }
+      select: { id: true },
     });
 
     await tx.creativeAsset.update({
       where: { id: input.asset.id },
-      data: { wordpressMediaId: createdMedia.id }
+      data: { wordpressMediaId: createdMedia.id },
     });
     await tx.wordPressPost.update({
       where: { id: input.post.id },
       data: {
         creativeAssetId: input.asset.id,
-        featuredMediaId: mockMediaId
-      }
+        featuredMediaId: mockMediaId,
+      },
     });
     if (!existingUsage) {
       await tx.creativeAssetUsage.create({
@@ -70,8 +74,8 @@ export async function attachFeaturedImageMock(input: {
           mediaId: input.post.mediaId,
           wordpressPostId: input.post.id,
           usageType: "WORDPRESS_FEATURED_IMAGE",
-          platform: Platform.WORDPRESS
-        }
+          platform: Platform.WORDPRESS,
+        },
       });
     }
     await tx.wordPressSyncLog.create({
@@ -83,9 +87,11 @@ export async function attachFeaturedImageMock(input: {
         method: "POST",
         statusCode: 200,
         success: true,
-        responsePayloadSummary: JSON.stringify({ wordpressMediaId: mockMediaId }),
-        mockMode: true
-      }
+        responsePayloadSummary: JSON.stringify({
+          wordpressMediaId: mockMediaId,
+        }),
+        mockMode: true,
+      },
     });
     await tx.apiUsageLog.create({
       data: {
@@ -97,8 +103,8 @@ export async function attachFeaturedImageMock(input: {
         statusCode: 200,
         success: true,
         mockMode: true,
-        message: `mock WordPress media upload: ${mockMediaId}`
-      }
+        message: `mock WordPress media upload: ${mockMediaId}`,
+      },
     });
 
     return createdMedia;

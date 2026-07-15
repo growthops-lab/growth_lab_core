@@ -24,9 +24,14 @@ export function buildMockSvg(input: {
 }) {
   const { width, height } = mockImageDimensions(input.assetType);
   const title = escapeSvg(input.title.slice(0, 80));
-  const subtitle = escapeSvg((input.subtitle ?? "Growth Lab generated visual").slice(0, 120));
+  const subtitle = escapeSvg(
+    (input.subtitle ?? "Growth Lab generated visual").slice(0, 120),
+  );
   const siteName = escapeSvg(input.siteName ?? "Growth Lab Core");
-  const label = input.assetType === CreativeAssetType.X_POST_IMAGE ? "X Post Image" : "WordPress Featured Image";
+  const label =
+    input.assetType === CreativeAssetType.X_POST_IMAGE
+      ? "X Post Image"
+      : "WordPress Featured Image";
 
   return {
     filename: `mock-${input.assetType.toLowerCase().replaceAll("_", "-")}-${randomUUID().slice(0, 8)}.svg`,
@@ -46,6 +51,6 @@ export function buildMockSvg(input: {
   <text x="${Math.round(width * 0.1)}" y="${Math.round(height * 0.48)}" fill="#111827" font-family="Arial, sans-serif" font-size="${Math.round(width * 0.052)}" font-weight="800">${title}</text>
   <text x="${Math.round(width * 0.1)}" y="${Math.round(height * 0.61)}" fill="#334155" font-family="Arial, sans-serif" font-size="${Math.round(width * 0.025)}">${subtitle}</text>
   <text x="${Math.round(width * 0.1)}" y="${Math.round(height * 0.78)}" fill="#0f766e" font-family="Arial, sans-serif" font-size="${Math.round(width * 0.025)}" font-weight="700">${siteName}</text>
-</svg>`
+</svg>`,
   };
 }

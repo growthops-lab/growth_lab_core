@@ -1,4 +1,8 @@
-import type { Platform, SocialPostCheckStatus, SocialRateLimitStatus } from "@prisma/client";
+import type {
+  Platform,
+  SocialPostCheckStatus,
+  SocialRateLimitStatus,
+} from "@prisma/client";
 
 export type SocialSafetyResult = {
   status: SocialPostCheckStatus;

@@ -1,6 +1,9 @@
 import { DataConfidence } from "@prisma/client";
 
-export function confidenceWarnings(confidence: DataConfidence, activeDays: number) {
+export function confidenceWarnings(
+  confidence: DataConfidence,
+  activeDays: number,
+) {
   const warnings: string[] = [];
   if (confidence === DataConfidence.INSUFFICIENT) {
     warnings.push("Data period is shorter than the minimum threshold.");

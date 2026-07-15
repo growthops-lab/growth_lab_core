@@ -1,4 +1,10 @@
-import { ApiEventType, CampaignStatus, CampaignType, Platform, RequestType } from "@prisma/client";
+import {
+  ApiEventType,
+  CampaignStatus,
+  CampaignType,
+  Platform,
+  RequestType,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function createCampaign(input: {
@@ -12,7 +18,9 @@ export async function createCampaign(input: {
   primaryGoal?: string | null;
 }) {
   if (input.periodStart > input.periodEnd) {
-    throw new Error("Campaign periodStart must be before or equal to periodEnd.");
+    throw new Error(
+      "Campaign periodStart must be before or equal to periodEnd.",
+    );
   }
 
   const campaign = await prisma.campaign.create({
@@ -25,8 +33,8 @@ export async function createCampaign(input: {
       periodStart: input.periodStart,
       periodEnd: input.periodEnd,
       owner: input.owner ?? "local-admin",
-      primaryGoal: input.primaryGoal ?? null
-    }
+      primaryGoal: input.primaryGoal ?? null,
+    },
   });
 
   await prisma.apiUsageLog.create({
@@ -36,8 +44,8 @@ export async function createCampaign(input: {
       endpoint: "campaign.create",
       requestType: RequestType.CAMPAIGN_CREATE,
       mockMode: true,
-      message: `Campaign created: ${campaign.campaignCode}`
-    }
+      message: `Campaign created: ${campaign.campaignCode}`,
+    },
   });
 
   return campaign;

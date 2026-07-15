@@ -13,7 +13,7 @@ export function createSocialPostIdempotencyKey(input: {
     input.socialAccountId,
     input.postText.trim().replace(/\s+/g, " "),
     input.linkUrl ?? "",
-    input.scheduledAt?.toISOString() ?? ""
+    input.scheduledAt?.toISOString() ?? "",
   ].join("|");
   return crypto.createHash("sha256").update(normalized).digest("hex");
 }

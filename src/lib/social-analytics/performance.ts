@@ -1,8 +1,14 @@
-import { DataConfidence, Platform, SocialPerformanceSource } from "@prisma/client";
+import {
+  DataConfidence,
+  Platform,
+  SocialPerformanceSource,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function createMockSocialPerformanceSnapshot(queueId: string) {
-  const queue = await prisma.socialPostQueue.findUniqueOrThrow({ where: { id: queueId } });
+  const queue = await prisma.socialPostQueue.findUniqueOrThrow({
+    where: { id: queueId },
+  });
   const impressions = 420 + Math.floor(Math.random() * 300);
   const engagements = 18 + Math.floor(Math.random() * 40);
   return prisma.socialPostPerformanceSnapshot.create({
@@ -22,7 +28,7 @@ export async function createMockSocialPerformanceSnapshot(queueId: string) {
       urlClicks: Math.floor(engagements * 0.25),
       engagementRate: impressions > 0 ? engagements / impressions : 0,
       source: SocialPerformanceSource.MOCK,
-      dataConfidence: DataConfidence.INSUFFICIENT
-    }
+      dataConfidence: DataConfidence.INSUFFICIENT,
+    },
   });
 }

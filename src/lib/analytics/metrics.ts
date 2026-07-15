@@ -32,6 +32,6 @@ export function calculateRevenueMetrics(input: RevenueMetricInput) {
     epc: divide(approvedRevenue, affiliateClicks),
     rpm: impressions > 0 ? (approvedRevenue / impressions) * 1000 : null,
     profit,
-    roi: divide(profit, operatingCost)
+    roi: divide(profit, operatingCost),
   };
 }

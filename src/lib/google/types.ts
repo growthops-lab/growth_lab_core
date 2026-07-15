@@ -1,4 +1,8 @@
-import type { GoogleApiActionRequired, GoogleApiName, RequestType } from "@prisma/client";
+import type {
+  GoogleApiActionRequired,
+  GoogleApiName,
+  RequestType,
+} from "@prisma/client";
 
 export type GoogleTokenResponse = {
   access_token?: string;
@@ -26,4 +30,3 @@ export type GoogleRequestContext = {
   requestType: RequestType;
   propertyId?: string | null;
 };
-

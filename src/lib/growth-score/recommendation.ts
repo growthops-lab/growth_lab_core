@@ -1,7 +1,8 @@
 import { GrowthRecommendationType } from "@prisma/client";
 
 export function recommendationForScore(totalScore: number, warnings: string[]) {
-  if (warnings.length > 0 && totalScore >= 65) return GrowthRecommendationType.MAINTAIN;
+  if (warnings.length > 0 && totalScore >= 65)
+    return GrowthRecommendationType.MAINTAIN;
   if (totalScore >= 80) return GrowthRecommendationType.SCALE;
   if (totalScore >= 65) return GrowthRecommendationType.MAINTAIN;
   if (totalScore >= 50) return GrowthRecommendationType.IMPROVE;
@@ -16,7 +17,7 @@ export function recommendationTitle(type: GrowthRecommendationType) {
     IMPROVE: "Improve before scaling",
     PAUSE: "Pause and review",
     STOP: "Stop candidate",
-    RESEARCH_MORE: "Research more data"
+    RESEARCH_MORE: "Research more data",
   };
   return titles[type];
 }

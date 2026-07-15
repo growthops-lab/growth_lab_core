@@ -1,7 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { CampaignItemType, CampaignType, ReportExportFormat } from "@prisma/client";
+import {
+  CampaignItemType,
+  CampaignType,
+  ReportExportFormat,
+} from "@prisma/client";
 import { createCampaignBusinessInsight } from "@/src/lib/business-insights/summary";
 import { createCampaign } from "@/src/lib/campaigns/campaigns";
 import { calculateCampaignGrowthScore } from "@/src/lib/campaigns/growth-score";
@@ -31,7 +35,7 @@ export async function createCampaignAction(formData: FormData) {
     periodStart: parseDate(formData.get("periodStart")),
     periodEnd: parseDate(formData.get("periodEnd"), 28),
     owner: String(formData.get("owner") || "local-admin"),
-    primaryGoal: String(formData.get("primaryGoal") || "")
+    primaryGoal: String(formData.get("primaryGoal") || ""),
   });
   revalidatePath("/");
 }
@@ -42,7 +46,7 @@ export async function attachCampaignItemAction(formData: FormData) {
     itemType: String(formData.get("itemType")) as CampaignItemType,
     itemId: String(formData.get("itemId")),
     itemTitle: String(formData.get("itemTitle") || ""),
-    allocationRate: Number(formData.get("allocationRate") || 1)
+    allocationRate: Number(formData.get("allocationRate") || 1),
   });
   revalidatePath("/");
 }
@@ -68,7 +72,10 @@ export async function generateCampaignReportAction(formData: FormData) {
 }
 
 export async function exportReportAction(formData: FormData) {
-  await exportReport(String(formData.get("reportId")), String(formData.get("format")) as ReportExportFormat);
+  await exportReport(
+    String(formData.get("reportId")),
+    String(formData.get("format")) as ReportExportFormat,
+  );
   revalidatePath("/");
 }
 

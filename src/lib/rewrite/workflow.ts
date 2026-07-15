@@ -9,16 +9,27 @@ import {
   RewriteDraftStatus,
   WordPressDraftUpdateStatus,
   WordPressRewriteUpdateMode,
-  type PrismaClient
+  type PrismaClient,
 } from "@prisma/client";
 import { createNotification } from "@/src/lib/notifications/center";
 import { logImprovementEvent } from "@/src/lib/article-improvement/tasks";
 import { runWordPressRewriteSafetyCheck } from "@/src/lib/wordpress/safety-gate";
 
-export async function requestRewriteApproval(prisma: PrismaClient, rewriteDraftId: string) {
-  const draft = await prisma.rewriteDraft.findUniqueOrThrow({ where: { id: rewriteDraftId } });
-  await prisma.rewriteDraft.update({ where: { id: draft.id }, data: { draftStatus: RewriteDraftStatus.PENDING_APPROVAL } });
-  await prisma.articleImprovementTask.update({ where: { id: draft.articleImprovementTaskId }, data: { status: ArticleImprovementStatus.PENDING_APPROVAL } });
+export async function requestRewriteApproval(
+  prisma: PrismaClient,
+  rewriteDraftId: string,
+) {
+  const draft = await prisma.rewriteDraft.findUniqueOrThrow({
+    where: { id: rewriteDraftId },
+  });
+  await prisma.rewriteDraft.update({
+    where: { id: draft.id },
+    data: { draftStatus: RewriteDraftStatus.PENDING_APPROVAL },
+  });
+  await prisma.articleImprovementTask.update({
+    where: { id: draft.articleImprovementTaskId },
+    data: { status: ArticleImprovementStatus.PENDING_APPROVAL },
+  });
   await createNotification(prisma, {
     mediaId: draft.mediaId,
     scheduledTaskRunId: null,
@@ -26,23 +37,29 @@ export async function requestRewriteApproval(prisma: PrismaClient, rewriteDraftI
     title: "Rewrite draft pending approval",
     message: draft.draftTitle,
     priority: "WARNING",
-    dedupKey: `rewrite-approval:${draft.id}:${draft.version}`
+    dedupKey: `rewrite-approval:${draft.id}:${draft.version}`,
   });
 }
 
 export async function decideRewriteApproval(
   prisma: PrismaClient,
-  input: { rewriteDraftId: string; decision: RewriteApprovalDecision; comment?: string }
+  input: {
+    rewriteDraftId: string;
+    decision: RewriteApprovalDecision;
+    comment?: string;
+  },
 ) {
-  const draft = await prisma.rewriteDraft.findUniqueOrThrow({ where: { id: input.rewriteDraftId } });
+  const draft = await prisma.rewriteDraft.findUniqueOrThrow({
+    where: { id: input.rewriteDraftId },
+  });
   await prisma.rewriteApproval.create({
     data: {
       articleImprovementTaskId: draft.articleImprovementTaskId,
       rewriteDraftId: draft.id,
       version: draft.version,
       decision: input.decision,
-      comment: input.comment
-    }
+      comment: input.comment,
+    },
   });
   const draftStatus =
     input.decision === RewriteApprovalDecision.APPROVED
@@ -58,9 +75,18 @@ export async function decideRewriteApproval(
         : ArticleImprovementStatus.REJECTED;
   await prisma.rewriteDraft.update({
     where: { id: draft.id },
-    data: { draftStatus, approvedVersion: input.decision === RewriteApprovalDecision.APPROVED ? draft.version : draft.approvedVersion }
+    data: {
+      draftStatus,
+      approvedVersion:
+        input.decision === RewriteApprovalDecision.APPROVED
+          ? draft.version
+          : draft.approvedVersion,
+    },
   });
-  await prisma.articleImprovementTask.update({ where: { id: draft.articleImprovementTaskId }, data: { status: taskStatus } });
+  await prisma.articleImprovementTask.update({
+    where: { id: draft.articleImprovementTaskId },
+    data: { status: taskStatus },
+  });
   await logImprovementEvent(prisma, {
     articleImprovementTaskId: draft.articleImprovementTaskId,
     rewriteDraftId: draft.id,
@@ -70,7 +96,7 @@ export async function decideRewriteApproval(
         : input.decision === RewriteApprovalDecision.REJECTED
           ? ImprovementExecutionEventType.REJECTED
           : ImprovementExecutionEventType.CHANGES_REQUESTED,
-    message: `Rewrite approval decision: ${input.decision}`
+    message: `Rewrite approval decision: ${input.decision}`,
   });
   await prisma.apiUsageLog.create({
     data: {
@@ -81,22 +107,22 @@ export async function decideRewriteApproval(
       method: input.decision,
       success: true,
       mockMode: true,
-      message: draft.draftTitle
-    }
+      message: draft.draftTitle,
+    },
   });
 }
 
 export async function applyRewriteToWordPressDraft(
   prisma: PrismaClient,
-  input: { rewriteDraftId: string; updateMode?: WordPressRewriteUpdateMode }
+  input: { rewriteDraftId: string; updateMode?: WordPressRewriteUpdateMode },
 ) {
   const draft = await prisma.rewriteDraft.findUniqueOrThrow({
     where: { id: input.rewriteDraftId },
-    include: { contentChangeSets: true, wordpressPost: true }
+    include: { contentChangeSets: true, wordpressPost: true },
   });
   const safety = await runWordPressRewriteSafetyCheck(prisma, {
     rewriteDraftId: draft.id,
-    updateMode: input.updateMode ?? WordPressRewriteUpdateMode.CREATE_NEW_DRAFT
+    updateMode: input.updateMode ?? WordPressRewriteUpdateMode.CREATE_NEW_DRAFT,
   });
   if (safety.status !== "PASSED") {
     await prisma.wordPressDraftUpdate.create({
@@ -107,8 +133,8 @@ export async function applyRewriteToWordPressDraft(
         status: WordPressDraftUpdateStatus.BLOCKED,
         mockMode: true,
         safetyCheckId: safety.id,
-        errorMessage: safety.reason
-      }
+        errorMessage: safety.reason,
+      },
     });
     await createNotification(prisma, {
       mediaId: draft.mediaId,
@@ -116,7 +142,7 @@ export async function applyRewriteToWordPressDraft(
       title: "WordPress draft update blocked",
       message: safety.reason ?? "Safety check failed.",
       priority: "CRITICAL",
-      dedupKey: `wordpress-update-blocked:${draft.id}:${draft.version}`
+      dedupKey: `wordpress-update-blocked:${draft.id}:${draft.version}`,
     });
     return safety.id;
   }
@@ -128,19 +154,28 @@ export async function applyRewriteToWordPressDraft(
       status: WordPressDraftUpdateStatus.MOCK_UPDATED,
       mockMode: true,
       wordpressDraftId: `mock-rewrite-${draft.id}`,
-      wordpressDraftUrl: draft.wordpressPost.wordpressPostUrl ?? draft.wordpressPost.wordpressEditUrl,
+      wordpressDraftUrl:
+        draft.wordpressPost.wordpressPostUrl ??
+        draft.wordpressPost.wordpressEditUrl,
       safetyCheckId: safety.id,
-      requestSummary: "Mock create_new_draft/update_existing_draft only. No published post was updated.",
-      responseSummary: "Mock WordPress draft update completed."
-    }
+      requestSummary:
+        "Mock create_new_draft/update_existing_draft only. No published post was updated.",
+      responseSummary: "Mock WordPress draft update completed.",
+    },
   });
-  await prisma.rewriteDraft.update({ where: { id: draft.id }, data: { draftStatus: RewriteDraftStatus.APPLIED_TO_WORDPRESS_DRAFT } });
-  await prisma.articleImprovementTask.update({ where: { id: draft.articleImprovementTaskId }, data: { status: ArticleImprovementStatus.WORDPRESS_DRAFT_UPDATED } });
+  await prisma.rewriteDraft.update({
+    where: { id: draft.id },
+    data: { draftStatus: RewriteDraftStatus.APPLIED_TO_WORDPRESS_DRAFT },
+  });
+  await prisma.articleImprovementTask.update({
+    where: { id: draft.articleImprovementTaskId },
+    data: { status: ArticleImprovementStatus.WORDPRESS_DRAFT_UPDATED },
+  });
   await logImprovementEvent(prisma, {
     articleImprovementTaskId: draft.articleImprovementTaskId,
     rewriteDraftId: draft.id,
     eventType: ImprovementExecutionEventType.WORDPRESS_DRAFT_UPDATED,
-    message: "Mock WordPress draft update completed."
+    message: "Mock WordPress draft update completed.",
   });
   await prisma.apiUsageLog.create({
     data: {
@@ -151,8 +186,8 @@ export async function applyRewriteToWordPressDraft(
       method: safety.updateMode,
       success: true,
       mockMode: true,
-      message: update.responseSummary
-    }
+      message: update.responseSummary,
+    },
   });
   return update.id;
 }

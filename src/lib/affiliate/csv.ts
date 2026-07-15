@@ -45,7 +45,9 @@ export function parseRevenueCsv(text: string) {
   const headers = splitCsvLine(lines[0]).map((header) => header.toLowerCase());
   const rows = lines.slice(1).map((line) => {
     const cells = splitCsvLine(line);
-    return Object.fromEntries(headers.map((header, index) => [header, cells[index] ?? ""])) as ParsedRevenueRow;
+    return Object.fromEntries(
+      headers.map((header, index) => [header, cells[index] ?? ""]),
+    ) as ParsedRevenueRow;
   });
   return { headers, rows };
 }
@@ -54,7 +56,8 @@ export function normalizeRevenueStatus(value: string) {
   const normalized = value.trim().toLowerCase();
   if (normalized === "approved") return RevenueStatus.APPROVED;
   if (normalized === "rejected") return RevenueStatus.REJECTED;
-  if (normalized === "cancelled" || normalized === "canceled") return RevenueStatus.CANCELLED;
+  if (normalized === "cancelled" || normalized === "canceled")
+    return RevenueStatus.CANCELLED;
   if (normalized === "adjusted") return RevenueStatus.ADJUSTED;
   return RevenueStatus.PENDING;
 }
@@ -65,6 +68,6 @@ export function rewardColumns(status: RevenueStatus, reward: number) {
     pendingReward: status === RevenueStatus.PENDING ? reward : 0,
     approvedReward: status === RevenueStatus.APPROVED ? reward : 0,
     rejectedReward: status === RevenueStatus.REJECTED ? reward : 0,
-    adjustedReward: status === RevenueStatus.ADJUSTED ? reward : 0
+    adjustedReward: status === RevenueStatus.ADJUSTED ? reward : 0,
   };
 }

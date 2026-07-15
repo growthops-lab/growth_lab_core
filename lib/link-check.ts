@@ -14,7 +14,7 @@ const fallbackBlockedDomains = [
   "tinyurl.com",
   "x.gd",
   "is.gd",
-  "00m.in"
+  "00m.in",
 ];
 
 const fallbackAllowedDomains = [
@@ -23,7 +23,7 @@ const fallbackAllowedDomains = [
   "blogspot.com",
   "instagram.com",
   "pinterest.com",
-  "youtube.com"
+  "youtube.com",
 ];
 
 export type LinkCheckResult = {
@@ -35,33 +35,44 @@ export type LinkCheckResult = {
 function hostnameMatches(hostname: string, domain: string) {
   const normalizedHostname = hostname.toLowerCase();
   const normalizedDomain = domain.toLowerCase();
-  return normalizedHostname === normalizedDomain || normalizedHostname.endsWith(`.${normalizedDomain}`);
+  return (
+    normalizedHostname === normalizedDomain ||
+    normalizedHostname.endsWith(`.${normalizedDomain}`)
+  );
 }
 
 export function extractUrls(text: string) {
   return [...text.matchAll(/https?:\/\/[^\s<>"']+/gi)].map((match) =>
-    match[0].replace(/[),.。、]+$/g, "")
+    match[0].replace(/[),.。、]+$/g, ""),
   );
 }
 
-function classifyUrl(rawUrl: string, blockedDomains: string[], allowedDomains: string[]) {
+function classifyUrl(
+  rawUrl: string,
+  blockedDomains: string[],
+  allowedDomains: string[],
+) {
   try {
     const url = new URL(rawUrl);
-    if (blockedDomains.some((domain) => hostnameMatches(url.hostname, domain))) {
+    if (
+      blockedDomains.some((domain) => hostnameMatches(url.hostname, domain))
+    ) {
       return {
         status: LinkCheckStatus.BLOCKED,
-        reason: `${url.hostname} はPhase 1のブロック対象ドメインです。`
+        reason: `${url.hostname} はPhase 1のブロック対象ドメインです。`,
       };
     }
-    if (allowedDomains.some((domain) => hostnameMatches(url.hostname, domain))) {
+    if (
+      allowedDomains.some((domain) => hostnameMatches(url.hostname, domain))
+    ) {
       return {
         status: LinkCheckStatus.SAFE,
-        reason: `${url.hostname} は許可ドメインです。`
+        reason: `${url.hostname} は許可ドメインです。`,
       };
     }
     return {
       status: LinkCheckStatus.WARNING,
-      reason: `${url.hostname} は許可ドメインに登録されていません。`
+      reason: `${url.hostname} は許可ドメインに登録されていません。`,
     };
   } catch {
     return { status: LinkCheckStatus.BLOCKED, reason: "URL形式が不正です。" };
@@ -85,12 +96,12 @@ async function getRegisteredMediaDomains() {
         noteUrl: true,
         bloggerUrl: true,
         instagramUrl: true,
-        pinterestUrl: true
-      }
+        pinterestUrl: true,
+      },
     }),
     prisma.wordPressSite.findMany({
-      select: { siteUrl: true }
-    })
+      select: { siteUrl: true },
+    }),
   ]);
 
   const mediaDomains = media
@@ -99,12 +110,14 @@ async function getRegisteredMediaDomains() {
       item.noteUrl,
       item.bloggerUrl,
       item.instagramUrl,
-      item.pinterestUrl
+      item.pinterestUrl,
     ])
     .map(hostnameFromUrl)
     .filter(Boolean) as string[];
 
-  const wordpressDomains = wordpressSites.map((site) => hostnameFromUrl(site.siteUrl)).filter(Boolean) as string[];
+  const wordpressDomains = wordpressSites
+    .map((site) => hostnameFromUrl(site.siteUrl))
+    .filter(Boolean) as string[];
   return [...new Set([...mediaDomains, ...wordpressDomains])];
 }
 
@@ -114,25 +127,39 @@ export async function checkPostLinks(input: {
   destinationUrl?: string | null;
 }): Promise<LinkCheckResult> {
   const settings = await getSettings();
-  const blockAffiliateDirectLinks = parseBoolean(settings.BLOCK_AFFILIATE_DIRECT_LINKS);
+  const blockAffiliateDirectLinks = parseBoolean(
+    settings.BLOCK_AFFILIATE_DIRECT_LINKS,
+  );
   const blockedDomains = blockAffiliateDirectLinks
-    ? parseCsv(settings.BLOCKED_LINK_DOMAINS || fallbackBlockedDomains.join(","))
+    ? parseCsv(
+        settings.BLOCKED_LINK_DOMAINS || fallbackBlockedDomains.join(","),
+      )
     : [];
   const allowedDomains = [
-    ...parseCsv(settings.ALLOWED_LINK_DOMAINS || fallbackAllowedDomains.join(",")),
-    ...(await getRegisteredMediaDomains())
+    ...parseCsv(
+      settings.ALLOWED_LINK_DOMAINS || fallbackAllowedDomains.join(","),
+    ),
+    ...(await getRegisteredMediaDomains()),
   ];
-  const detectedUrls = [...new Set([...extractUrls(input.body), input.linkUrl, input.destinationUrl].filter(Boolean) as string[])];
+  const detectedUrls = [
+    ...new Set(
+      [...extractUrls(input.body), input.linkUrl, input.destinationUrl].filter(
+        Boolean,
+      ) as string[],
+    ),
+  ];
 
   if (detectedUrls.length === 0) {
     return {
       status: LinkCheckStatus.SAFE,
       reason: "投稿内にURLはありません。",
-      detectedUrls
+      detectedUrls,
     };
   }
 
-  const classified = detectedUrls.map((url) => classifyUrl(url, blockedDomains, allowedDomains));
+  const classified = detectedUrls.map((url) =>
+    classifyUrl(url, blockedDomains, allowedDomains),
+  );
   const blockedReasons = classified
     .filter((result) => result.status === LinkCheckStatus.BLOCKED)
     .map((result) => result.reason);
@@ -144,7 +171,7 @@ export async function checkPostLinks(input: {
     return {
       status: LinkCheckStatus.BLOCKED,
       reason: [...new Set(blockedReasons)].join(" "),
-      detectedUrls
+      detectedUrls,
     };
   }
 
@@ -152,18 +179,21 @@ export async function checkPostLinks(input: {
     return {
       status: LinkCheckStatus.WARNING,
       reason: [...new Set(warningReasons)].join(" "),
-      detectedUrls
+      detectedUrls,
     };
   }
 
   return {
     status: LinkCheckStatus.SAFE,
     reason: "すべてのURLが許可ドメインです。",
-    detectedUrls
+    detectedUrls,
   };
 }
 
-export async function persistPostLinkCheck(postId: string, result: LinkCheckResult) {
+export async function persistPostLinkCheck(
+  postId: string,
+  result: LinkCheckResult,
+) {
   const post = await prisma.post.update({
     where: { id: postId },
     data: {
@@ -171,9 +201,13 @@ export async function persistPostLinkCheck(postId: string, result: LinkCheckResu
       linkCheckReason: result.reason,
       detectedUrls: result.detectedUrls,
       checkedAt: new Date(),
-      status: result.status === LinkCheckStatus.BLOCKED ? PostStatus.BLOCKED : undefined,
-      failureReason: result.status === LinkCheckStatus.BLOCKED ? result.reason : undefined
-    }
+      status:
+        result.status === LinkCheckStatus.BLOCKED
+          ? PostStatus.BLOCKED
+          : undefined,
+      failureReason:
+        result.status === LinkCheckStatus.BLOCKED ? result.reason : undefined,
+    },
   });
 
   if (result.detectedUrls.length > 0) {
@@ -182,8 +216,8 @@ export async function persistPostLinkCheck(postId: string, result: LinkCheckResu
         postId,
         url,
         status: result.status,
-        reason: result.reason
-      }))
+        reason: result.reason,
+      })),
     });
   }
 
@@ -195,18 +229,21 @@ export async function recheckAndRestorePost(postId: string) {
   const result = await checkPostLinks({
     body: post.body,
     destinationUrl: post.destinationUrl,
-    linkUrl: post.linkUrl
+    linkUrl: post.linkUrl,
   });
   await persistPostLinkCheck(post.id, result);
 
-  if (post.status === PostStatus.BLOCKED && result.status === LinkCheckStatus.SAFE) {
+  if (
+    post.status === PostStatus.BLOCKED &&
+    result.status === LinkCheckStatus.SAFE
+  ) {
     await prisma.post.update({
       where: { id: post.id },
       data: {
         status: PostStatus.DRAFT,
         failureReason: null,
-        lastError: null
-      }
+        lastError: null,
+      },
     });
   }
 

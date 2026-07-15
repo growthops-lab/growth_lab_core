@@ -7,7 +7,7 @@ import {
   MediaStatus,
   Platform,
   PostStatus,
-  RequestType
+  RequestType,
 } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { checkPostLinks, persistPostLinkCheck } from "@/lib/link-check";
@@ -26,36 +26,68 @@ const LOCK_TIMEOUT_MINUTES = 15;
 const POST_CREATE_REQUEST_TYPES = [
   RequestType.POST_CREATE,
   RequestType.MOCK_POST_CREATE,
-  RequestType.X_POST_CREATE_WITH_MEDIA
+  RequestType.X_POST_CREATE_WITH_MEDIA,
 ];
 
 async function checkLimits(socialAccountId: string) {
   const account = await prisma.socialAccount.findUniqueOrThrow({
     where: { id: socialAccountId },
-    include: { media: true }
+    include: { media: true },
   });
   const now = new Date();
   const startOfDay = new Date(now);
   startOfDay.setHours(0, 0, 0, 0);
-  const windowStart = new Date(now.getTime() - account.windowMinutes * 60 * 1000);
+  const windowStart = new Date(
+    now.getTime() - account.windowMinutes * 60 * 1000,
+  );
 
   if (account.media.status !== MediaStatus.ACTIVE) {
-    return { allowed: false, blocked: true, rateLimited: false, reason: "メディアが停止中またはアーカイブ済みです。" };
+    return {
+      allowed: false,
+      blocked: true,
+      rateLimited: false,
+      reason: "メディアが停止中またはアーカイブ済みです。",
+    };
   }
   if (account.status === AccountStatus.RATE_LIMITED) {
-    return { allowed: false, blocked: false, rateLimited: true, reason: "アカウントがレート制限状態です。" };
+    return {
+      allowed: false,
+      blocked: false,
+      rateLimited: true,
+      reason: "アカウントがレート制限状態です。",
+    };
   }
   if (account.status !== AccountStatus.ACTIVE) {
-    return { allowed: false, blocked: true, rateLimited: false, reason: "アカウントがアクティブではありません。" };
+    return {
+      allowed: false,
+      blocked: true,
+      rateLimited: false,
+      reason: "アカウントがアクティブではありません。",
+    };
   }
   if (!account.autoPostingEnabled) {
-    return { allowed: false, blocked: true, rateLimited: false, reason: "このアカウントの自動投稿がOFFです。" };
+    return {
+      allowed: false,
+      blocked: true,
+      rateLimited: false,
+      reason: "このアカウントの自動投稿がOFFです。",
+    };
   }
   if (account.apiStopFlag) {
-    return { allowed: false, blocked: false, rateLimited: true, reason: account.apiStopReason ?? "API停止フラグがONです。" };
+    return {
+      allowed: false,
+      blocked: false,
+      rateLimited: true,
+      reason: account.apiStopReason ?? "API停止フラグがONです。",
+    };
   }
   if (account.nextAllowedPostAt && account.nextAllowedPostAt > now) {
-    return { allowed: false, blocked: false, rateLimited: true, reason: "次回投稿可能時刻に達していません。" };
+    return {
+      allowed: false,
+      blocked: false,
+      rateLimited: true,
+      reason: "次回投稿可能時刻に達していません。",
+    };
   }
 
   const [dailyCount, windowCount] = await Promise.all([
@@ -64,24 +96,34 @@ async function checkLimits(socialAccountId: string) {
         socialAccountId,
         platform: Platform.X,
         requestType: { in: POST_CREATE_REQUEST_TYPES },
-        createdAt: { gte: startOfDay }
-      }
+        createdAt: { gte: startOfDay },
+      },
     }),
     prisma.apiUsageLog.count({
       where: {
         socialAccountId,
         platform: Platform.X,
         requestType: { in: POST_CREATE_REQUEST_TYPES },
-        createdAt: { gte: windowStart }
-      }
-    })
+        createdAt: { gte: windowStart },
+      },
+    }),
   ]);
 
   if (dailyCount >= account.dailyLimit) {
-    return { allowed: false, blocked: false, rateLimited: true, reason: "X APIの日次上限に到達しました。" };
+    return {
+      allowed: false,
+      blocked: false,
+      rateLimited: true,
+      reason: "X APIの日次上限に到達しました。",
+    };
   }
   if (windowCount >= account.windowLimit) {
-    return { allowed: false, blocked: false, rateLimited: true, reason: "X APIの短時間レート制限に到達しました。" };
+    return {
+      allowed: false,
+      blocked: false,
+      rateLimited: true,
+      reason: "X APIの短時間レート制限に到達しました。",
+    };
   }
   return { allowed: true, blocked: false, rateLimited: false, reason: null };
 }
@@ -89,7 +131,7 @@ async function checkLimits(socialAccountId: string) {
 export async function publishPostToX(postId: string): Promise<PublishResult> {
   const post = await prisma.post.findUniqueOrThrow({
     where: { id: postId },
-    include: { socialAccount: true, creativeAsset: true }
+    include: { socialAccount: true, creativeAsset: true },
   });
 
   if (post.status !== PostStatus.SCHEDULED) {
@@ -100,7 +142,9 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
     return { ok: false, reason: "システム全体の自動投稿がOFFです。" };
   }
 
-  const staleLockCutoff = new Date(Date.now() - LOCK_TIMEOUT_MINUTES * 60 * 1000);
+  const staleLockCutoff = new Date(
+    Date.now() - LOCK_TIMEOUT_MINUTES * 60 * 1000,
+  );
   if (post.lockedAt && post.lockedAt > staleLockCutoff) {
     return { ok: false, reason: "この投稿は処理中です。" };
   }
@@ -109,9 +153,9 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
     where: {
       id: post.id,
       status: PostStatus.SCHEDULED,
-      OR: [{ lockedAt: null }, { lockedAt: { lt: staleLockCutoff } }]
+      OR: [{ lockedAt: null }, { lockedAt: { lt: staleLockCutoff } }],
     },
-    data: { lockedAt: new Date(), processingStartedAt: new Date() }
+    data: { lockedAt: new Date(), processingStartedAt: new Date() },
   });
 
   if (lockedPost.count === 0) {
@@ -121,7 +165,7 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
   const linkCheck = await checkPostLinks({
     body: post.body,
     destinationUrl: post.destinationUrl,
-    linkUrl: post.linkUrl
+    linkUrl: post.linkUrl,
   });
   await persistPostLinkCheck(post.id, linkCheck);
   if (linkCheck.status !== LinkCheckStatus.SAFE) {
@@ -131,8 +175,8 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
         status: PostStatus.BLOCKED,
         lockedAt: null,
         lastError: linkCheck.reason,
-        failureReason: linkCheck.reason
-      }
+        failureReason: linkCheck.reason,
+      },
     });
     await prisma.apiUsageLog.create({
       data: {
@@ -145,8 +189,8 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
         method: "CHECK",
         success: false,
         mockMode: process.env.X_MOCK_MODE !== "false",
-        message: linkCheck.reason
-      }
+        message: linkCheck.reason,
+      },
     });
     return { ok: false, reason: linkCheck.reason };
   }
@@ -167,18 +211,22 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
           failureReason: limit.reason,
           lastError: limit.reason,
           lockedAt: null,
-          retryCount: limit.blocked ? undefined : { increment: 1 }
-        }
+          retryCount: limit.blocked ? undefined : { increment: 1 },
+        },
       }),
       prisma.socialAccount.update({
         where: { id: post.socialAccountId },
         data: {
-          status: shouldMarkRateLimited ? AccountStatus.RATE_LIMITED : post.socialAccount.status,
+          status: shouldMarkRateLimited
+            ? AccountStatus.RATE_LIMITED
+            : post.socialAccount.status,
           apiStopFlag: shouldMarkRateLimited,
           apiStopReason: shouldMarkRateLimited ? limit.reason : undefined,
-          nextAllowedPostAt: shouldMarkRateLimited ? new Date(Date.now() + 60 * 60 * 1000) : undefined,
-          lastError: limit.reason
-        }
+          nextAllowedPostAt: shouldMarkRateLimited
+            ? new Date(Date.now() + 60 * 60 * 1000)
+            : undefined,
+          lastError: limit.reason,
+        },
       }),
       prisma.apiUsageLog.create({
         data: {
@@ -190,9 +238,9 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
           endpoint: "/2/tweets",
           success: false,
           mockMode: process.env.X_MOCK_MODE !== "false",
-          message: limit.reason
-        }
-      })
+          message: limit.reason,
+        },
+      }),
     ]);
     return { ok: false, reason: limit.reason ?? "API上限により停止しました。" };
   }
@@ -201,10 +249,13 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
     try {
       assertAssetUsable(post.creativeAsset);
       if (post.creativeAsset.assetType !== CreativeAssetType.X_POST_IMAGE) {
-        throw new Error("Only X_POST_IMAGE assets can be used as X post images.");
+        throw new Error(
+          "Only X_POST_IMAGE assets can be used as X post images.",
+        );
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : "X image is not usable.";
+      const message =
+        error instanceof Error ? error.message : "X image is not usable.";
       await prisma.$transaction([
         prisma.post.update({
           where: { id: post.id },
@@ -213,8 +264,8 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
             lockedAt: null,
             mediaUploadError: message,
             failureReason: message,
-            lastError: message
-          }
+            lastError: message,
+          },
         }),
         prisma.apiUsageLog.create({
           data: {
@@ -227,9 +278,9 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
             method: "CHECK",
             success: false,
             mockMode: process.env.X_MOCK_MODE !== "false",
-            message
-          }
-        })
+            message,
+          },
+        }),
       ]);
       return { ok: false, reason: message };
     }
@@ -241,17 +292,24 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
           status: PostStatus.FAILED,
           lockedAt: null,
           failureReason: post.mediaUploadError ?? "X media upload failed.",
-          lastError: post.mediaUploadError ?? "X media upload failed."
-        }
+          lastError: post.mediaUploadError ?? "X media upload failed.",
+        },
       });
-      return { ok: false, reason: post.mediaUploadError ?? "X media upload failed." };
+      return {
+        ok: false,
+        reason: post.mediaUploadError ?? "X media upload failed.",
+      };
     }
 
-    if (post.mediaUploadStatus !== MediaUploadStatus.UPLOADED_MOCK && post.mediaUploadStatus !== MediaUploadStatus.UPLOADED) {
+    if (
+      post.mediaUploadStatus !== MediaUploadStatus.UPLOADED_MOCK &&
+      post.mediaUploadStatus !== MediaUploadStatus.UPLOADED
+    ) {
       try {
         await attachXMediaMock({ post, asset: post.creativeAsset });
       } catch (error) {
-        const message = error instanceof Error ? error.message : "X media upload failed.";
+        const message =
+          error instanceof Error ? error.message : "X media upload failed.";
         await prisma.post.update({
           where: { id: post.id },
           data: {
@@ -260,8 +318,8 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
             mediaUploadError: message,
             failureReason: message,
             lastError: message,
-            lockedAt: null
-          }
+            lockedAt: null,
+          },
         });
         return { ok: false, reason: message };
       }
@@ -281,12 +339,12 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
           externalPostUrl: `https://x.com/mock/status/${externalPostId}`,
           failureReason: null,
           lastError: null,
-          lockedAt: null
-        }
+          lockedAt: null,
+        },
       }),
       prisma.socialAccount.update({
         where: { id: post.socialAccountId },
-        data: { lastPostedAt: new Date(), lastError: null }
+        data: { lastPostedAt: new Date(), lastError: null },
       }),
       prisma.apiUsageLog.create({
         data: {
@@ -294,15 +352,17 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
           postId: post.id,
           platform: Platform.X,
           eventType: ApiEventType.DRY_RUN,
-          requestType: post.creativeAssetId ? RequestType.X_POST_CREATE_WITH_MEDIA : RequestType.MOCK_POST_CREATE,
+          requestType: post.creativeAssetId
+            ? RequestType.X_POST_CREATE_WITH_MEDIA
+            : RequestType.MOCK_POST_CREATE,
           endpoint: "/2/tweets",
           method: "POST",
           statusCode: 200,
           success: true,
           mockMode: true,
-          message: "X_MOCK_MODE=true のためモック投稿成功として記録しました。"
-        }
-      })
+          message: "X_MOCK_MODE=true のためモック投稿成功として記録しました。",
+        },
+      }),
     ]);
     return { ok: true, externalPostId };
   }
@@ -318,8 +378,9 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
       method: "POST",
       success: false,
       mockMode: false,
-      message: "公式X APIクライアントは未設定です。認証情報と実装を追加してください。"
-    }
+      message:
+        "公式X APIクライアントは未設定です。認証情報と実装を追加してください。",
+    },
   });
   await prisma.post.update({
     where: { id: post.id },
@@ -328,8 +389,8 @@ export async function publishPostToX(postId: string): Promise<PublishResult> {
       failureReason: "公式X APIクライアント未設定",
       lastError: "公式X APIクライアント未設定",
       lockedAt: null,
-      retryCount: { increment: 1 }
-    }
+      retryCount: { increment: 1 },
+    },
   });
   return { ok: false, reason: "公式X APIクライアント未設定" };
 }
@@ -339,10 +400,10 @@ export async function publishDuePosts() {
     where: {
       status: PostStatus.SCHEDULED,
       scheduledAt: { lte: new Date() },
-      platform: Platform.X
+      platform: Platform.X,
     },
     orderBy: { scheduledAt: "asc" },
-    take: 20
+    take: 20,
   });
 
   const results = [];

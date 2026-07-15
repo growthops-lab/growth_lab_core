@@ -28,16 +28,24 @@ export function parseCsvRows<T extends Record<string, string>>(text: string) {
     .map((line) => line.trim())
     .filter(Boolean);
   if (lines.length < 2) return { headers: [], rows: [] as T[] };
-  const headers = splitCsvLine(lines[0]).map((header) => header.toLowerCase().replace(/\s+/g, "_"));
+  const headers = splitCsvLine(lines[0]).map((header) =>
+    header.toLowerCase().replace(/\s+/g, "_"),
+  );
   const rows = lines.slice(1).map((line) => {
     const cells = splitCsvLine(line);
-    return Object.fromEntries(headers.map((header, index) => [header, cells[index] ?? ""])) as T;
+    return Object.fromEntries(
+      headers.map((header, index) => [header, cells[index] ?? ""]),
+    ) as T;
   });
   return { headers, rows };
 }
 
-export function toNumber(value: string | number | null | undefined, fallback = 0) {
-  if (typeof value === "number") return Number.isFinite(value) ? value : fallback;
+export function toNumber(
+  value: string | number | null | undefined,
+  fallback = 0,
+) {
+  if (typeof value === "number")
+    return Number.isFinite(value) ? value : fallback;
   const normalized = String(value ?? "")
     .trim()
     .replace(/,/g, "");

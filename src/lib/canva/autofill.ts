@@ -16,7 +16,7 @@ export async function createMockCanvaAutofill(input: {
     result,
     requestType: RequestType.CANVA_MOCK_AUTOFILL,
     requestSummary: input.payloadSummary,
-    responseSummary: result.data ? JSON.stringify(result.data) : undefined
+    responseSummary: result.data ? JSON.stringify(result.data) : undefined,
   });
   return result;
 }

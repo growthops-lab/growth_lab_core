@@ -13,4 +13,3 @@ export type GA4RunReportResponse = {
 };
 
 export type GA4ReportRow = Record<string, string>;
-
