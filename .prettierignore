@@ -1,0 +1,13 @@
+node_modules/
+.next/
+.pnpm-store/
+dist/
+build/
+coverage/
+_backup/
+_inbox/
+docs_export/
+implementation/test_results/
+pnpm-lock.yaml
+public/
+**/*.md
