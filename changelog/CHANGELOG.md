@@ -2,6 +2,12 @@
 
 ## Version 1.0 Draft
 
+- Added the Prettier Format Check GitHub Actions workflow.
+- Configured Prettier Format Check for `workflow_dispatch`, `master` push, and pull requests targeting `master` with the stable job name `Prettier Format Check`.
+- Limited workflow permissions to `contents: read` and configured CI to run `pnpm run format:check` without writing files.
+- Added the Prettier Format Check Validation Plan and Workflow Local Execution Report.
+- Confirmed local formatting, ESLint, TypeScript, OpenAPI Lint, production build, YAML parsing, encoding, and safety checks while keeping dependencies, Prettier configuration, application source, and the existing three workflows unchanged.
+- Kept GitHub Actions trigger validation and Ruleset integration as Human Owner follow-up work.
 - Added ESLint GitHub Actions workflow.
 - Configured ESLint for `workflow_dispatch`, `master` push, and pull requests targeting `master`.
 - Added the ESLint Validation Plan and Local Execution Report.
