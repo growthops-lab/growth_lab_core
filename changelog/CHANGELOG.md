@@ -2,6 +2,10 @@
 
 ## Version 1.0 Draft
 
+- Added ESLint GitHub Actions workflow.
+- Configured ESLint for `workflow_dispatch`, `master` push, and pull requests targeting `master`.
+- Added the ESLint Validation Plan and Local Execution Report.
+- Confirmed local `pnpm run lint` success with Errors `0` and Warnings `0` while keeping the existing OpenAPI Lint and TypeScript Type Check workflows, package files, lockfiles, and ESLint configuration unchanged.
 - Added TypeScript Type Check GitHub Actions workflow.
 - Configured TypeScript Type Check for `workflow_dispatch`, `master` push, and pull requests targeting `master`.
 - Added the TypeScript Type Check Validation Plan and Local Execution Report while keeping the existing OpenAPI Lint workflow and Ruleset unchanged.
