@@ -2,6 +2,13 @@
 
 ## Version 1.0 Draft
 
+- Added the automated test foundation with Vitest `4.1.10` and the non-watch `pnpm run test` command.
+- Added four deterministic behavioral tests for revenue funnel calculations, defaults, zero-denominator boundaries, explicit zero values, and negative return behavior without changing production code.
+- Added the Unit Test GitHub Actions workflow for `workflow_dispatch`, `master` push, and pull requests targeting `master`.
+- Limited Unit Test workflow permissions to `contents: read` and aligned runner, Action versions, Node.js, pnpm, cache, frozen installation, shell, and checkout policy with the existing quality gates.
+- Added the Automated Test Quality Gate Validation Plan and Local Execution Report.
+- Revalidated Unit Test, TypeScript, ESLint, Prettier, OpenAPI Lint, production build, workflow YAML structure, encoding, and safety checks while keeping the existing four workflow files unchanged.
+- Deferred coverage thresholds, GitHub trigger evidence, and Ruleset integration to later Human Owner-controlled work.
 - Added the Prettier Format Check GitHub Actions workflow.
 - Configured Prettier Format Check for `workflow_dispatch`, `master` push, and pull requests targeting `master` with the stable job name `Prettier Format Check`.
 - Limited workflow permissions to `contents: read` and configured CI to run `pnpm run format:check` without writing files.
