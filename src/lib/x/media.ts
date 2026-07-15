@@ -5,24 +5,30 @@ import {
   Platform,
   RequestType,
   type CreativeAsset,
-  type Post
+  type Post,
 } from "@prisma/client";
 import { randomUUID } from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { assertAssetUsable } from "@/src/lib/images/risk-check";
 
-export async function attachXMediaMock(input: { post: Post; asset: CreativeAsset }) {
+export async function attachXMediaMock(input: {
+  post: Post;
+  asset: CreativeAsset;
+}) {
   assertAssetUsable(input.asset);
   if (input.asset.assetType !== CreativeAssetType.X_POST_IMAGE) {
     throw new Error("Only X_POST_IMAGE assets can be used as X post images.");
   }
 
-  const mockMode = process.env.X_MEDIA_MOCK_MODE !== "false" || process.env.X_MEDIA_UPLOAD_ENABLED !== "true";
+  const mockMode =
+    process.env.X_MEDIA_MOCK_MODE !== "false" ||
+    process.env.X_MEDIA_UPLOAD_ENABLED !== "true";
   if (!mockMode) {
     throw new Error("Real X media upload is not enabled for Phase 3.");
   }
 
-  const maxBytes = Number(process.env.X_MEDIA_MAX_FILE_SIZE_MB ?? 5) * 1024 * 1024;
+  const maxBytes =
+    Number(process.env.X_MEDIA_MAX_FILE_SIZE_MB ?? 5) * 1024 * 1024;
   if (input.asset.fileSize && input.asset.fileSize > maxBytes) {
     throw new Error("Image is larger than the configured X media limit.");
   }
@@ -38,17 +44,17 @@ export async function attachXMediaMock(input: { post: Post; asset: CreativeAsset
         mediaUploadStatus: MediaUploadStatus.UPLOADED_MOCK,
         externalMediaId: mockMediaId,
         mediaUploadError: null,
-        madeWithAi: input.asset.madeWithAi
-      }
+        madeWithAi: input.asset.madeWithAi,
+      },
     });
 
     const existingUsage = await tx.creativeAssetUsage.findFirst({
       where: {
         creativeAssetId: input.asset.id,
         postId: input.post.id,
-        usageType: "X_POST_IMAGE"
+        usageType: "X_POST_IMAGE",
       },
-      select: { id: true }
+      select: { id: true },
     });
     if (!existingUsage) {
       await tx.creativeAssetUsage.create({
@@ -57,8 +63,8 @@ export async function attachXMediaMock(input: { post: Post; asset: CreativeAsset
           mediaId: input.post.mediaId,
           postId: input.post.id,
           usageType: "X_POST_IMAGE",
-          platform: Platform.X
-        }
+          platform: Platform.X,
+        },
       });
     }
 
@@ -74,8 +80,8 @@ export async function attachXMediaMock(input: { post: Post; asset: CreativeAsset
         statusCode: 200,
         success: true,
         mockMode: true,
-        message: `mock X media upload: ${mockMediaId}`
-      }
+        message: `mock X media upload: ${mockMediaId}`,
+      },
     });
   });
 

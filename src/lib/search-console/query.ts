@@ -7,7 +7,7 @@ export function createSearchConsoleRequest(
   endDate: string,
   dimensions: string[],
   rowLimit: number,
-  startRow: number
+  startRow: number,
 ) {
   return {
     startDate,
@@ -15,7 +15,6 @@ export function createSearchConsoleRequest(
     dimensions,
     rowLimit,
     startRow,
-    dataState: "final"
+    dataState: "final",
   };
 }
-

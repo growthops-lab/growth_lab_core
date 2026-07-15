@@ -1,4 +1,9 @@
-import type { PrismaClient, GoogleApiName, GoogleQuotaCategory, RequestType } from "@prisma/client";
+import type {
+  PrismaClient,
+  GoogleApiName,
+  GoogleQuotaCategory,
+  RequestType,
+} from "@prisma/client";
 
 export async function logGoogleQuota(
   prisma: PrismaClient,
@@ -14,7 +19,7 @@ export async function logGoogleQuota(
     quotaRemaining?: number | null;
     statusCode?: number | null;
     success: boolean;
-  }
+  },
 ) {
   await prisma.googleApiQuotaLog.create({
     data: {
@@ -28,8 +33,7 @@ export async function logGoogleQuota(
       tokensConsumed: input.tokensConsumed ?? 0,
       quotaRemaining: input.quotaRemaining,
       statusCode: input.statusCode,
-      success: input.success
-    }
+      success: input.success,
+    },
   });
 }
-

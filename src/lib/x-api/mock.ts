@@ -6,6 +6,6 @@ export async function createMockXPost(payload: SocialPostPayload) {
   return {
     platformPostId,
     platformPostUrl: `https://x.com/mock/status/${platformPostId}`,
-    responseSummary: `Mock X post accepted: ${payload.text.slice(0, 80)}`
+    responseSummary: `Mock X post accepted: ${payload.text.slice(0, 80)}`,
   };
 }

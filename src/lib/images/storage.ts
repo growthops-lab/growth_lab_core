@@ -5,20 +5,29 @@ const workspaceRoot = path.resolve(process.cwd());
 
 function isInsideWorkspace(resolvedPath: string) {
   const relative = path.relative(workspaceRoot, resolvedPath);
-  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+  return (
+    relative === "" ||
+    (!relative.startsWith("..") && !path.isAbsolute(relative))
+  );
 }
 
 export function imageStorageDir() {
-  const configured = process.env.IMAGE_STORAGE_DIR ?? "./public/generated-images";
+  const configured =
+    process.env.IMAGE_STORAGE_DIR ?? "./public/generated-images";
   const resolved = path.resolve(workspaceRoot, configured);
   if (!isInsideWorkspace(resolved)) {
-    throw new Error("IMAGE_STORAGE_DIR must stay inside the project workspace.");
+    throw new Error(
+      "IMAGE_STORAGE_DIR must stay inside the project workspace.",
+    );
   }
   return resolved;
 }
 
 export function imagePublicBaseUrl() {
-  return (process.env.IMAGE_PUBLIC_BASE_URL ?? "/generated-images").replace(/\/$/, "");
+  return (process.env.IMAGE_PUBLIC_BASE_URL ?? "/generated-images").replace(
+    /\/$/,
+    "",
+  );
 }
 
 export async function saveGeneratedImage(filename: string, content: string) {
@@ -37,6 +46,6 @@ export async function saveGeneratedImage(filename: string, content: string) {
   return {
     localFileUrl: url,
     publicUrl: url,
-    fileSize: fileInfo.size
+    fileSize: fileInfo.size,
   };
 }

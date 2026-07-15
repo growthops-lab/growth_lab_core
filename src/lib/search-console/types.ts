@@ -9,4 +9,3 @@ export type SearchConsoleApiRow = {
 export type SearchConsoleQueryResponse = {
   rows?: SearchConsoleApiRow[];
 };
-

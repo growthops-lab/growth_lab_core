@@ -1,7 +1,15 @@
-import { CampaignRecommendationType, Platform, ApiEventType, RequestType } from "@prisma/client";
+import {
+  CampaignRecommendationType,
+  Platform,
+  ApiEventType,
+  RequestType,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
-export async function createCampaignRecommendation(campaignId: string, input?: { title?: string; description?: string }) {
+export async function createCampaignRecommendation(
+  campaignId: string,
+  input?: { title?: string; description?: string },
+) {
   const recommendation = await prisma.campaignRecommendation.create({
     data: {
       campaignId,
@@ -12,8 +20,8 @@ export async function createCampaignRecommendation(campaignId: string, input?: {
         input?.description ??
         "Campaign results should be reviewed by a human before creating article tasks or increasing social posting.",
       expectedImpact: "Better conversion quality after manual approval.",
-      requiresHumanReview: true
-    }
+      requiresHumanReview: true,
+    },
   });
 
   await prisma.apiUsageLog.create({
@@ -22,8 +30,8 @@ export async function createCampaignRecommendation(campaignId: string, input?: {
       eventType: ApiEventType.REQUEST,
       endpoint: "campaign.recommendation.create",
       requestType: RequestType.CAMPAIGN_RECOMMENDATION_CREATE,
-      mockMode: true
-    }
+      mockMode: true,
+    },
   });
 
   return recommendation;

@@ -3,7 +3,7 @@ import type {
   WordPressConnectionResult,
   WordPressPostPayload,
   WordPressPostResponse,
-  WordPressTermResponse
+  WordPressTermResponse,
 } from "@/src/lib/wordpress/types";
 
 export function mockConnection(siteUrl: string): WordPressConnectionResult {
@@ -16,14 +16,14 @@ export function mockConnection(siteUrl: string): WordPressConnectionResult {
     data: {
       id: "mock_wp_user",
       name: "Mock WordPress User",
-      url: siteUrl
-    }
+      url: siteUrl,
+    },
   };
 }
 
 export function mockCreatePost(
   siteUrl: string,
-  payload: WordPressPostPayload
+  payload: WordPressPostPayload,
 ): WordPressApiResult<WordPressPostResponse> {
   const id = `mock_wp_post_${Date.now()}`;
   const base = new URL(siteUrl).origin;
@@ -37,12 +37,14 @@ export function mockCreatePost(
       id,
       link: `${base}/mock-post/${payload.slug}`,
       slug: payload.slug,
-      status: payload.status
-    } satisfies WordPressPostResponse
+      status: payload.status,
+    } satisfies WordPressPostResponse,
   };
 }
 
-export function mockTerms(kind: "categories" | "tags"): WordPressTermResponse[] {
+export function mockTerms(
+  kind: "categories" | "tags",
+): WordPressTermResponse[] {
   const names =
     kind === "categories"
       ? ["AI副業", "比較", "初心者向け", "レビュー", "選び方"]
@@ -53,6 +55,6 @@ export function mockTerms(kind: "categories" | "tags"): WordPressTermResponse[] 
     name,
     slug: name.toLowerCase().replace(/\s+/g, "-"),
     description: "",
-    count: 0
+    count: 0,
   }));
 }

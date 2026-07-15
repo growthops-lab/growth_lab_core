@@ -2,7 +2,10 @@ import { prisma } from "@/lib/prisma";
 import { OPERATION_DEFAULT_SETTINGS } from "@/src/lib/operations/config";
 import { runDueScheduledTasks } from "@/src/lib/operations/runner";
 
-const intervalSeconds = Math.max(10, Number(OPERATION_DEFAULT_SETTINGS.SYNC_WORKER_INTERVAL_SECONDS));
+const intervalSeconds = Math.max(
+  10,
+  Number(OPERATION_DEFAULT_SETTINGS.SYNC_WORKER_INTERVAL_SECONDS),
+);
 
 async function tick() {
   try {
@@ -11,7 +14,9 @@ async function tick() {
       OPERATION_DEFAULT_SETTINGS.OPERATIONS_AUTOMATION_ENABLED === "true"
         ? "automation"
         : "automation-disabled";
-    console.log(`[operations-worker] ${new Date().toISOString()} ${mode} processed=${count}`);
+    console.log(
+      `[operations-worker] ${new Date().toISOString()} ${mode} processed=${count}`,
+    );
   } catch (error) {
     console.error("[operations-worker] tick failed", error);
   }

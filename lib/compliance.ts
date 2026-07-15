@@ -3,7 +3,10 @@ import { checkPostLinks } from "@/lib/link-check";
 function hostnameMatches(hostname: string, domain: string) {
   const normalizedHostname = hostname.toLowerCase();
   const normalizedDomain = domain.toLowerCase();
-  return normalizedHostname === normalizedDomain || normalizedHostname.endsWith(`.${normalizedDomain}`);
+  return (
+    normalizedHostname === normalizedDomain ||
+    normalizedHostname.endsWith(`.${normalizedDomain}`)
+  );
 }
 
 const affiliateDomains = ["a8.net"];
@@ -13,8 +16,12 @@ export function validateXDestination(destinationUrl: string): string[] {
 
   try {
     const url = new URL(destinationUrl);
-    if (affiliateDomains.some((domain) => hostnameMatches(url.hostname, domain))) {
-      errors.push("A8.net広告リンクはXに直接掲載できません。WordPressメディアURLを指定してください。");
+    if (
+      affiliateDomains.some((domain) => hostnameMatches(url.hostname, domain))
+    ) {
+      errors.push(
+        "A8.net広告リンクはXに直接掲載できません。WordPressメディアURLを指定してください。",
+      );
     }
   } catch {
     errors.push("有効なURLを入力してください。");
@@ -23,7 +30,10 @@ export function validateXDestination(destinationUrl: string): string[] {
   return errors;
 }
 
-export async function validateXPostCompliance(body: string, destinationUrl: string): Promise<string[]> {
+export async function validateXPostCompliance(
+  body: string,
+  destinationUrl: string,
+): Promise<string[]> {
   const errors = validateXDestination(destinationUrl);
   const linkCheck = await checkPostLinks({ body, destinationUrl });
 

@@ -1,4 +1,10 @@
-import { ApiEventType, CalendarEventType, CampaignItemType, Platform, RequestType } from "@prisma/client";
+import {
+  ApiEventType,
+  CalendarEventType,
+  CampaignItemType,
+  Platform,
+  RequestType,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function createCalendarEvent(input: {
@@ -26,8 +32,8 @@ export async function createCalendarEvent(input: {
       requiresApproval: input.requiresApproval ?? true,
       approvalStatus: input.approvalStatus,
       linkCheckStatus: input.linkCheckStatus,
-      hasCreative: input.hasCreative ?? false
-    }
+      hasCreative: input.hasCreative ?? false,
+    },
   });
 
   await prisma.apiUsageLog.create({
@@ -36,8 +42,8 @@ export async function createCalendarEvent(input: {
       eventType: ApiEventType.REQUEST,
       endpoint: "content-calendar.event.create",
       requestType: RequestType.CALENDAR_EVENT_CREATE,
-      mockMode: true
-    }
+      mockMode: true,
+    },
   });
 
   return event;

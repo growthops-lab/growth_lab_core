@@ -14,7 +14,7 @@ export async function createMockCanvaExport(input: {
     action: "mock_export",
     result,
     requestType: RequestType.CANVA_MOCK_EXPORT,
-    responseSummary: result.data ? JSON.stringify(result.data) : undefined
+    responseSummary: result.data ? JSON.stringify(result.data) : undefined,
   });
   return result;
 }

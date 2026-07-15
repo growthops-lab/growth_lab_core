@@ -1,18 +1,39 @@
-import { ApiEventType, GeneratedReportStatus, Platform, ReportType, RequestType } from "@prisma/client";
+import {
+  ApiEventType,
+  GeneratedReportStatus,
+  Platform,
+  ReportType,
+  RequestType,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { createReportGenerationKey } from "@/src/lib/reports/idempotency";
-import { sanitizeReportJson, sanitizeReportText } from "@/src/lib/reports/sanitize";
+import {
+  sanitizeReportJson,
+  sanitizeReportText,
+} from "@/src/lib/reports/sanitize";
 
 export async function generateCampaignReport(campaignId: string) {
   const campaign = await prisma.campaign.findUniqueOrThrow({
     where: { id: campaignId },
-    include: { media: true }
+    include: { media: true },
   });
   const [roi, score, risks, recommendations] = await Promise.all([
-    prisma.campaignRoiSnapshot.findFirst({ where: { campaignId }, orderBy: { createdAt: "desc" } }),
-    prisma.campaignGrowthScoreSnapshot.findFirst({ where: { campaignId }, orderBy: { createdAt: "desc" } }),
-    prisma.campaignRisk.findMany({ where: { campaignId, status: "OPEN" }, take: 10 }),
-    prisma.campaignRecommendation.findMany({ where: { campaignId, status: "PROPOSED" }, take: 10 })
+    prisma.campaignRoiSnapshot.findFirst({
+      where: { campaignId },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.campaignGrowthScoreSnapshot.findFirst({
+      where: { campaignId },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.campaignRisk.findMany({
+      where: { campaignId, status: "OPEN" },
+      take: 10,
+    }),
+    prisma.campaignRecommendation.findMany({
+      where: { campaignId, status: "PROPOSED" },
+      take: 10,
+    }),
   ]);
   const periodStart = campaign.periodStart;
   const periodEnd = campaign.periodEnd;
@@ -21,7 +42,7 @@ export async function generateCampaignReport(campaignId: string) {
     campaignId,
     mediaId: campaign.mediaId,
     periodStart,
-    periodEnd
+    periodEnd,
   });
   const sourceSummary = sanitizeReportJson({
     roi: {
@@ -31,7 +52,7 @@ export async function generateCampaignReport(campaignId: string) {
       roiPending: roi?.roiPending ?? 0,
       roiApproved: roi?.roiApproved ?? 0,
       dataConfidence: roi?.dataConfidence ?? "INSUFFICIENT",
-      warnings: roi?.warnings ?? []
+      warnings: roi?.warnings ?? [],
     },
     score: {
       totalScore: score?.totalScore ?? 0,
@@ -41,13 +62,15 @@ export async function generateCampaignReport(campaignId: string) {
       revenueScore: score?.revenueScore ?? 0,
       roiScore: score?.roiScore ?? 0,
       riskScore: score?.riskScore ?? 0,
-      dataConfidence: score?.dataConfidence ?? "INSUFFICIENT"
+      dataConfidence: score?.dataConfidence ?? "INSUFFICIENT",
     },
     riskCount: risks.length,
     recommendationCount: recommendations.length,
-    data_source: "local"
+    data_source: "local",
   });
-  const markdown = sanitizeReportText(`# ${campaign.campaignName}\n\nApproved ROI: ${roi?.roiApproved ?? 0}\nPending revenue: ${roi?.pendingRevenue ?? 0}\nApproved revenue: ${roi?.approvedRevenue ?? 0}\nOpen risks: ${risks.length}\nRecommendations: ${recommendations.length}\n`);
+  const markdown = sanitizeReportText(
+    `# ${campaign.campaignName}\n\nApproved ROI: ${roi?.roiApproved ?? 0}\nPending revenue: ${roi?.pendingRevenue ?? 0}\nApproved revenue: ${roi?.approvedRevenue ?? 0}\nOpen risks: ${risks.length}\nRecommendations: ${recommendations.length}\n`,
+  );
 
   const report = await prisma.generatedReport.upsert({
     where: { generationKey },
@@ -68,11 +91,25 @@ export async function generateCampaignReport(campaignId: string) {
       requiresHumanReview: true,
       sections: {
         create: [
-          { sectionKey: "summary", sectionTitle: "Summary", sectionOrder: 1, contentMarkdown: markdown, dataJson: sourceSummary },
-          { sectionKey: "next_actions", sectionTitle: "Next Actions", sectionOrder: 2, contentMarkdown: "Human review required before action.", dataJson: { recommendations: recommendations.map((item) => item.title) } }
-        ]
-      }
-    }
+          {
+            sectionKey: "summary",
+            sectionTitle: "Summary",
+            sectionOrder: 1,
+            contentMarkdown: markdown,
+            dataJson: sourceSummary,
+          },
+          {
+            sectionKey: "next_actions",
+            sectionTitle: "Next Actions",
+            sectionOrder: 2,
+            contentMarkdown: "Human review required before action.",
+            dataJson: {
+              recommendations: recommendations.map((item) => item.title),
+            },
+          },
+        ],
+      },
+    },
   });
 
   await prisma.apiUsageLog.create({
@@ -82,8 +119,8 @@ export async function generateCampaignReport(campaignId: string) {
       endpoint: "report.generate",
       requestType: RequestType.REPORT_GENERATE,
       mockMode: true,
-      message: `Generated report ${report.id}`
-    }
+      message: `Generated report ${report.id}`,
+    },
   });
 
   return report;

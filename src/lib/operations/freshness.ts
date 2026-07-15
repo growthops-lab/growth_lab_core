@@ -2,7 +2,7 @@ import {
   DataFreshnessPriority,
   DataFreshnessSource,
   FreshnessStatus,
-  type PrismaClient
+  type PrismaClient,
 } from "@prisma/client";
 import { operationNumber } from "@/src/lib/operations/config";
 
@@ -11,11 +11,18 @@ function hoursSince(date: Date | null | undefined) {
   return Math.floor((Date.now() - date.getTime()) / (60 * 60 * 1000));
 }
 
-function classifyFreshness(lastDataAt: Date | null | undefined, warningHours: number, criticalHours: number) {
+function classifyFreshness(
+  lastDataAt: Date | null | undefined,
+  warningHours: number,
+  criticalHours: number,
+) {
   const staleHours = hoursSince(lastDataAt);
-  if (staleHours === null) return { status: FreshnessStatus.UNKNOWN, staleHours };
-  if (staleHours >= criticalHours) return { status: FreshnessStatus.CRITICAL, staleHours };
-  if (staleHours >= warningHours) return { status: FreshnessStatus.WARNING, staleHours };
+  if (staleHours === null)
+    return { status: FreshnessStatus.UNKNOWN, staleHours };
+  if (staleHours >= criticalHours)
+    return { status: FreshnessStatus.CRITICAL, staleHours };
+  if (staleHours >= warningHours)
+    return { status: FreshnessStatus.WARNING, staleHours };
   return { status: FreshnessStatus.FRESH, staleHours };
 }
 
@@ -24,11 +31,15 @@ async function upsertFreshness(
   mediaId: string,
   source: DataFreshnessSource,
   lastDataAt: Date | null,
-  priority = DataFreshnessPriority.MOCK
+  priority = DataFreshnessPriority.MOCK,
 ) {
   const warningAfterHours = operationNumber("DATA_FRESHNESS_WARNING_HOURS");
   const criticalAfterHours = operationNumber("DATA_FRESHNESS_CRITICAL_HOURS");
-  const classified = classifyFreshness(lastDataAt, warningAfterHours, criticalAfterHours);
+  const classified = classifyFreshness(
+    lastDataAt,
+    warningAfterHours,
+    criticalAfterHours,
+  );
   const label = `${source} data`;
   return prisma.dataFreshnessStatus.upsert({
     where: { mediaId_source: { mediaId, source } },
@@ -43,7 +54,7 @@ async function upsertFreshness(
       message:
         classified.status === FreshnessStatus.FRESH
           ? `${label} is fresh.`
-          : `${label} needs attention. Last data: ${lastDataAt?.toISOString() ?? "none"}.`
+          : `${label} needs attention. Last data: ${lastDataAt?.toISOString() ?? "none"}.`,
     },
     create: {
       mediaId,
@@ -57,8 +68,8 @@ async function upsertFreshness(
       message:
         classified.status === FreshnessStatus.FRESH
           ? `${label} is fresh.`
-          : `${label} needs attention. Last data: ${lastDataAt?.toISOString() ?? "none"}.`
-    }
+          : `${label} needs attention. Last data: ${lastDataAt?.toISOString() ?? "none"}.`,
+    },
   });
 }
 
@@ -67,19 +78,73 @@ export async function checkDataFreshness(prisma: PrismaClient) {
   let updated = 0;
   for (const media of mediaItems) {
     const [ga4, gsc, revenue, social, wordpress, growth] = await Promise.all([
-      prisma.gA4MetricDaily.findFirst({ where: { mediaId: media.id }, orderBy: { date: "desc" }, select: { date: true } }),
-      prisma.searchConsoleQueryDaily.findFirst({ where: { mediaId: media.id }, orderBy: { date: "desc" }, select: { date: true } }),
-      prisma.revenueEvent.findFirst({ where: { mediaId: media.id }, orderBy: { eventDate: "desc" }, select: { eventDate: true } }),
-      prisma.post.findFirst({ where: { mediaId: media.id, publishedAt: { not: null } }, orderBy: { publishedAt: "desc" }, select: { publishedAt: true } }),
-      prisma.wordPressPost.findFirst({ where: { mediaId: media.id }, orderBy: { updatedAt: "desc" }, select: { updatedAt: true } }),
-      prisma.growthScoreSnapshot.findFirst({ where: { mediaId: media.id }, orderBy: { periodEnd: "desc" }, select: { periodEnd: true } })
+      prisma.gA4MetricDaily.findFirst({
+        where: { mediaId: media.id },
+        orderBy: { date: "desc" },
+        select: { date: true },
+      }),
+      prisma.searchConsoleQueryDaily.findFirst({
+        where: { mediaId: media.id },
+        orderBy: { date: "desc" },
+        select: { date: true },
+      }),
+      prisma.revenueEvent.findFirst({
+        where: { mediaId: media.id },
+        orderBy: { eventDate: "desc" },
+        select: { eventDate: true },
+      }),
+      prisma.post.findFirst({
+        where: { mediaId: media.id, publishedAt: { not: null } },
+        orderBy: { publishedAt: "desc" },
+        select: { publishedAt: true },
+      }),
+      prisma.wordPressPost.findFirst({
+        where: { mediaId: media.id },
+        orderBy: { updatedAt: "desc" },
+        select: { updatedAt: true },
+      }),
+      prisma.growthScoreSnapshot.findFirst({
+        where: { mediaId: media.id },
+        orderBy: { periodEnd: "desc" },
+        select: { periodEnd: true },
+      }),
     ]);
-    await upsertFreshness(prisma, media.id, DataFreshnessSource.GA4, ga4?.date ?? null);
-    await upsertFreshness(prisma, media.id, DataFreshnessSource.SEARCH_CONSOLE, gsc?.date ?? null);
-    await upsertFreshness(prisma, media.id, DataFreshnessSource.REVENUE, revenue?.eventDate ?? null);
-    await upsertFreshness(prisma, media.id, DataFreshnessSource.SOCIAL_POSTS, social?.publishedAt ?? null);
-    await upsertFreshness(prisma, media.id, DataFreshnessSource.WORDPRESS, wordpress?.updatedAt ?? null);
-    await upsertFreshness(prisma, media.id, DataFreshnessSource.GROWTH_SCORE, growth?.periodEnd ?? null);
+    await upsertFreshness(
+      prisma,
+      media.id,
+      DataFreshnessSource.GA4,
+      ga4?.date ?? null,
+    );
+    await upsertFreshness(
+      prisma,
+      media.id,
+      DataFreshnessSource.SEARCH_CONSOLE,
+      gsc?.date ?? null,
+    );
+    await upsertFreshness(
+      prisma,
+      media.id,
+      DataFreshnessSource.REVENUE,
+      revenue?.eventDate ?? null,
+    );
+    await upsertFreshness(
+      prisma,
+      media.id,
+      DataFreshnessSource.SOCIAL_POSTS,
+      social?.publishedAt ?? null,
+    );
+    await upsertFreshness(
+      prisma,
+      media.id,
+      DataFreshnessSource.WORDPRESS,
+      wordpress?.updatedAt ?? null,
+    );
+    await upsertFreshness(
+      prisma,
+      media.id,
+      DataFreshnessSource.GROWTH_SCORE,
+      growth?.periodEnd ?? null,
+    );
     updated += 6;
   }
   return updated;

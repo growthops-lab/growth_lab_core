@@ -6,7 +6,12 @@ export function ga4RunReportEndpoint(propertyId: string) {
   return `https://analyticsdata.googleapis.com/v1beta/properties/${normalizeGA4PropertyId(propertyId)}:runReport`;
 }
 
-export function createGA4SiteDailyRequest(startDate: string, endDate: string, limit: number, offset: number) {
+export function createGA4SiteDailyRequest(
+  startDate: string,
+  endDate: string,
+  limit: number,
+  offset: number,
+) {
   return {
     dateRanges: [{ startDate, endDate }],
     dimensions: [{ name: "date" }],
@@ -21,15 +26,20 @@ export function createGA4SiteDailyRequest(startDate: string, endDate: string, li
       { name: "engagementRate" },
       { name: "bounceRate" },
       { name: "conversions" },
-      { name: "totalRevenue" }
+      { name: "totalRevenue" },
     ],
     limit,
     offset,
-    returnPropertyQuota: process.env.GA4_RETURN_PROPERTY_QUOTA !== "false"
+    returnPropertyQuota: process.env.GA4_RETURN_PROPERTY_QUOTA !== "false",
   };
 }
 
-export function createGA4PageDailyRequest(startDate: string, endDate: string, limit: number, offset: number) {
+export function createGA4PageDailyRequest(
+  startDate: string,
+  endDate: string,
+  limit: number,
+  offset: number,
+) {
   return {
     dateRanges: [{ startDate, endDate }],
     dimensions: [{ name: "date" }, { name: "pagePath" }, { name: "pageTitle" }],
@@ -40,11 +50,10 @@ export function createGA4PageDailyRequest(startDate: string, endDate: string, li
       { name: "screenPageViews" },
       { name: "engagedSessions" },
       { name: "averageEngagementTime" },
-      { name: "conversions" }
+      { name: "conversions" },
     ],
     limit,
     offset,
-    returnPropertyQuota: process.env.GA4_RETURN_PROPERTY_QUOTA !== "false"
+    returnPropertyQuota: process.env.GA4_RETURN_PROPERTY_QUOTA !== "false",
   };
 }
-

@@ -1,14 +1,26 @@
-import { ApiEventType, Platform, RequestType, WordPressConnectionStatus } from "@prisma/client";
+import {
+  ApiEventType,
+  Platform,
+  RequestType,
+  WordPressConnectionStatus,
+} from "@prisma/client";
 import { buildWordPressAuthHeader } from "@/src/lib/wordpress/auth";
 import { canEncryptWordPressSecrets } from "@/src/lib/wordpress/encryption";
-import { describeWordPressError, WordPressConfigError } from "@/src/lib/wordpress/errors";
-import { mockConnection, mockCreatePost, mockTerms } from "@/src/lib/wordpress/mock";
+import {
+  describeWordPressError,
+  WordPressConfigError,
+} from "@/src/lib/wordpress/errors";
+import {
+  mockConnection,
+  mockCreatePost,
+  mockTerms,
+} from "@/src/lib/wordpress/mock";
 import type {
   WordPressApiResult,
   WordPressClientSite,
   WordPressPostPayload,
   WordPressPostResponse,
-  WordPressTermResponse
+  WordPressTermResponse,
 } from "@/src/lib/wordpress/types";
 import { prisma } from "@/lib/prisma";
 
@@ -42,18 +54,21 @@ export class WordPressClient {
         endpoint: `/wp/v2/posts?slug=${slug}`,
         method: "GET",
         mockMode: true,
-        data: [] as WordPressPostResponse[]
+        data: [] as WordPressPostResponse[],
       };
     }
 
     this.assertRealConnectionAllowed();
     return this.request<WordPressPostResponse[]>(
       `/posts?slug=${encodeURIComponent(slug)}&status=draft,pending,private,publish&context=edit`,
-      "GET"
+      "GET",
     );
   }
 
-  async createOrUpdatePost(payload: WordPressPostPayload, wordpressPostId?: string | null) {
+  async createOrUpdatePost(
+    payload: WordPressPostPayload,
+    wordpressPostId?: string | null,
+  ) {
     if (this.site.mockMode || process.env.WORDPRESS_MOCK_MODE !== "false") {
       return mockCreatePost(this.site.siteUrl, payload);
     }
@@ -71,24 +86,33 @@ export class WordPressClient {
         endpoint: `/wp/v2/${kind}`,
         method: "GET",
         mockMode: true,
-        data: mockTerms(kind)
+        data: mockTerms(kind),
       };
     }
 
     this.assertRealConnectionAllowed();
-    return this.request<WordPressTermResponse[]>(`/${kind}?per_page=100`, "GET");
+    return this.request<WordPressTermResponse[]>(
+      `/${kind}?per_page=100`,
+      "GET",
+    );
   }
 
   private assertRealConnectionAllowed() {
     if (!canEncryptWordPressSecrets()) {
-      throw new WordPressConfigError("WORDPRESS_ENCRYPTION_KEYが未設定のため、実WordPress接続は無効です。");
+      throw new WordPressConfigError(
+        "WORDPRESS_ENCRYPTION_KEYが未設定のため、実WordPress接続は無効です。",
+      );
     }
     if (!this.site.applicationPasswordEncrypted) {
       throw new WordPressConfigError("Application Passwordが未登録です。");
     }
   }
 
-  private async request<T>(path: string, method: "GET" | "POST", body?: unknown): Promise<WordPressApiResult<T>> {
+  private async request<T>(
+    path: string,
+    method: "GET" | "POST",
+    body?: unknown,
+  ): Promise<WordPressApiResult<T>> {
     const endpoint = `${this.site.apiBaseUrl.replace(/\/$/, "")}${path}`;
     let lastResult: WordPressApiResult<T> | null = null;
 
@@ -98,14 +122,26 @@ export class WordPressClient {
       if (!shouldRetry(result, attempt)) return result;
     }
 
-    return lastResult ?? { ok: false, endpoint, method, mockMode: false, error: "WordPress API request failed" };
+    return (
+      lastResult ?? {
+        ok: false,
+        endpoint,
+        method,
+        mockMode: false,
+        error: "WordPress API request failed",
+      }
+    );
   }
 
-  private async requestOnce<T>(endpoint: string, method: "GET" | "POST", body?: unknown): Promise<WordPressApiResult<T>> {
+  private async requestOnce<T>(
+    endpoint: string,
+    method: "GET" | "POST",
+    body?: unknown,
+  ): Promise<WordPressApiResult<T>> {
     const controller = new AbortController();
     const timeout = setTimeout(
       () => controller.abort(),
-      Number(process.env.WORDPRESS_REQUEST_TIMEOUT_MS ?? 15000)
+      Number(process.env.WORDPRESS_REQUEST_TIMEOUT_MS ?? 15000),
     );
 
     try {
@@ -113,10 +149,10 @@ export class WordPressClient {
         method,
         headers: {
           Authorization: buildWordPressAuthHeader(this.site),
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: body ? JSON.stringify(body) : undefined,
-        signal: controller.signal
+        signal: controller.signal,
       });
       const data = (await response.json().catch(() => null)) as T;
       return {
@@ -126,10 +162,13 @@ export class WordPressClient {
         method,
         mockMode: false,
         data: response.ok ? data : undefined,
-        error: response.ok ? undefined : describeWordPressError(response.status)
+        error: response.ok
+          ? undefined
+          : describeWordPressError(response.status),
       };
     } catch (error) {
-      const message = error instanceof Error ? error.message : "WordPress API request failed";
+      const message =
+        error instanceof Error ? error.message : "WordPress API request failed";
       return { ok: false, endpoint, method, mockMode: false, error: message };
     } finally {
       clearTimeout(timeout);
@@ -139,7 +178,12 @@ export class WordPressClient {
 
 function shouldRetry<T>(result: WordPressApiResult<T>, attempt: number) {
   if (attempt >= 2) return false;
-  if (result.statusCode === 401 || result.statusCode === 403 || result.statusCode === 429) return false;
+  if (
+    result.statusCode === 401 ||
+    result.statusCode === 403 ||
+    result.statusCode === 429
+  )
+    return false;
   if (!result.statusCode) return true;
   return result.statusCode >= 500;
 }
@@ -159,8 +203,8 @@ export async function logWordPressResult(input: LogInput) {
         requestPayloadSummary: input.requestSummary,
         responsePayloadSummary: input.responseSummary,
         errorMessage: message,
-        mockMode: input.result.mockMode
-      }
+        mockMode: input.result.mockMode,
+      },
     }),
     prisma.apiUsageLog.create({
       data: {
@@ -172,13 +216,15 @@ export async function logWordPressResult(input: LogInput) {
         statusCode: input.result.statusCode,
         success: input.result.ok,
         mockMode: input.result.mockMode,
-        message
-      }
-    })
+        message,
+      },
+    }),
   ]);
 }
 
 export function connectionStatusForResult(result: WordPressApiResult<unknown>) {
   if (!result.ok) return WordPressConnectionStatus.FAILED;
-  return result.mockMode ? WordPressConnectionStatus.MOCK_CONNECTED : WordPressConnectionStatus.CONNECTED;
+  return result.mockMode
+    ? WordPressConnectionStatus.MOCK_CONNECTED
+    : WordPressConnectionStatus.CONNECTED;
 }

@@ -6,7 +6,11 @@ export function buildWordPressAuthHeader(site: WordPressClientSite) {
   if (!site.applicationPasswordEncrypted) {
     throw new WordPressConfigError("Application Passwordが未登録です。");
   }
-  const password = decryptApplicationPassword(site.applicationPasswordEncrypted);
-  const token = Buffer.from(`${site.username}:${password}`, "utf8").toString("base64");
+  const password = decryptApplicationPassword(
+    site.applicationPasswordEncrypted,
+  );
+  const token = Buffer.from(`${site.username}:${password}`, "utf8").toString(
+    "base64",
+  );
   return `Basic ${token}`;
 }

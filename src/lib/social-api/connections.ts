@@ -1,14 +1,21 @@
-import { ApiEventType, Platform, RequestType, SocialApiConnectionStatus } from "@prisma/client";
+import {
+  ApiEventType,
+  Platform,
+  RequestType,
+  SocialApiConnectionStatus,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function connectXMock(socialAccountId: string) {
-  const account = await prisma.socialAccount.findUniqueOrThrow({ where: { id: socialAccountId } });
+  const account = await prisma.socialAccount.findUniqueOrThrow({
+    where: { id: socialAccountId },
+  });
   const existing = await prisma.socialApiConnection.findFirst({
     where: {
       socialAccountId: account.id,
       platform: Platform.X,
-      mockMode: true
-    }
+      mockMode: true,
+    },
   });
   const data = {
     mediaId: account.mediaId,
@@ -20,12 +27,12 @@ export async function connectXMock(socialAccountId: string) {
     connectionStatus: SocialApiConnectionStatus.MOCK_CONNECTED,
     mockMode: true,
     lastConnectedAt: new Date(),
-    lastError: null
+    lastError: null,
   };
   const connection = existing
     ? await prisma.socialApiConnection.update({
         where: { id: existing.id },
-        data
+        data,
       })
     : await prisma.socialApiConnection.create({
         data: {
@@ -38,8 +45,8 @@ export async function connectXMock(socialAccountId: string) {
           accountDisplayName: account.displayName,
           connectionStatus: SocialApiConnectionStatus.MOCK_CONNECTED,
           mockMode: true,
-          lastConnectedAt: new Date()
-        }
+          lastConnectedAt: new Date(),
+        },
       });
 
   await prisma.apiUsageLog.create({
@@ -51,8 +58,8 @@ export async function connectXMock(socialAccountId: string) {
       method: "POST",
       requestType: RequestType.X_CONNECTION_TEST,
       mockMode: true,
-      message: "Mock X API connection created without storing secrets."
-    }
+      message: "Mock X API connection created without storing secrets.",
+    },
   });
 
   return connection;

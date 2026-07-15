@@ -6,7 +6,7 @@ import {
   NotificationStatus,
   NotificationType,
   Prisma,
-  type PrismaClient
+  type PrismaClient,
 } from "@prisma/client";
 import { OPERATION_DEFAULT_SETTINGS } from "@/src/lib/operations/config";
 
@@ -29,14 +29,14 @@ export async function ensureNotificationChannels(prisma: PrismaClient) {
       name: "In-app notification center",
       channelType: NotificationChannelType.IN_APP,
       status: NotificationChannelStatus.ENABLED,
-      mockMode: true
+      mockMode: true,
     },
     {
       channelKey: "mock-outbox",
       name: "Mock outbox",
       channelType: NotificationChannelType.MOCK,
       status: NotificationChannelStatus.ENABLED,
-      mockMode: true
+      mockMode: true,
     },
     {
       channelKey: "email-disabled",
@@ -46,7 +46,7 @@ export async function ensureNotificationChannels(prisma: PrismaClient) {
         OPERATION_DEFAULT_SETTINGS.EMAIL_NOTIFICATION_ENABLED === "true"
           ? NotificationChannelStatus.ENABLED
           : NotificationChannelStatus.DISABLED,
-      mockMode: true
+      mockMode: true,
     },
     {
       channelKey: "slack-disabled",
@@ -56,26 +56,30 @@ export async function ensureNotificationChannels(prisma: PrismaClient) {
         OPERATION_DEFAULT_SETTINGS.SLACK_NOTIFICATION_ENABLED === "true"
           ? NotificationChannelStatus.ENABLED
           : NotificationChannelStatus.DISABLED,
-      mockMode: true
-    }
+      mockMode: true,
+    },
   ];
   for (const channel of channels) {
     await prisma.notificationChannel.upsert({
       where: { channelKey: channel.channelKey },
       update: channel,
-      create: channel
+      create: channel,
     });
   }
 }
 
-export async function createNotification(prisma: PrismaClient, input: CreateNotificationInput) {
-  if (OPERATION_DEFAULT_SETTINGS.NOTIFICATION_CENTER_ENABLED !== "true") return null;
+export async function createNotification(
+  prisma: PrismaClient,
+  input: CreateNotificationInput,
+) {
+  if (OPERATION_DEFAULT_SETTINGS.NOTIFICATION_CENTER_ENABLED !== "true")
+    return null;
   if (input.dedupKey) {
     const existing = await prisma.notificationEvent.findFirst({
       where: {
         dedupKey: input.dedupKey,
-        createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
-      }
+        createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+      },
     });
     if (existing) return existing;
   }
@@ -92,32 +96,38 @@ export async function createNotification(prisma: PrismaClient, input: CreateNoti
       message: input.message,
       priority: input.priority ?? AlertSeverity.INFO,
       dedupKey: input.dedupKey,
-      metadata: input.metadata as Prisma.InputJsonValue | undefined
-    }
+      metadata: input.metadata as Prisma.InputJsonValue | undefined,
+    },
   });
 
-  const channels = await prisma.notificationChannel.findMany({ where: { status: NotificationChannelStatus.ENABLED } });
+  const channels = await prisma.notificationChannel.findMany({
+    where: { status: NotificationChannelStatus.ENABLED },
+  });
   for (const channel of channels) {
     await prisma.notificationDelivery.upsert({
       where: {
         notificationEventId_notificationChannelId: {
           notificationEventId: event.id,
-          notificationChannelId: channel.id
-        }
+          notificationChannelId: channel.id,
+        },
       },
       update: {
-        status: channel.mockMode ? NotificationDeliveryStatus.MOCK_SENT : NotificationDeliveryStatus.SENT,
+        status: channel.mockMode
+          ? NotificationDeliveryStatus.MOCK_SENT
+          : NotificationDeliveryStatus.SENT,
         attemptedAt: new Date(),
         deliveredAt: new Date(),
-        errorMessage: null
+        errorMessage: null,
       },
       create: {
         notificationEventId: event.id,
         notificationChannelId: channel.id,
-        status: channel.mockMode ? NotificationDeliveryStatus.MOCK_SENT : NotificationDeliveryStatus.SENT,
+        status: channel.mockMode
+          ? NotificationDeliveryStatus.MOCK_SENT
+          : NotificationDeliveryStatus.SENT,
         attemptedAt: new Date(),
-        deliveredAt: new Date()
-      }
+        deliveredAt: new Date(),
+      },
     });
   }
 

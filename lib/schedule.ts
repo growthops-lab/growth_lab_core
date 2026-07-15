@@ -1,4 +1,6 @@
-export const DAILY_POST_SLOTS = (process.env.DEFAULT_POST_TIMES ?? "08:00,12:30,20:00")
+export const DAILY_POST_SLOTS = (
+  process.env.DEFAULT_POST_TIMES ?? "08:00,12:30,20:00"
+)
   .split(",")
   .map((slot) => slot.trim())
   .filter(Boolean);

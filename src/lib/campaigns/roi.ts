@@ -1,15 +1,32 @@
-import { ApiEventType, DataConfidence, Platform, RequestType } from "@prisma/client";
+import {
+  ApiEventType,
+  DataConfidence,
+  Platform,
+  RequestType,
+} from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function calculateCampaignRoi(campaignId: string) {
-  const campaign = await prisma.campaign.findUniqueOrThrow({ where: { id: campaignId } });
+  const campaign = await prisma.campaign.findUniqueOrThrow({
+    where: { id: campaignId },
+  });
   const [budget, costs, revenue] = await Promise.all([
-    prisma.campaignBudget.aggregate({ where: { campaignId }, _sum: { plannedAmount: true } }),
-    prisma.campaignCost.aggregate({ where: { campaignId }, _sum: { actualAmount: true } }),
+    prisma.campaignBudget.aggregate({
+      where: { campaignId },
+      _sum: { plannedAmount: true },
+    }),
+    prisma.campaignCost.aggregate({
+      where: { campaignId },
+      _sum: { actualAmount: true },
+    }),
     prisma.campaignRevenueAttribution.aggregate({
       where: { campaignId },
-      _sum: { pendingRevenue: true, approvedRevenue: true, conversionCount: true }
-    })
+      _sum: {
+        pendingRevenue: true,
+        approvedRevenue: true,
+        conversionCount: true,
+      },
+    }),
   ]);
 
   const plannedCost = Number(budget._sum.plannedAmount ?? 0);
@@ -23,7 +40,8 @@ export async function calculateCampaignRoi(campaignId: string) {
   const roiApproved = costBase > 0 ? profitApproved / costBase : 0;
   const warnings = [];
   if (actualCost === 0) warnings.push("actual_cost_missing");
-  if (approvedRevenue === 0 && pendingRevenue > 0) warnings.push("approved_revenue_low_pending_high");
+  if (approvedRevenue === 0 && pendingRevenue > 0)
+    warnings.push("approved_revenue_low_pending_high");
 
   const calculationKey = [
     campaign.id,
@@ -32,7 +50,7 @@ export async function calculateCampaignRoi(campaignId: string) {
     pendingRevenue,
     approvedRevenue,
     actualCost,
-    plannedCost
+    plannedCost,
   ].join(":");
 
   const snapshot = await prisma.campaignRoiSnapshot.upsert({
@@ -51,10 +69,13 @@ export async function calculateCampaignRoi(campaignId: string) {
       profitApproved,
       roiPending,
       roiApproved,
-      dataConfidence: actualCost > 0 && approvedRevenue > 0 ? DataConfidence.MEDIUM : DataConfidence.LOW,
+      dataConfidence:
+        actualCost > 0 && approvedRevenue > 0
+          ? DataConfidence.MEDIUM
+          : DataConfidence.LOW,
       calculationKey,
-      warnings
-    }
+      warnings,
+    },
   });
 
   await prisma.apiUsageLog.create({
@@ -64,8 +85,8 @@ export async function calculateCampaignRoi(campaignId: string) {
       endpoint: "campaign.roi.calculate",
       requestType: RequestType.CAMPAIGN_ROI_CALCULATE,
       mockMode: true,
-      message: `Campaign ROI calculated for ${campaign.campaignCode}`
-    }
+      message: `Campaign ROI calculated for ${campaign.campaignCode}`,
+    },
   });
 
   return snapshot;

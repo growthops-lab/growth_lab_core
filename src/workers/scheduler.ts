@@ -10,7 +10,13 @@ async function tick() {
   try {
     const results = await publishDuePosts();
     if (results.length > 0) {
-      console.log(JSON.stringify({ at: new Date().toISOString(), processed: results.length, results }));
+      console.log(
+        JSON.stringify({
+          at: new Date().toISOString(),
+          processed: results.length,
+          results,
+        }),
+      );
     }
   } catch (error) {
     console.error(error);

@@ -1,4 +1,8 @@
-import { DataConfidence, RevenueStatus, type PrismaClient } from "@prisma/client";
+import {
+  DataConfidence,
+  RevenueStatus,
+  type PrismaClient,
+} from "@prisma/client";
 import { calculateRevenueMetrics } from "@/src/lib/analytics/metrics";
 
 export type RevenueSummary = {
@@ -26,39 +30,66 @@ function toNumber(value: unknown) {
   return Number(value);
 }
 
-export async function summarizeRevenue(prisma: PrismaClient, input: { mediaId?: string; start: Date; end: Date }) {
+export async function summarizeRevenue(
+  prisma: PrismaClient,
+  input: { mediaId?: string; start: Date; end: Date },
+) {
   const where = {
     eventDate: { gte: input.start, lte: input.end },
-    ...(input.mediaId ? { mediaId: input.mediaId } : {})
+    ...(input.mediaId ? { mediaId: input.mediaId } : {}),
   };
   const [events, traffic, costs] = await Promise.all([
     prisma.revenueEvent.findMany({ where }),
     prisma.trafficMetricDaily.findMany({
       where: {
         metricDate: { gte: input.start, lte: input.end },
-        ...(input.mediaId ? { mediaId: input.mediaId } : {})
-      }
+        ...(input.mediaId ? { mediaId: input.mediaId } : {}),
+      },
     }),
     prisma.operatingCost.findMany({
       where: {
         costDate: { gte: input.start, lte: input.end },
-        ...(input.mediaId ? { mediaId: input.mediaId } : {})
-      }
-    })
+        ...(input.mediaId ? { mediaId: input.mediaId } : {}),
+      },
+    }),
   ]);
 
-  const estimatedRevenue = events.reduce((sum, item) => sum + toNumber(item.estimatedReward), 0);
-  const pendingRevenue = events.reduce((sum, item) => sum + toNumber(item.pendingReward), 0);
-  const approvedRevenue = events.reduce((sum, item) => sum + toNumber(item.approvedReward), 0);
-  const rejectedRevenue = events.reduce((sum, item) => sum + toNumber(item.rejectedReward), 0);
-  const adjustedRevenue = events.reduce((sum, item) => sum + toNumber(item.adjustedReward), 0);
-  const operatingCost = costs.reduce((sum, item) => sum + toNumber(item.amount), 0);
+  const estimatedRevenue = events.reduce(
+    (sum, item) => sum + toNumber(item.estimatedReward),
+    0,
+  );
+  const pendingRevenue = events.reduce(
+    (sum, item) => sum + toNumber(item.pendingReward),
+    0,
+  );
+  const approvedRevenue = events.reduce(
+    (sum, item) => sum + toNumber(item.approvedReward),
+    0,
+  );
+  const rejectedRevenue = events.reduce(
+    (sum, item) => sum + toNumber(item.rejectedReward),
+    0,
+  );
+  const adjustedRevenue = events.reduce(
+    (sum, item) => sum + toNumber(item.adjustedReward),
+    0,
+  );
+  const operatingCost = costs.reduce(
+    (sum, item) => sum + toNumber(item.amount),
+    0,
+  );
   const impressions = traffic.reduce((sum, item) => sum + item.impressions, 0);
   const linkClicks = traffic.reduce((sum, item) => sum + item.linkClicks, 0);
   const conversions = events.length;
-  const approvedConversions = events.filter((event) => event.status === RevenueStatus.APPROVED).length;
-  const pendingConversions = events.filter((event) => event.status === RevenueStatus.PENDING).length;
-  const rejectedConversions = events.filter((event) => event.status === RevenueStatus.REJECTED).length;
+  const approvedConversions = events.filter(
+    (event) => event.status === RevenueStatus.APPROVED,
+  ).length;
+  const pendingConversions = events.filter(
+    (event) => event.status === RevenueStatus.PENDING,
+  ).length;
+  const rejectedConversions = events.filter(
+    (event) => event.status === RevenueStatus.REJECTED,
+  ).length;
   const metrics = calculateRevenueMetrics({
     impressions,
     linkClicks,
@@ -67,10 +98,12 @@ export async function summarizeRevenue(prisma: PrismaClient, input: { mediaId?: 
     approvedConversions,
     totalConversions: conversions,
     approvedRevenue,
-    operatingCost
+    operatingCost,
   });
 
-  const activeDays = new Set(traffic.map((item) => item.metricDate.toISOString().slice(0, 10))).size;
+  const activeDays = new Set(
+    traffic.map((item) => item.metricDate.toISOString().slice(0, 10)),
+  ).size;
   const dataConfidence =
     activeDays >= 30 && events.length > 0
       ? DataConfidence.HIGH
@@ -97,6 +130,6 @@ export async function summarizeRevenue(prisma: PrismaClient, input: { mediaId?: 
     cvr: metrics.cvr,
     ctr: metrics.ctr,
     roi: metrics.roi,
-    dataConfidence
+    dataConfidence,
   } satisfies RevenueSummary;
 }

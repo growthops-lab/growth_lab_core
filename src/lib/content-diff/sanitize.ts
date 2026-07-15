@@ -1,5 +1,7 @@
-const BLOCKED_ELEMENTS = /<\s*(script|iframe|object|embed|style|form|textarea|select)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi;
-const BLOCKED_TAGS = /<\s*\/?\s*(script|iframe|object|embed|style|form|input|button|textarea|select|link|meta)[^>]*>/gi;
+const BLOCKED_ELEMENTS =
+  /<\s*(script|iframe|object|embed|style|form|textarea|select)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi;
+const BLOCKED_TAGS =
+  /<\s*\/?\s*(script|iframe|object|embed|style|form|input|button|textarea|select|link|meta)[^>]*>/gi;
 const EVENT_ATTRIBUTES = /\s+on[a-z]+\s*=\s*(".*?"|'.*?'|[^\s>]+)/gi;
 const JS_URLS = /(href|src)\s*=\s*(['"])\s*javascript:[\s\S]*?\2/gi;
 
@@ -13,7 +15,7 @@ export function sanitizeHtml(input: string) {
     .replace(BLOCKED_ELEMENTS, "")
     .replace(BLOCKED_TAGS, "")
     .replace(EVENT_ATTRIBUTES, "")
-    .replace(JS_URLS, "$1=\"#\"");
+    .replace(JS_URLS, '$1="#"');
 }
 
 export function htmlToText(input: string) {

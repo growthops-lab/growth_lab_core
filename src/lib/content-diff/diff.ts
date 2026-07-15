@@ -7,15 +7,25 @@ export function contentHash(value: string) {
 }
 
 export function buildTextDiff(beforeValue: string, afterValue: string) {
-  const beforeLines = beforeValue.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-  const afterLines = afterValue.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-  const removed = beforeLines.filter((line) => !afterLines.includes(line)).slice(0, 20);
-  const added = afterLines.filter((line) => !beforeLines.includes(line)).slice(0, 20);
+  const beforeLines = beforeValue
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const afterLines = afterValue
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const removed = beforeLines
+    .filter((line) => !afterLines.includes(line))
+    .slice(0, 20);
+  const added = afterLines
+    .filter((line) => !beforeLines.includes(line))
+    .slice(0, 20);
   return {
     added,
     removed,
     changed: added.length + removed.length,
-    summary: `${added.length} added line(s), ${removed.length} removed line(s).`
+    summary: `${added.length} added line(s), ${removed.length} removed line(s).`,
   };
 }
 
@@ -33,6 +43,6 @@ export function buildContentDiff(beforeHtml: string, afterHtml: string) {
     beforeHash: contentHash(safeBefore),
     afterHash: contentHash(safeAfter),
     blockWarnings: detectBlockStructureWarnings(beforeHtml, safeAfter),
-    diff
+    diff,
   };
 }
