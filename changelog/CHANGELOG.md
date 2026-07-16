@@ -2,6 +2,10 @@
 
 ## Version 1.0 Draft
 
+- Added the Five Quality Gates Final Validation Plan.
+- Added the Human Owner validation record template with unverified GitHub results explicitly marked Pending Human Owner Validation.
+- Prepared final validation for OpenAPI Spectral Lint, TypeScript Type Check, ESLint, Prettier Format Check, and Unit Test, including merge blocking and post-merge master evidence requirements.
+- Kept existing workflows, production code, tests, dependencies, configuration, and Ruleset unchanged.
 - Added the automated test foundation with Vitest `4.1.10` and the non-watch `pnpm run test` command.
 - Added four deterministic behavioral tests for revenue funnel calculations, defaults, zero-denominator boundaries, explicit zero values, and negative return behavior without changing production code.
 - Added the Unit Test GitHub Actions workflow for `workflow_dispatch`, `master` push, and pull requests targeting `master`.
