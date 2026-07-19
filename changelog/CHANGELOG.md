@@ -2,6 +2,11 @@
 
 ## Version 1.0 Draft
 
+- Added the Test Coverage Quality Gate design.
+- Defined a phased rollout from baseline reporting to threshold enforcement.
+- Preserved the existing Unit Test workflow and five Required Status Checks.
+- Deferred numeric thresholds until baseline measurement is completed.
+- Made no dependency, configuration, workflow, production code, or test code changes for the coverage design.
 - Added repository-scoped VS Code workspace settings for UTF-8 handling, scoped formatting, local Prettier and TypeScript usage, ESLint validation, Prisma support, secret-file exclusions, and large-folder watcher exclusions.
 - Added VS Code extension recommendations for ESLint, Prettier, Prisma, and YAML without automatic installation.
 - Recorded COMPLETE PASS for the Five Quality Gates Final Validation.
