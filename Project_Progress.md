@@ -7,7 +7,7 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Codex
-- Last Updated: 2026-07-17 10:18 JST
+- Last Updated: 2026-07-19 18:10 JST
 
 ## 2. Current Status
 
@@ -21,6 +21,7 @@ Five Quality Gates are fully operational and validated. Pull Requests #10 and #1
 Five Quality Gates Final Validation has reached COMPLETE PASS. Intentional failed-check blocking validation was not performed, and no artificial failure commit is required.
 GitHub Recovery codes metadata audit passed across current repository paths, working tree metadata, Git-tracked paths, and Git history paths. Secret contents were not opened or recorded.
 Required approvals has been reviewed against the solo Human Owner operation model and confirmed as 0. The active Protect master Ruleset retains five mandatory status checks, blocks force pushes, and has an empty bypass list.
+VS Code workspace settings have been implemented and locally validated on chore/vscode-workspace-settings without installing extensions or changing package, lockfile, Prettier, workspace, EditorConfig, or Git attributes files.
 
 ## 3. Completed
 
@@ -104,6 +105,7 @@ Required approvals has been reviewed against the solo Human Owner operation mode
 - Block force pushes confirmed enabled
 - Bypass list confirmed empty
 - Solo-operation suitability review completed without GitHub configuration changes
+- VS Code workspace settings and extension recommendations added and locally validated
 
 ## 4. In Progress
 
@@ -114,6 +116,7 @@ Required approvals has been reviewed against the solo Human Owner operation mode
 1. Continue GitHub account initial setup section 15 and later
 2. Begin the next technical quality phase
 3. Design the test coverage threshold quality gate
+4. Human Owner review and commit the VS Code workspace settings when approved
 
 ## 6. Human Owner Decisions
 
@@ -138,11 +141,15 @@ Required approvals has been reviewed against the solo Human Owner operation mode
 - Dependency audit reports two pre-existing moderate findings in postcss and uuid; high and critical findings are zero. Coverage thresholds remain deferred to a later quality gate phase.
 - Intentional failed-check merge-blocking validation was not performed. The COMPLETE PASS result covers all observed successful states and does not claim an intentionally induced failure state.
 - Required approvals 0 is specific to the current solo-operation model and must be reassessed before adopting a multi-reviewer operating model.
+- The files.eol workspace default applies LF to new files, while the existing Prettier endOfLine auto setting preserves the repository's current mixed LF and CRLF files; a future repository-wide normalization must be handled separately.
+- Secret-file exclusion patterns also hide .env.example from normal VS Code Explorer and search results; it remains available through an explicit path when needed.
+- Recommended VS Code extensions are not automatically installed, and local Prettier and TypeScript integration requires existing node_modules dependencies.
 
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-07-19 18:10 JST | VSCODE-WORKSPACE-SETTINGS-20260719 | Added repository-scoped VS Code settings and extension recommendations; validated both JSON files, Prettier formatting, diff whitespace, expected file scope, unchanged HEAD, and absence of recognized secret value patterns | Codex |
 | 2026-07-17 10:18 JST | GITHUB-REQUIRED-APPROVALS-SOLO-OPERATION-REVIEW | Confirmed Required approvals 0 is compatible with solo Human Owner operation while retaining five mandatory status checks, force push protection, and an empty bypass list | Codex |
 | 2026-07-17 09:18 JST | GITHUB-RECOVERY-CODES-METADATA-AUDIT | Completed the Recovery codes-specific path metadata audit with zero candidates across current repository, working tree, tracked paths, and Git history paths without opening secret contents | Codex |
 | 2026-07-16 13:03 JST | FIVE-QUALITY-GATES-COMPLETE-PASS-EVIDENCE | Recorded COMPLETE PASS across PR #10, PR #11, both Squash merges, five master workflow_dispatch runs, five master push-triggered runs, and the Unit Test 1-file / 4-test result | Codex |

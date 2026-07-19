@@ -2,6 +2,8 @@
 
 ## Version 1.0 Draft
 
+- Added repository-scoped VS Code workspace settings for UTF-8 handling, scoped formatting, local Prettier and TypeScript usage, ESLint validation, Prisma support, secret-file exclusions, and large-folder watcher exclusions.
+- Added VS Code extension recommendations for ESLint, Prettier, Prisma, and YAML without automatic installation.
 - Recorded COMPLETE PASS for the Five Quality Gates Final Validation.
 - Confirmed all five Required Status Checks on Pull Requests #10 and #11.
 - Confirmed successful Squash and merge for both validation pull requests.
