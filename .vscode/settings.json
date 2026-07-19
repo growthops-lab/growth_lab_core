@@ -1,0 +1,135 @@
+{
+  "files.encoding": "utf8",
+  "files.autoGuessEncoding": false,
+  "files.eol": "\n",
+  "files.autoSave": "off",
+
+  "editor.formatOnSave": false,
+  "editor.formatOnSaveMode": "file",
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "never",
+    "source.organizeImports": "never"
+  },
+
+  "prettier.requireConfig": true,
+  "prettier.ignorePath": ".prettierignore",
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
+  "prettier.resolveGlobalModules": false,
+
+  "eslint.useFlatConfig": true,
+  "eslint.run": "onType",
+  "eslint.format.enable": false,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  "files.associations": {
+    "*.prisma": "prisma"
+  },
+
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma",
+    "editor.formatOnSave": false
+  },
+
+  "files.exclude": {
+    "**/.next": true,
+    "**/.pnpm-store": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/coverage": true,
+    "**/.env": true,
+    "**/.env.*": true,
+    "**/*.pem": true,
+    "**/*.key": true,
+    "**/*.p12": true,
+    "**/*.pfx": true,
+    "**/*recovery-code*": true,
+    "**/*recovery_code*": true
+  },
+
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.pnpm-store/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/coverage/**": true,
+    "**/_backup/**": true,
+    "**/_inbox/**": true,
+    "**/docs_export/**": true,
+    "**/implementation/test_results/**": true,
+    "**/.env": true,
+    "**/.env.*": true,
+    "**/*.pem": true,
+    "**/*.key": true,
+    "**/*.p12": true,
+    "**/*.pfx": true,
+    "**/*recovery-code*": true,
+    "**/*recovery_code*": true
+  },
+
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.pnpm-store/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/coverage/**": true,
+    "**/_backup/**": true,
+    "**/_inbox/**": true,
+    "**/docs_export/**": true,
+    "**/implementation/test_results/**": true,
+    "**/.env": true,
+    "**/.env.*": true
+  }
+}
