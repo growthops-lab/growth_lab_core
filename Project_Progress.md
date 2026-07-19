@@ -7,7 +7,7 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Codex
-- Last Updated: 2026-07-19 18:10 JST
+- Last Updated: 2026-07-19 19:44 JST
 
 ## 2. Current Status
 
@@ -22,6 +22,7 @@ Five Quality Gates Final Validation has reached COMPLETE PASS. Intentional faile
 GitHub Recovery codes metadata audit passed across current repository paths, working tree metadata, Git-tracked paths, and Git history paths. Secret contents were not opened or recorded.
 Required approvals has been reviewed against the solo Human Owner operation model and confirmed as 0. The active Protect master Ruleset retains five mandatory status checks, blocks force pushes, and has an empty bypass list.
 VS Code workspace settings have been implemented and locally validated on chore/vscode-workspace-settings without installing extensions or changing package, lockfile, Prettier, workspace, EditorConfig, or Git attributes files.
+Test Coverage Quality Gate design is complete. Coverage implementation has not started, and no provider, measurement, threshold, workflow, or Required Status Check change was made.
 
 ## 3. Completed
 
@@ -106,17 +107,29 @@ VS Code workspace settings have been implemented and locally validated on chore/
 - Bypass list confirmed empty
 - Solo-operation suitability review completed without GitHub configuration changes
 - VS Code workspace settings and extension recommendations added and locally validated
+- Existing Vitest configuration reviewed
+- Existing Unit Test revalidated with 1 passing test file and 4 passing tests
+- Source and test inventories completed
+- Coverage dependency status reviewed
+- Coverage scope classification completed
+- Baseline measurement plan created
+- Threshold decision policy created without numeric thresholds
+- Test Coverage workflow candidate designed
+- Required Status Check rollout plan created
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
+- Coverage implementation has not started; the completed design awaits a separately authorized baseline implementation task
 
 ## 5. Next Actions
 
 1. Continue GitHub account initial setup section 15 and later
-2. Begin the next technical quality phase
-3. Design the test coverage threshold quality gate
-4. Human Owner review and commit the VS Code workspace settings when approved
+2. Implement a coverage provider and baseline measurement in a separate task
+3. Add a `test:coverage` script in the baseline implementation task
+4. Measure coverage without thresholds and review baseline test priorities
+5. Design initial enforcement thresholds only after stable baseline evidence exists
+6. Human Owner review and commit the VS Code workspace settings when approved
 
 ## 6. Human Owner Decisions
 
@@ -144,11 +157,15 @@ VS Code workspace settings have been implemented and locally validated on chore/
 - The files.eol workspace default applies LF to new files, while the existing Prettier endOfLine auto setting preserves the repository's current mixed LF and CRLF files; a future repository-wide normalization must be handled separately.
 - Secret-file exclusion patterns also hide .env.example from normal VS Code Explorer and search results; it remains available through an explicit path when needed.
 - Recommended VS Code extensions are not automatically installed, and local Prettier and TypeScript integration requires existing node_modules dependencies.
+- Current automated test scope remains limited to one test file and four tests across 104 production TypeScript/TSX files.
+- Coverage percentages are not yet available because this design-only task did not install a provider or generate coverage.
+- Numeric thresholds must not be selected until the measurement scope is reviewed and stable baseline results exist.
 
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-07-19 19:44 JST | TEST-COVERAGE-QUALITY-GATE-DESIGN-20260719 | Completed the Test Coverage Quality Gate design, including source/test inventory, scope and exclusion classification, baseline measurement plan, threshold decision policy, separate workflow candidate, and Required Status Check rollout plan without implementation or coverage measurement | Codex |
 | 2026-07-19 18:10 JST | VSCODE-WORKSPACE-SETTINGS-20260719 | Added repository-scoped VS Code settings and extension recommendations; validated both JSON files, Prettier formatting, diff whitespace, expected file scope, unchanged HEAD, and absence of recognized secret value patterns | Codex |
 | 2026-07-17 10:18 JST | GITHUB-REQUIRED-APPROVALS-SOLO-OPERATION-REVIEW | Confirmed Required approvals 0 is compatible with solo Human Owner operation while retaining five mandatory status checks, force push protection, and an empty bypass list | Codex |
 | 2026-07-17 09:18 JST | GITHUB-RECOVERY-CODES-METADATA-AUDIT | Completed the Recovery codes-specific path metadata audit with zero candidates across current repository, working tree, tracked paths, and Git history paths without opening secret contents | Codex |
