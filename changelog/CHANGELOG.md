@@ -2,6 +2,12 @@
 
 ## Version 1.0 Draft
 
+- Added `@vitest/coverage-v8` 4.1.10 for local baseline measurement.
+- Added `test:coverage` without changing the existing `test` command.
+- Added explicit production coverage inclusion and reviewed exclusions.
+- Recorded the first repeatable local coverage baseline without thresholds.
+- Preserved the existing Unit Test workflow and five Required Status Checks.
+
 - Added the Test Coverage Quality Gate design.
 - Defined a phased rollout from baseline reporting to threshold enforcement.
 - Preserved the existing Unit Test workflow and five Required Status Checks.

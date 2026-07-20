@@ -7,7 +7,7 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Codex
-- Last Updated: 2026-07-19 19:44 JST
+- Last Updated: 2026-07-20 13:26 JST
 
 ## 2. Current Status
 
@@ -22,7 +22,8 @@ Five Quality Gates Final Validation has reached COMPLETE PASS. Intentional faile
 GitHub Recovery codes metadata audit passed across current repository paths, working tree metadata, Git-tracked paths, and Git history paths. Secret contents were not opened or recorded.
 Required approvals has been reviewed against the solo Human Owner operation model and confirmed as 0. The active Protect master Ruleset retains five mandatory status checks, blocks force pushes, and has an empty bypass list.
 VS Code workspace settings have been implemented and locally validated on chore/vscode-workspace-settings without installing extensions or changing package, lockfile, Prettier, workspace, EditorConfig, or Git attributes files.
-Test Coverage Quality Gate design is complete. Coverage implementation has not started, and no provider, measurement, threshold, workflow, or Required Status Check change was made.
+Test Coverage Quality Gate design and Phase B local coverage baseline implementation are complete.
+Coverage Provider is installed and local coverage was measured twice without thresholds; the separate GitHub Actions reporting workflow is not implemented.
 
 ## 3. Completed
 
@@ -116,20 +117,29 @@ Test Coverage Quality Gate design is complete. Coverage implementation has not s
 - Threshold decision policy created without numeric thresholds
 - Test Coverage workflow candidate designed
 - Required Status Check rollout plan created
+- @vitest/coverage-v8 4.1.10 added
+- test:coverage script added without changing the existing test command
+- Explicit production coverage include configured
+- Reviewed technical exclusions configured
+- Existing Unit Test regression passed
+- Local baseline measured twice
+- Exact metric and file-count repeatability confirmed
+- Coverage output confirmed Git-ignored
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
-- Coverage implementation has not started; the completed design awaits a separately authorized baseline implementation task
+- Test Coverage reporting workflow preparation
 
 ## 5. Next Actions
 
 1. Continue GitHub account initial setup section 15 and later
-2. Implement a coverage provider and baseline measurement in a separate task
-3. Add a `test:coverage` script in the baseline implementation task
-4. Measure coverage without thresholds and review baseline test priorities
-5. Design initial enforcement thresholds only after stable baseline evidence exists
-6. Human Owner review and commit the VS Code workspace settings when approved
+2. Add a separate Test Coverage GitHub Actions workflow
+3. Compare the Windows baseline with Ubuntu measurement
+4. Validate at least two stable CI reporting runs
+5. Prioritize tests for deterministic business logic
+6. Propose numeric thresholds only after stable reporting
+7. Human Owner review and commit the VS Code workspace settings when approved
 
 ## 6. Human Owner Decisions
 
@@ -158,13 +168,14 @@ Test Coverage Quality Gate design is complete. Coverage implementation has not s
 - Secret-file exclusion patterns also hide .env.example from normal VS Code Explorer and search results; it remains available through an explicit path when needed.
 - Recommended VS Code extensions are not automatically installed, and local Prettier and TypeScript integration requires existing node_modules dependencies.
 - Current automated test scope remains limited to one test file and four tests across 104 production TypeScript/TSX files.
-- Coverage percentages are not yet available because this design-only task did not install a provider or generate coverage.
-- Numeric thresholds must not be selected until the measurement scope is reviewed and stable baseline results exist.
+- The measured threshold-free baseline is low and must guide test prioritization without weakening the production measurement boundary.
+- No numeric thresholds are approved; propose them only after stable CI reporting.
 
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-07-20 13:26 JST | TEST-COVERAGE-BASELINE-20260720 | Added the exact Vitest V8 coverage provider and coverage script, configured the reviewed production boundary, measured a 104-file threshold-free baseline twice with exact repeatability, passed all local quality checks including production build, and preserved workflow, production, test, Prisma, DB, Ruleset, and GitHub settings | Codex |
 | 2026-07-19 19:44 JST | TEST-COVERAGE-QUALITY-GATE-DESIGN-20260719 | Completed the Test Coverage Quality Gate design, including source/test inventory, scope and exclusion classification, baseline measurement plan, threshold decision policy, separate workflow candidate, and Required Status Check rollout plan without implementation or coverage measurement | Codex |
 | 2026-07-19 18:10 JST | VSCODE-WORKSPACE-SETTINGS-20260719 | Added repository-scoped VS Code settings and extension recommendations; validated both JSON files, Prettier formatting, diff whitespace, expected file scope, unchanged HEAD, and absence of recognized secret value patterns | Codex |
 | 2026-07-17 10:18 JST | GITHUB-REQUIRED-APPROVALS-SOLO-OPERATION-REVIEW | Confirmed Required approvals 0 is compatible with solo Human Owner operation while retaining five mandatory status checks, force push protection, and an empty bypass list | Codex |
