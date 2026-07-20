@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "baselineName": "test-coverage-baseline",
+  "sourceCommit": "56c27a1ed0fa6adae0971429acfdc5e5f2c89325",
+  "vitestVersion": "4.1.10",
+  "provider": "@vitest/coverage-v8",
+  "providerVersion": "4.1.10",
+  "thresholds": null,
+  "metrics": {
+    "statements": {
+      "covered": 13,
+      "total": 1744,
+      "percent": 0.74
+    },
+    "branches": {
+      "covered": 17,
+      "total": 1597,
+      "percent": 1.06
+    },
+    "functions": {
+      "covered": 2,
+      "total": 331,
+      "percent": 0.6
+    },
+    "lines": {
+      "covered": 12,
+      "total": 1651,
+      "percent": 0.72
+    }
+  },
+  "inventory": {
+    "eligibleFiles": 104,
+    "measuredFiles": 104,
+    "coveredExecutableFiles": 1,
+    "uncoveredExecutableFiles": 97,
+    "zeroExecutableLineFiles": 6
+  },
+  "inventoryBoundary": {
+    "root": "src",
+    "extensions": [".ts", ".tsx"],
+    "excludeTestOrSpec": true,
+    "excludeTestDirectories": true,
+    "excludeDeclarationFiles": true
+  },
+  "repeatability": {
+    "runs": 2,
+    "result": "PASS"
+  }
+}

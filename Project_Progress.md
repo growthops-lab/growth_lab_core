@@ -7,7 +7,7 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Codex
-- Last Updated: 2026-07-20 13:26 JST
+- Last Updated: 2026-07-20 15:35 JST
 
 ## 2. Current Status
 
@@ -23,7 +23,7 @@ GitHub Recovery codes metadata audit passed across current repository paths, wor
 Required approvals has been reviewed against the solo Human Owner operation model and confirmed as 0. The active Protect master Ruleset retains five mandatory status checks, blocks force pushes, and has an empty bypass list.
 VS Code workspace settings have been implemented and locally validated on chore/vscode-workspace-settings without installing extensions or changing package, lockfile, Prettier, workspace, EditorConfig, or Git attributes files.
 Test Coverage Quality Gate design and Phase B local coverage baseline implementation are complete.
-Coverage Provider is installed and local coverage was measured twice without thresholds; the separate GitHub Actions reporting workflow is not implemented.
+Test Coverage Reporting Workflow Revision 2 is implemented and locally validated with schemaVersion 2, the 1 / 97 / 6 executable-line partition, deterministic Job Summary and artifact outputs, and report-only comparison policy. Human Owner push and pull request remain pending.
 
 ## 3. Completed
 
@@ -125,18 +125,23 @@ Coverage Provider is installed and local coverage was measured twice without thr
 - Local baseline measured twice
 - Exact metric and file-count repeatability confirmed
 - Coverage output confirmed Git-ignored
+- Test Coverage Reporting Workflow Revision 2 implemented
+- schemaVersion 2 machine-readable coverage baseline added
+- Executable-line-aware inventory classification added with covered 1, uncovered 97, and zero executable-line 6
+- Deterministic coverage Job Summary renderer and JSON/Markdown artifact outputs added
+- Two local reporting runs matched all metrics, inventory values, partition values, and three SHA-256 outputs
+- Coverage and inventory comparison configured as report-only without numeric thresholds
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
-- Test Coverage reporting workflow preparation
 
 ## 5. Next Actions
 
 1. Continue GitHub account initial setup section 15 and later
-2. Add a separate Test Coverage GitHub Actions workflow
-3. Compare the Windows baseline with Ubuntu measurement
-4. Validate at least two stable CI reporting runs
+2. Human Owner review the local Test Coverage Reporting Workflow commit, push the feature branch, and create a pull request
+3. Verify the GitHub Actions Job Summary and JSON/Markdown artifacts on the pull request
+4. Compare the Windows baseline with Ubuntu CI and validate at least two stable reporting runs
 5. Prioritize tests for deterministic business logic
 6. Propose numeric thresholds only after stable reporting
 7. Human Owner review and commit the VS Code workspace settings when approved
@@ -170,11 +175,14 @@ Coverage Provider is installed and local coverage was measured twice without thr
 - Current automated test scope remains limited to one test file and four tests across 104 production TypeScript/TSX files.
 - The measured threshold-free baseline is low and must guide test prioritization without weakening the production measurement boundary.
 - No numeric thresholds are approved; propose them only after stable CI reporting.
+- The Test Coverage Reporting workflow is report-only and is not a Required Status Check; GitHub Actions execution evidence remains pending Human Owner push and pull request.
+- Ubuntu CI may expose platform-specific coverage or inventory differences; the separate CI stability validation must review two runs before any enforcement decision.
 
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-07-20 15:35 JST | TEST-COVERAGE-REPORTING-WORKFLOW-R2-20260720 | Implemented the Revision 2 report-only coverage workflow, schemaVersion 2 baseline, executable-line-aware 1 / 97 / 6 inventory partition, deterministic Job Summary renderer, and JSON/Markdown artifacts; passed two-run hash repeatability and all local quality gates while preserving existing workflows and protected repository scope | Codex |
 | 2026-07-20 13:26 JST | TEST-COVERAGE-BASELINE-20260720 | Added the exact Vitest V8 coverage provider and coverage script, configured the reviewed production boundary, measured a 104-file threshold-free baseline twice with exact repeatability, passed all local quality checks including production build, and preserved workflow, production, test, Prisma, DB, Ruleset, and GitHub settings | Codex |
 | 2026-07-19 19:44 JST | TEST-COVERAGE-QUALITY-GATE-DESIGN-20260719 | Completed the Test Coverage Quality Gate design, including source/test inventory, scope and exclusion classification, baseline measurement plan, threshold decision policy, separate workflow candidate, and Required Status Check rollout plan without implementation or coverage measurement | Codex |
 | 2026-07-19 18:10 JST | VSCODE-WORKSPACE-SETTINGS-20260719 | Added repository-scoped VS Code settings and extension recommendations; validated both JSON files, Prettier formatting, diff whitespace, expected file scope, unchanged HEAD, and absence of recognized secret value patterns | Codex |
