@@ -1,0 +1,78 @@
+name: Test Coverage Reporting
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - master
+
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-coverage-reporting-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    name: Test Coverage Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify tool versions
+        shell: bash
+        run: |
+          test "$(node --version)" = "v24.18.0"
+          test "$(pnpm --version)" = "11.7.0"
+          test "$(node -p "require('./node_modules/vitest/package.json').version")" = "4.1.10"
+          test "$(node -p "require('./node_modules/@vitest/coverage-v8/package.json').version")" = "4.1.10"
+
+      - name: Run test coverage
+        run: pnpm run test:coverage
+
+      - name: Render coverage summary
+        run: node scripts/quality-gates/render-coverage-summary.mjs
+
+      - name: Verify coverage outputs
+        shell: bash
+        run: |
+          test -s coverage/coverage-summary.json
+          test -s coverage/coverage-ci-summary.md
+          test -s coverage/coverage-ci-report.json
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-coverage-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            coverage/coverage-summary.json
+            coverage/coverage-ci-summary.md
+            coverage/coverage-ci-report.json
+          if-no-files-found: error
+          retention-days: 14

@@ -2,6 +2,12 @@
 
 ## Version 1.0 Draft
 
+- Added the dedicated report-only Test Coverage Reporting GitHub Actions workflow.
+- Added the schemaVersion 2 machine-readable coverage baseline.
+- Added executable-line-aware covered, uncovered, and zero-executable-line inventory classification.
+- Added the deterministic coverage Job Summary renderer.
+- Added coverage summary JSON, comparison JSON, and Markdown artifact reporting.
+
 - Added `@vitest/coverage-v8` 4.1.10 for local baseline measurement.
 - Added `test:coverage` without changing the existing `test` command.
 - Added explicit production coverage inclusion and reviewed exclusions.
