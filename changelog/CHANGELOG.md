@@ -236,3 +236,35 @@
 - Normalized Scale Gate naming for Analytics and KPI Scale Gate and Growth Lab Core System Scale Gate.
 - Improved README Document Structure with chapter titles and Completed / Reflected status.
 - Reformatted Future ADR candidate lists, fixed minor Markdown bullet formatting, and adjusted minor terminology noted in the cross-review.
+
+### Added
+
+- Added the MVP Approval Gate Core as pure TypeScript domain logic.
+- Added Approval Gate state-transition validation for Draft, Review Required, Approved, Blocked, Deferred, Published, and Archived boundaries.
+- Added record version conflict detection and duplicate transition request detection.
+- Replaced free-form audit metadata with allowlisted safe references.
+- Added runtime validation for transition references, including transition request identifiers, maximum length, safe characters, and rejection of URL-shaped, multiline, and control-character values.
+- Added TrustedAuthorizationContext for Human Owner decisions. Important Human Owner transitions require VERIFIED_UPSTREAM trust, a valid subject reference, and APPROVAL_GATE_HUMAN_OWNER_DECIDE permission.
+- Prevented unverified authorization contexts and authorization contexts supplied by non-Human Owner actors from affecting transitions or audit output.
+- Restricted audit events to fixed properties and validated reference identifiers. Arbitrary payloads, decision text, URLs, published timestamps, and free-form metadata are not copied into audit events.
+- Changed WARNING handling so WARNING cannot transition to APPROVED or PUBLISHED, including when a verified Human Owner context is supplied.
+- APPROVED_WITH_MANUAL_REVIEW is not accepted as an MVP publishing approval path.
+- Added 64 Approval Gate Core automated tests covering state transitions, rejection paths, audit allowlists, runtime authorization validation, forbidden-key normalization, unsafe references, WARNING refusal paths, automation boundaries, invalid states, and NOT_APPLICABLE publication paths.
+
+### Validation
+
+- Approval Gate Core targeted tests passed: 64/64.
+- Full test suite passed: 68/68.
+- TypeScript typecheck passed.
+- ESLint passed.
+- Prettier format check passed.
+- OpenAPI lint passed.
+- Git diff check passed.
+
+### Security
+
+- No real secret, token, API key, password, recovery code, or TOTP secret values were added.
+- Secret-related rejection is based on normalized forbidden field names and safe-reference validation. It does not claim complete detection of arbitrary credential values.
+- Audit events are restricted to fixed properties and validated allowlisted references.
+- The Approval Gate Core does not perform authentication, OAuth, permission storage, or credential verification. Verified authorization context creation remains an upstream Application Layer responsibility.
+- No database, external API, worker, production connection, or publishing behavior was enabled.
