@@ -447,6 +447,23 @@ describe("transitionApprovalGate", () => {
     expectError(result, "DUPLICATE_TRANSITION_REQUEST_ID");
   });
 
+  it("prioritizes a duplicate request over status and version mismatches", () => {
+    const result = transitionApprovalGate(
+      state({
+        status: "APPROVED",
+        recordVersion: 4,
+        reviewChecks: ALL_PASS,
+        processedTransitionRequestIds: ["transition-001"],
+      }),
+      request({
+        fromStatus: "REVIEW_REQUIRED",
+        expectedRecordVersion: 3,
+      }),
+    );
+
+    expectError(result, "DUPLICATE_TRANSITION_REQUEST_ID");
+  });
+
   it("rejects invalid runtime status values", () => {
     // The assertion deliberately simulates untrusted runtime input.
     const result = transitionApprovalGate(

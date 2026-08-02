@@ -328,16 +328,8 @@ export function validateApprovalGateTransition(
       authorization.authorizationSubjectReference;
   }
 
-  if (request.fromStatus !== currentState.status) {
-    return validationError("FROM_STATUS_MISMATCH");
-  }
-
   if (!Number.isInteger(request.expectedRecordVersion)) {
     return validationError("INVALID_INPUT");
-  }
-
-  if (request.expectedRecordVersion !== currentState.recordVersion) {
-    return validationError("STALE_RECORD_VERSION");
   }
 
   if (
@@ -346,6 +338,14 @@ export function validateApprovalGateTransition(
     )
   ) {
     return validationError("DUPLICATE_TRANSITION_REQUEST_ID");
+  }
+
+  if (request.fromStatus !== currentState.status) {
+    return validationError("FROM_STATUS_MISMATCH");
+  }
+
+  if (request.expectedRecordVersion !== currentState.recordVersion) {
+    return validationError("STALE_RECORD_VERSION");
   }
 
   if (
