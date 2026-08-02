@@ -2,6 +2,17 @@
 
 ## Version 1.0 Draft
 
+- Added the MVP Approval Gate Application Layer with a transition Use Case, fixed safe result unions, and an Approval Gate Store Port.
+- Added a test-only In-memory Approval Gate Store that clones state and audit events and does not provide production persistence.
+- Defined one atomic `commitTransition` contract for state, processed transition request ID, and audit event persistence.
+- Made duplicate transition request results deterministic after full input and authorization validation.
+- Mapped the Core `DUPLICATE_TRANSITION_REQUEST_ID` result to the Application Layer `DUPLICATE_REQUEST` result.
+- Defined duplicate request precedence over version conflict when both conditions apply.
+- Added exact replay coverage that keeps state unchanged and retains one audit event.
+- Expanded Approval Gate Core coverage to 65 tests and added 18 Application Layer tests, with 87 passing tests in the full suite.
+- Passed TypeScript typecheck, ESLint with zero warnings, Prettier, OpenAPI lint, and Git diff checks.
+- Kept HTTP routes, database, Prisma, migrations, OAuth, UI, workflows, dependencies, workers, queues, webhooks, and external Provider connections out of scope.
+
 - Added the dedicated report-only Test Coverage Reporting GitHub Actions workflow.
 - Added the schemaVersion 2 machine-readable coverage baseline.
 - Added executable-line-aware covered, uncovered, and zero-executable-line inventory classification.

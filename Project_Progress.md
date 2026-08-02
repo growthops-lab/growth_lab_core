@@ -7,7 +7,7 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-02 13:57 JST
+- Last Updated: 2026-08-02 17:21 JST
 
 ## 2. Current Status
 
@@ -23,12 +23,16 @@ GitHub Recovery codes metadata audit passed across current repository paths, wor
 Required approvals has been reviewed against the solo Human Owner operation model and confirmed as 0. The active Protect master Ruleset retains five mandatory status checks, blocks force pushes, and has an empty bypass list.
 VS Code workspace settings have been implemented and locally validated on chore/vscode-workspace-settings without installing extensions or changing package, lockfile, Prettier, workspace, EditorConfig, or Git attributes files.
 Test Coverage Quality Gate design and Phase B local coverage baseline implementation are complete.
-Test Coverage Reporting Workflow Revision 2 is implemented and locally validated with schemaVersion 2, the 1 / 97 / 6 executable-line partition, deterministic Job Summary and artifact outputs, and report-only comparison policy. Human Owner push and pull request remain pending.
+Test Coverage Reporting Workflow Revision 2 was implemented, validated, and merged through PR #18 with schemaVersion 2, the 1 / 97 / 6 executable-line partition, deterministic Job Summary and artifact outputs, and report-only comparison policy.
 Approval Gate Core implementation and security remediation are complete locally. Targeted tests passed 64/64, the full test suite passed 68/68, and TypeScript, ESLint, Prettier, OpenAPI lint, and Git diff checks passed.
 Local commit e63ce788bbd85dacc63c3db379201b74eb186e13 was pushed to feat/mvp-approval-gate-core, and Draft PR #20 was opened against master.
 Progress-only documentation commit d308808d935fa2541fd3cef2437be9263432c5ee updated PR #20, and all nine observed PR checks completed successfully.
 Human Owner marked PR #20 Ready for review. GitHub then Squash merged PR #20 into master as commit bec8c86702a7a46d65a9c40b07e04f8601e68ad1, and the remote feature branch was deleted.
 Local master and origin/master were synchronized at merge commit bec8c86702a7a46d65a9c40b07e04f8601e68ad1.
+PR #21 merged the PR #20 completion record into master as commit 1d04966f1b83b80753073d21a85a07dd1e1036b9, and this commit became the synchronized baseline for the Application Layer work.
+MVP Approval Gate Application Layer implementation is complete locally on feat/mvp-approval-gate-application-layer. The implementation adds a Use Case, Store Port, test-only In-memory Store, and fixed safe result unions without HTTP, database, Prisma, OAuth, UI, workflow, dependency, or external Provider changes.
+Post-review duplicate replay remediation is complete. Core duplicate detection now takes precedence after full input and authorization validation, the Use Case maps the Core duplicate result to DUPLICATE_REQUEST, and the Store Port and In-memory Store share the same atomicity and precedence contract.
+Approval Gate Core tests passed 65/65, Application Layer tests passed 18/18, and the full suite passed 87/87. TypeScript, ESLint with zero warnings, Prettier, OpenAPI lint, and Git diff checks passed. The post-fix read-only final review returned COMMIT_RECOMMENDED with no findings.
 
 ## 3. Completed
 
@@ -150,20 +154,32 @@ Local master and origin/master were synchronized at merge commit bec8c86702a7a46
 - PR #20 Squash merged into master as commit bec8c86702a7a46d65a9c40b07e04f8601e68ad1
 - Remote branch feat/mvp-approval-gate-core deleted after merge
 - Local master synchronized with origin/master at commit bec8c86702a7a46d65a9c40b07e04f8601e68ad1
+- PR #21 completion record merged into master as commit 1d04966f1b83b80753073d21a85a07dd1e1036b9
+- MVP Approval Gate Application Layer Use Case and fixed safe result unions implemented locally
+- Approval Gate Store Port added with atomic state, processed request ID, and audit event commit contract
+- Test-only In-memory Approval Gate Store added with cloned state and audit boundaries
+- Duplicate replay result contract remediated across Core, Use Case, Store Port, and In-memory Store
+- Exact duplicate replay confirmed as DUPLICATE_REQUEST with unchanged state and one retained audit event
+- Approval Gate Core tests passed 65/65, Application Layer tests passed 18/18, and full suite passed 87/87
+- TypeScript typecheck, ESLint with zero warnings, Prettier, OpenAPI lint, and Git diff checks passed
+- Post-fix seven-file read-only final review completed with COMMIT_RECOMMENDED and no findings
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
+- MVP Approval Gate Application Layer documentation, final nine-file review, commit, push, and Draft PR preparation
 
 
 ## 5. Next Actions
 
-1. Continue GitHub account initial setup section 15 and later
-2. Human Owner review the local Test Coverage Reporting Workflow commit, push the feature branch, and create a pull request
-3. Verify the GitHub Actions Job Summary and JSON/Markdown artifacts on the pull request
-4. Compare the Windows baseline with Ubuntu CI and validate at least two stable reporting runs
-5. Prioritize tests for deterministic business logic
-6. Propose numeric thresholds only after stable reporting
-7. Human Owner review and commit the VS Code workspace settings when approved
+1. Complete a read-only final review of the nine approved Application Layer files
+2. Human Owner stage exactly the approved nine files and create the implementation commit after review approval
+3. Push feat/mvp-approval-gate-application-layer and open a Draft pull request against master
+4. Verify all GitHub checks on the latest pull request head before Ready for review
+5. Require separate explicit Human Owner authorization for Ready for review and merge
+6. Continue GitHub account initial setup section 15 and later
+7. Compare coverage reporting across future stable CI runs before proposing numeric thresholds
+8. Continue prioritizing deterministic business logic tests
+9. Human Owner review and commit the VS Code workspace settings when approved
 ## 6. Human Owner Decisions
 
 - Repository visibility: Public
@@ -176,6 +192,8 @@ Local master and origin/master were synchronized at merge commit bec8c86702a7a46
 - Required approvals for the current solo operation model: 0
 - Use Squash and merge as the operational merge method
 - Reassess Required approvals when an independent reviewer becomes available
+- Keep the MVP Approval Gate Application Layer limited to the Use Case, Store Port, safe result types, and test-only In-memory Store
+- Defer production persistence, HTTP routes, Prisma, database migrations, OAuth, UI, workers, queues, webhooks, and external Provider integration
 
 ## 7. Issues and Risks
 
@@ -190,21 +208,22 @@ Local master and origin/master were synchronized at merge commit bec8c86702a7a46
 - The files.eol workspace default applies LF to new files, while the existing Prettier endOfLine auto setting preserves the repository's current mixed LF and CRLF files; a future repository-wide normalization must be handled separately.
 - Secret-file exclusion patterns also hide .env.example from normal VS Code Explorer and search results; it remains available through an explicit path when needed.
 - Recommended VS Code extensions are not automatically installed, and local Prettier and TypeScript integration requires existing node_modules dependencies.
-- Current automated test scope includes the 64-test Approval Gate Core suite and the existing 4-test analytics suite, for 68 passing tests across two test files. Test prioritization remains necessary across the broader production TypeScript/TSX scope.
+- Current automated test scope includes the 65-test Approval Gate Core suite, the 18-test Approval Gate Application Layer suite, and the existing 4-test analytics suite, for 87 passing tests across three test files. Test prioritization remains necessary across the broader production TypeScript/TSX scope.
 - The measured threshold-free baseline is low and must guide test prioritization without weakening the production measurement boundary.
 - No numeric thresholds are approved; propose them only after stable CI reporting.
-- The Test Coverage Reporting workflow is report-only and is not a Required Status Check; GitHub Actions execution evidence remains pending Human Owner push and pull request.
+- The Test Coverage Reporting workflow is report-only and is not a Required Status Check. GitHub Actions execution evidence was completed through PR #18; future enforcement remains deferred.
 - Ubuntu CI may expose platform-specific coverage or inventory differences; the separate CI stability validation must review two runs before any enforcement decision.
 - PR #20 was marked Ready for review under explicit Human Owner authorization. The GitHub UI then Squash merged the approved seven-file change after nine successful checks and with no open review findings, before a separate explicit merge-authorization step was recorded. No Revert was performed.
 - TrustedAuthorizationContext depends on verified input from the upstream Application Layer. The pure Core does not authenticate users, execute OAuth, or persist permissions.
-- The untracked docs/ directory contains approved protected materials and must remain unstaged, unmodified, and excluded from the Approval Gate Core commit.
+- The untracked docs/ directory contains approved protected materials and must remain unstaged, unmodified, and excluded from the Approval Gate Application Layer commit.
+- The In-memory Approval Gate Store is test-only. A future durable Adapter must preserve atomic state, processed request ID, and audit event persistence and must return DUPLICATE_REQUEST before VERSION_CONFLICT when both conditions apply.
 
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-08-02 17:16 JST | MVP-APPROVAL-GATE-APPLICATION-LAYER-20260802 | Implemented the MVP Approval Gate Application Layer Use Case, atomic Store Port, safe result unions, and test-only In-memory Store; remediated deterministic duplicate replay handling across Core and Application boundaries; passed 65 Core tests, 18 Application tests, and 87 full-suite tests with all quality gates; and completed the post-fix read-only final review with COMMIT_RECOMMENDED | Human Owner |
 | 2026-08-02 13:57 JST | MVP-APPROVAL-GATE-CORE-20260802 | Completed Approval Gate Core implementation and progress commit; confirmed nine successful PR checks; marked PR #20 Ready for review; Squash merged the approved seven-file change into master as bec8c86702a7a46d65a9c40b07e04f8601e68ad1; deleted the remote feature branch; and synchronized local master with origin/master | Human Owner |
-
 | 2026-07-20 15:35 JST | TEST-COVERAGE-REPORTING-WORKFLOW-R2-20260720 | Implemented the Revision 2 report-only coverage workflow, schemaVersion 2 baseline, executable-line-aware 1 / 97 / 6 inventory partition, deterministic Job Summary renderer, and JSON/Markdown artifacts; passed two-run hash repeatability and all local quality gates while preserving existing workflows and protected repository scope | Codex |
 | 2026-07-20 13:26 JST | TEST-COVERAGE-BASELINE-20260720 | Added the exact Vitest V8 coverage provider and coverage script, configured the reviewed production boundary, measured a 104-file threshold-free baseline twice with exact repeatability, passed all local quality checks including production build, and preserved workflow, production, test, Prisma, DB, Ruleset, and GitHub settings | Codex |
 | 2026-07-19 19:44 JST | TEST-COVERAGE-QUALITY-GATE-DESIGN-20260719 | Completed the Test Coverage Quality Gate design, including source/test inventory, scope and exclusion classification, baseline measurement plan, threshold decision policy, separate workflow candidate, and Required Status Check rollout plan without implementation or coverage measurement | Codex |
