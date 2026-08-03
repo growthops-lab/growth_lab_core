@@ -2,6 +2,15 @@
 
 ## Version 1.0 Draft
 
+- Removed non-SQL package execution output from both generated migration SQL artifacts.
+- Limited P2002 duplicate classification to the processed-transition create phase and expanded mapper and Store failure-path coverage.
+
+- Added the Approval Gate Production Persistence Foundation with Prisma schema models, migration artifacts, a persistence mapper, and a Prisma Store adapter.
+- Added a current-schema baseline migration and a separate Approval Gate addition migration without applying either migration to a database.
+- Added atomic state, processed transition request, and audit event persistence with duplicate-request precedence over version conflict.
+- Added DB-free mapper and Store adapter tests, including CAS, duplicate, P2002, P2034, rollback-safe failure, and internal-error containment coverage.
+- Kept database connection, migrate dev, migrate deploy, migrate resolve, db push, seed, and dedicated verification database execution out of scope.
+
 - Added the MVP Approval Gate Application Layer with a transition Use Case, fixed safe result unions, and an Approval Gate Store Port.
 - Added a test-only In-memory Approval Gate Store that clones state and audit events and does not provide production persistence.
 - Defined one atomic `commitTransition` contract for state, processed transition request ID, and audit event persistence.
