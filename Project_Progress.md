@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-08-03 23:04 JST
+Last Updated: 2026-08-05 00:15 JST
 
 ## 1. Project Information
 
@@ -9,11 +9,11 @@ Last Updated: 2026-08-03 23:04 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-02 22:22 JST
+- Last Updated: 2026-08-05 00:15 JST
 
 ## 2. Current Status
 
-- Candidate A Production Persistence Foundation local implementation and mandatory fix validation are complete on branch `feat/mvp-approval-gate-persistence-foundation`; final read-only review is pending, and database-connected operations remain separately gated.
+- Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, local master synchronization, and feature branch cleanup are complete. The approved persistence foundation is on `master` at `25f584ae26182fafabb5a27f8d31f91fb7c180aa`; database-connected operations remain separately gated and unexecuted.
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
@@ -183,20 +183,29 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - Next MVP boundary selection review completed with Candidate A, Production Persistence Foundation, recommended and approved
 - Local branch feat/mvp-approval-gate-persistence-foundation created from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94 without file, database, migration, or GitHub write operations
 - Completed Candidate A local implementation and mandatory fixes: sanitized both migration SQL artifacts, limited P2002 duplicate classification to the processed-transition create phase, expanded DB-free failure coverage, and passed all required local quality gates.
+- Added the Approval Gate production persistence foundation with four Prisma enums, three persistence models, a separated current-schema baseline migration and Approval Gate addition migration, a fixed-allowlist mapper, and a constructor-injected Prisma Store Adapter.
+- Confirmed duplicate-request precedence, record-version compare-and-swap behavior, atomic state/request/audit persistence, phase- and constraint-limited P2002 classification, safe persistence-failure mapping, and a maximum of one P2034 transaction retry without database execution.
+- Persistence targeted tests passed 39/39, the full test suite passed 126/126, and Prisma validate, TypeScript, ESLint, Prettier, OpenAPI lint, and git diff checks passed.
+- Candidate A implementation commit `0fc06f0742ecadeb281ea336b239aa284568db55` was created with the approved 11-file implementation scope and pushed to `feat/mvp-approval-gate-persistence-foundation`.
+- Draft PR #24 was opened, marked Ready for review after successful read-only review, and validated by seven successful pull-request workflows and all required status checks.
+- PR #24 was Squash merged into `master` as `25f584ae26182fafabb5a27f8d31f91fb7c180aa`.
+- Local `master` and `origin/master` were synchronized at the PR #24 Squash merge commit.
+- Local, remote, and remote-tracking `feat/mvp-approval-gate-persistence-foundation` references were deleted after merge while the protected untracked `docs/` scope remained unchanged.
+- Database connection, migration application, `migrate dev`, `migrate deploy`, `migrate resolve`, `db push`, seed, and dedicated verification-database integration tests were not performed.
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
-- Approval Gate Production Persistence Foundation final read-only review and commit-readiness validation under the DB-non-execution boundary
+- Production Persistence Foundation completion-record documentation lifecycle on `docs/mvp-approval-gate-persistence-foundation-merge-record`, with `Project_Progress.md` as the only tracked change and all database operations still separately gated.
 
 ## 5. Next Actions
 
-- Run the final read-only review of the exact 11-file Candidate A implementation scope.
-- If the final review returns IMPLEMENTATION_COMMIT_RECOMMENDED, create the approved local commit and continue the Human Owner GitHub lifecycle.
-- Keep database connection, migration application, migrate resolve, db push, seed, and dedicated verification database execution under separate Human Owner approval.
+- Perform a read-only final review of the exact `Project_Progress.md`-only completion-record diff.
+- If the review recommends commit, create the approved local completion-record commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge it, synchronize local `master`, and clean up the completion-record branch references.
+- After the completion-record PR lifecycle is fully closed, prepare the updated management-to-development handover Word, PDF, and README artifacts; the Human Owner will manually store them under `C:\claudcode_ap\growth_lab_core\docs\handover\development-environment\20260729_codeql_advanced_setup`.
+- Keep database connection, migration application, `migrate dev`, `migrate deploy`, `migrate resolve`, `db push`, seed, and dedicated verification-database execution under separate Human Owner approval.
 
 ## 6. Human Owner Decisions
-
 - Repository visibility: Public
 - Repository name: growth_lab_core
 - Do not create README, .gitignore, or LICENSE on GitHub during repository creation
@@ -217,6 +226,10 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - Dedicated non-production verification-database integration tests require separate explicit Human Owner authorization
 - Keep the existing Approval Gate Core and Application Layer contracts unchanged unless a contract defect is confirmed by read-only review
 - Exclude HTTP routes, UI, OAuth, workers, queues, webhooks, external Providers, and dependency additions from Candidate A
+- Use `docs/mvp-approval-gate-persistence-foundation-merge-record` for the Candidate A completion-record lifecycle, with `Project_Progress.md` as the only tracked change.
+- Do not modify, read, stage, commit, or publish the protected untracked `docs/` materials during the completion-record PR lifecycle.
+- After the completion-record PR is merged, synchronized, and cleaned up, update the management-to-development handover Word, PDF, and README artifacts externally; the Human Owner will manually store them in the approved handover folder.
+- Continue to require separate explicit Human Owner authorization for every database connection, migration application, `migrate resolve`, `db push`, seed, or dedicated verification-database execution.
 ## 7. Issues and Risks
 
 - The previous broad-term Recovery codes scan is classified as inconclusive due to false-positive risk and is superseded for path-name classification by the specific metadata audit.
@@ -243,10 +256,13 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - Prisma migration history is not established. Do not execute a migration against an existing database until the baseline, forward procedure, and rollback procedure have been approved.
 - Dedicated verification-database use remains outside the initial Candidate A implementation and requires separate explicit Human Owner authorization.
 - The Approval Gate OpenAPI draft is not the final Core enum or production HTTP contract and must be aligned before the later HTTP Transition Endpoint Adapter boundary begins.
+- The management-to-development handover remains at v1.3 until the completion-record PR lifecycle is fully closed; do not treat a draft v1.4 artifact as the current repository record.
+- The completion-record branch is documentation-only. Any implementation, Prisma, migration, dependency, API, UI, worker, provider, or protected `docs/` change is outside scope and must stop the workflow.
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-08-05 00:15 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-MERGE-COMPLETION-20260804 | Recorded Candidate A Production Persistence Foundation completion through implementation commit `0fc06f0742ecadeb281ea336b239aa284568db55`, 39/39 persistence tests, 126/126 full-suite tests, seven successful PR workflows and required checks, PR #24 Squash merge to `25f584ae26182fafabb5a27f8d31f91fb7c180aa`, local master synchronization, deletion of local/remote/remote-tracking feature branch references, preservation of the protected untracked `docs/` scope, continued database non-execution, and creation of the completion-record branch | Human Owner |
 | 2026-08-02 22:22 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-20260802 | Approved Candidate A, Production Persistence Foundation, as the next MVP boundary; created local branch feat/mvp-approval-gate-persistence-foundation from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94; fixed the current-schema baseline and Approval Gate addition migrations as separate artifacts; prohibited database connection, migration execution, db push, and seed in the initial pull request; and reserved dedicated verification-database execution for separate Human Owner authorization | Human Owner |
 | 2026-08-02 19:05 JST | MVP-APPROVAL-GATE-APPLICATION-LAYER-MERGE-COMPLETION-20260802 | Recorded PR #22 Squash merge completion at ad18cc4cf2824bc4cb8e68ce374cefb7a50be137 after nine successful checks; confirmed local master and origin/master synchronization; deleted local, remote, and remote-tracking feature branch references; preserved the protected untracked docs/ scope; and closed the MVP Approval Gate Application Layer implementation and merge lifecycle | Human Owner |
 | 2026-08-02 17:16 JST | MVP-APPROVAL-GATE-APPLICATION-LAYER-20260802 | Implemented the MVP Approval Gate Application Layer Use Case, atomic Store Port, safe result unions, and test-only In-memory Store; remediated deterministic duplicate replay handling across Core and Application boundaries; passed 65 Core tests, 18 Application tests, and 87 full-suite tests with all quality gates; and completed the post-fix read-only final review with COMMIT_RECOMMENDED | Human Owner |
