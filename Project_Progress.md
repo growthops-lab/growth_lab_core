@@ -1,5 +1,7 @@
 # Growth Lab Core Project Progress
 
+Last Updated: 2026-08-03 23:04 JST
+
 ## 1. Project Information
 
 - Project: Growth Lab Core
@@ -7,10 +9,11 @@
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-02 19:05 JST
+- Last Updated: 2026-08-02 22:22 JST
 
 ## 2. Current Status
 
+- Candidate A Production Persistence Foundation local implementation and mandatory fix validation are complete on branch `feat/mvp-approval-gate-persistence-foundation`; final read-only review is pending, and database-connected operations remain separately gated.
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
@@ -35,7 +38,9 @@ Post-review duplicate replay remediation is complete. Core duplicate detection n
 Approval Gate Core tests passed 65/65, Application Layer tests passed 18/18, and the full suite passed 87/87. TypeScript, ESLint with zero warnings, Prettier, OpenAPI lint, and Git diff checks passed. The post-fix read-only final review returned COMMIT_RECOMMENDED with no findings.
 PR #22 passed nine observed checks, was marked Ready for review under explicit Human Owner authorization, and was Squash merged into master as commit ad18cc4cf2824bc4cb8e68ce374cefb7a50be137.
 Local master and origin/master were synchronized at the PR #22 merge commit. The local feature branch, remote feature branch, and remote-tracking feature ref were deleted after merge, while the protected untracked docs/ scope remained unchanged.
-The MVP Approval Gate Application Layer implementation and merge lifecycle are complete. This dedicated documentation branch records the completion evidence only.
+The MVP Approval Gate Application Layer implementation and merge lifecycle are complete.
+
+Candidate A, Production Persistence Foundation, is approved as the next MVP boundary on feat/mvp-approval-gate-persistence-foundation, starting from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94. The first implementation PR will separate the current-schema baseline migration from the Approval Gate addition migration and will not connect to a database, apply migrations, run db push, or seed data. Dedicated verification-database execution requires separate Human Owner authorization.
 
 ## 3. Completed
 
@@ -175,23 +180,21 @@ The MVP Approval Gate Application Layer implementation and merge lifecycle are c
 - Local, remote, and remote-tracking feat/mvp-approval-gate-application-layer branch references deleted
 - Protected untracked docs/ scope preserved throughout implementation, merge, synchronization, and branch cleanup
 - MVP Approval Gate Application Layer implementation and merge lifecycle completed
+- Next MVP boundary selection review completed with Candidate A, Production Persistence Foundation, recommended and approved
+- Local branch feat/mvp-approval-gate-persistence-foundation created from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94 without file, database, migration, or GitHub write operations
+- Completed Candidate A local implementation and mandatory fixes: sanitized both migration SQL artifacts, limited P2002 duplicate classification to the processed-transition create phase, expanded DB-free failure coverage, and passed all required local quality gates.
+
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
-- Approval Gate Application Layer merge-completion progress record, validation, commit, push, and pull request preparation
+- Approval Gate Production Persistence Foundation final read-only review and commit-readiness validation under the DB-non-execution boundary
+
 ## 5. Next Actions
 
-1. Validate this Project_Progress.md-only completion record
-2. Human Owner stage only Project_Progress.md and create the completion-record commit
-3. Push docs/mvp-approval-gate-application-layer-merge-record and open a Draft pull request against master
-4. Verify fresh checks on the completion-record pull request head
-5. Require separate explicit Human Owner authorization for Ready for review and merge
-6. After merge, synchronize local master and remove the completion-record branch
-7. Select and review the next MVP implementation boundary
-8. Continue GitHub account initial setup section 15 and later
-9. Compare coverage reporting across future stable CI runs before proposing numeric thresholds
-10. Continue prioritizing deterministic business logic tests
-11. Human Owner review and commit the VS Code workspace settings when approved
+- Run the final read-only review of the exact 11-file Candidate A implementation scope.
+- If the final review returns IMPLEMENTATION_COMMIT_RECOMMENDED, create the approved local commit and continue the Human Owner GitHub lifecycle.
+- Keep database connection, migration application, migrate resolve, db push, seed, and dedicated verification database execution under separate Human Owner approval.
+
 ## 6. Human Owner Decisions
 
 - Repository visibility: Public
@@ -205,8 +208,15 @@ The MVP Approval Gate Application Layer implementation and merge lifecycle are c
 - Use Squash and merge as the operational merge method
 - Reassess Required approvals when an independent reviewer becomes available
 - Keep the MVP Approval Gate Application Layer limited to the Use Case, Store Port, safe result types, and test-only In-memory Store
-- Defer production persistence, HTTP routes, Prisma, database migrations, OAuth, UI, workers, queues, webhooks, and external Provider integration
+- Production Persistence Foundation is approved for design and code implementation; continue to defer database connection and migration execution, HTTP routes, OAuth, UI, workers, queues, webhooks, and external Provider integration
 
+- Candidate A, Production Persistence Foundation, approved as the next MVP development boundary
+- Use feat/mvp-approval-gate-persistence-foundation for the Candidate A implementation lifecycle
+- Separate the current-schema baseline migration from the Approval Gate addition migration
+- Do not connect to a database or run migrate dev, migrate deploy, migrate resolve, db push, or seed in the initial Candidate A pull request
+- Dedicated non-production verification-database integration tests require separate explicit Human Owner authorization
+- Keep the existing Approval Gate Core and Application Layer contracts unchanged unless a contract defect is confirmed by read-only review
+- Exclude HTTP routes, UI, OAuth, workers, queues, webhooks, external Providers, and dependency additions from Candidate A
 ## 7. Issues and Risks
 
 - The previous broad-term Recovery codes scan is classified as inconclusive due to false-positive risk and is superseded for path-name classification by the specific metadata audit.
@@ -230,10 +240,14 @@ The MVP Approval Gate Application Layer implementation and merge lifecycle are c
 - The untracked docs/ directory contains approved protected materials and must remain unstaged, unmodified, and excluded from the Approval Gate Application Layer merge-completion record commit.
 - The In-memory Approval Gate Store is test-only. A future durable Adapter must preserve atomic state, processed request ID, and audit event persistence and must return DUPLICATE_REQUEST before VERSION_CONFLICT when both conditions apply.
 
+- Prisma migration history is not established. Do not execute a migration against an existing database until the baseline, forward procedure, and rollback procedure have been approved.
+- Dedicated verification-database use remains outside the initial Candidate A implementation and requires separate explicit Human Owner authorization.
+- The Approval Gate OpenAPI draft is not the final Core enum or production HTTP contract and must be aligned before the later HTTP Transition Endpoint Adapter boundary begins.
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-08-02 22:22 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-20260802 | Approved Candidate A, Production Persistence Foundation, as the next MVP boundary; created local branch feat/mvp-approval-gate-persistence-foundation from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94; fixed the current-schema baseline and Approval Gate addition migrations as separate artifacts; prohibited database connection, migration execution, db push, and seed in the initial pull request; and reserved dedicated verification-database execution for separate Human Owner authorization | Human Owner |
 | 2026-08-02 19:05 JST | MVP-APPROVAL-GATE-APPLICATION-LAYER-MERGE-COMPLETION-20260802 | Recorded PR #22 Squash merge completion at ad18cc4cf2824bc4cb8e68ce374cefb7a50be137 after nine successful checks; confirmed local master and origin/master synchronization; deleted local, remote, and remote-tracking feature branch references; preserved the protected untracked docs/ scope; and closed the MVP Approval Gate Application Layer implementation and merge lifecycle | Human Owner |
 | 2026-08-02 17:16 JST | MVP-APPROVAL-GATE-APPLICATION-LAYER-20260802 | Implemented the MVP Approval Gate Application Layer Use Case, atomic Store Port, safe result unions, and test-only In-memory Store; remediated deterministic duplicate replay handling across Core and Application boundaries; passed 65 Core tests, 18 Application tests, and 87 full-suite tests with all quality gates; and completed the post-fix read-only final review with COMMIT_RECOMMENDED | Human Owner |
 | 2026-08-02 13:57 JST | MVP-APPROVAL-GATE-CORE-20260802 | Completed Approval Gate Core implementation and progress commit; confirmed nine successful PR checks; marked PR #20 Ready for review; Squash merged the approved seven-file change into master as bec8c86702a7a46d65a9c40b07e04f8601e68ad1; deleted the remote feature branch; and synchronized local master with origin/master | Human Owner |

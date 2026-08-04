@@ -1347,172 +1347,172 @@ enum SeoImportStatus {
 }
 
 model Media {
-  id          String      @id @default(cuid())
-  name        String
-  niche       String
+  id           String      @id @default(cuid())
+  name         String
+  niche        String
   wordpressUrl String
-  noteUrl     String?
-  bloggerUrl  String?
+  noteUrl      String?
+  bloggerUrl   String?
   instagramUrl String?
   pinterestUrl String?
-  growthScore Int         @default(0)
-  status      MediaStatus @default(ACTIVE)
-  notes       String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  growthScore  Int         @default(0)
+  status       MediaStatus @default(ACTIVE)
+  notes        String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
-  accounts SocialAccount[]
-  posts    Post[]
-  wordpressSites WordPressSite[]
-  wordpressPosts WordPressPost[]
-  wordpressMedia WordPressMedia[]
-  canvaConnections CanvaConnection[]
-  canvaBrandTemplates CanvaBrandTemplate[]
-  canvaDesignJobs CanvaDesignJob[]
-  creativeAssets CreativeAsset[]
-  creativeAssetUsages CreativeAssetUsage[]
-  affiliateProgramMediaSites AffiliateProgramMediaSite[]
-  affiliateLinks AffiliateLink[]
-  affiliatePlacements AffiliatePlacement[]
-  revenueEvents RevenueEvent[]
-  trafficMetrics TrafficMetricDaily[]
-  contentPerformance ContentPerformanceDaily[]
-  operatingCosts OperatingCost[]
-  growthScoreSnapshots GrowthScoreSnapshot[]
-  growthRecommendations GrowthRecommendation[]
-  googleConnections GoogleConnection[]
-  ga4Properties GA4Property[]
-  searchConsoleProperties SearchConsoleProperty[]
-  ga4Metrics GA4MetricDaily[]
-  ga4PageMetrics GA4PageMetricDaily[]
-  searchConsoleQueries SearchConsoleQueryDaily[]
-  searchConsolePages SearchConsolePageDaily[]
-  searchConsoleQueryPages SearchConsoleQueryPageDaily[]
-  seoKeywords SeoKeyword[]
-  seoPageKeywords SeoPageKeyword[]
-  seoOpportunities SeoOpportunity[]
-  seoRecommendations SeoRecommendation[]
-  seoAnalysisSnapshots SeoAnalysisSnapshot[]
-  seoImportBatches SeoImportBatch[]
-  googleSyncJobs GoogleSyncJob[]
-  googleSyncRuns GoogleSyncRun[]
-  googleApiQuotaLogs GoogleApiQuotaLog[]
-  googleApiErrorLogs GoogleApiErrorLog[]
-  scheduledTasks ScheduledTask[]
-  scheduledTaskRuns ScheduledTaskRun[]
-  dataFreshnessStatuses DataFreshnessStatus[]
-  alertIncidents AlertIncident[]
-  notificationEvents NotificationEvent[]
-  operationsHealthSnapshots OperationsHealthSnapshot[]
-  weeklyOperationsReports WeeklyOperationsReport[]
-  articleImprovementTasks ArticleImprovementTask[]
-  articleRevisionSnapshots ArticleRevisionSnapshot[]
-  rewriteDrafts RewriteDraft[]
-  seoImpactMeasurements SeoImpactMeasurement[]
-  socialApiConnections SocialApiConnection[]
-  socialPostQueues SocialPostQueue[]
+  accounts                       SocialAccount[]
+  posts                          Post[]
+  wordpressSites                 WordPressSite[]
+  wordpressPosts                 WordPressPost[]
+  wordpressMedia                 WordPressMedia[]
+  canvaConnections               CanvaConnection[]
+  canvaBrandTemplates            CanvaBrandTemplate[]
+  canvaDesignJobs                CanvaDesignJob[]
+  creativeAssets                 CreativeAsset[]
+  creativeAssetUsages            CreativeAssetUsage[]
+  affiliateProgramMediaSites     AffiliateProgramMediaSite[]
+  affiliateLinks                 AffiliateLink[]
+  affiliatePlacements            AffiliatePlacement[]
+  revenueEvents                  RevenueEvent[]
+  trafficMetrics                 TrafficMetricDaily[]
+  contentPerformance             ContentPerformanceDaily[]
+  operatingCosts                 OperatingCost[]
+  growthScoreSnapshots           GrowthScoreSnapshot[]
+  growthRecommendations          GrowthRecommendation[]
+  googleConnections              GoogleConnection[]
+  ga4Properties                  GA4Property[]
+  searchConsoleProperties        SearchConsoleProperty[]
+  ga4Metrics                     GA4MetricDaily[]
+  ga4PageMetrics                 GA4PageMetricDaily[]
+  searchConsoleQueries           SearchConsoleQueryDaily[]
+  searchConsolePages             SearchConsolePageDaily[]
+  searchConsoleQueryPages        SearchConsoleQueryPageDaily[]
+  seoKeywords                    SeoKeyword[]
+  seoPageKeywords                SeoPageKeyword[]
+  seoOpportunities               SeoOpportunity[]
+  seoRecommendations             SeoRecommendation[]
+  seoAnalysisSnapshots           SeoAnalysisSnapshot[]
+  seoImportBatches               SeoImportBatch[]
+  googleSyncJobs                 GoogleSyncJob[]
+  googleSyncRuns                 GoogleSyncRun[]
+  googleApiQuotaLogs             GoogleApiQuotaLog[]
+  googleApiErrorLogs             GoogleApiErrorLog[]
+  scheduledTasks                 ScheduledTask[]
+  scheduledTaskRuns              ScheduledTaskRun[]
+  dataFreshnessStatuses          DataFreshnessStatus[]
+  alertIncidents                 AlertIncident[]
+  notificationEvents             NotificationEvent[]
+  operationsHealthSnapshots      OperationsHealthSnapshot[]
+  weeklyOperationsReports        WeeklyOperationsReport[]
+  articleImprovementTasks        ArticleImprovementTask[]
+  articleRevisionSnapshots       ArticleRevisionSnapshot[]
+  rewriteDrafts                  RewriteDraft[]
+  seoImpactMeasurements          SeoImpactMeasurement[]
+  socialApiConnections           SocialApiConnection[]
+  socialPostQueues               SocialPostQueue[]
   socialPostPerformanceSnapshots SocialPostPerformanceSnapshot[]
-  socialPostAttributions SocialPostAttribution[]
-  socialPostTemplates SocialPostTemplate[]
-  socialImprovementSuggestions SocialImprovementSuggestion[]
-  socialGrowthScoreSnapshots SocialGrowthScoreSnapshot[]
-  campaigns Campaign[]
-  campaignBudgets CampaignBudget[]
-  campaignCosts CampaignCost[]
-  campaignRevenueAttributions CampaignRevenueAttribution[]
-  campaignRoiSnapshots CampaignRoiSnapshot[]
-  campaignGrowthScoreSnapshots CampaignGrowthScoreSnapshot[]
-  contentCalendarEvents ContentCalendarEvent[]
-  reportTemplates ReportTemplate[]
-  reportSchedules ReportSchedule[]
-  generatedReports GeneratedReport[]
-  businessInsights BusinessInsight[]
+  socialPostAttributions         SocialPostAttribution[]
+  socialPostTemplates            SocialPostTemplate[]
+  socialImprovementSuggestions   SocialImprovementSuggestion[]
+  socialGrowthScoreSnapshots     SocialGrowthScoreSnapshot[]
+  campaigns                      Campaign[]
+  campaignBudgets                CampaignBudget[]
+  campaignCosts                  CampaignCost[]
+  campaignRevenueAttributions    CampaignRevenueAttribution[]
+  campaignRoiSnapshots           CampaignRoiSnapshot[]
+  campaignGrowthScoreSnapshots   CampaignGrowthScoreSnapshot[]
+  contentCalendarEvents          ContentCalendarEvent[]
+  reportTemplates                ReportTemplate[]
+  reportSchedules                ReportSchedule[]
+  generatedReports               GeneratedReport[]
+  businessInsights               BusinessInsight[]
 }
 
 model SocialAccount {
-  id             String        @id @default(cuid())
-  mediaId        String
-  platform       Platform
-  handle         String
-  displayName    String
-  accountUrl     String?
-  status         AccountStatus @default(ACTIVE)
-  apiConnected   Boolean       @default(false)
-  officialApiOnly Boolean      @default(true)
-  autoPostingEnabled Boolean   @default(true)
-  dailyLimit     Int           @default(50)
-  windowLimit    Int           @default(6)
-  windowMinutes  Int           @default(15)
-  defaultPostTimes String      @default("08:00,12:30,20:00")
-  apiStopFlag    Boolean       @default(false)
-  apiStopReason  String?
-  nextAllowedPostAt DateTime?
-  lastPostedAt   DateTime?
-  lastError      String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  id                 String        @id @default(cuid())
+  mediaId            String
+  platform           Platform
+  handle             String
+  displayName        String
+  accountUrl         String?
+  status             AccountStatus @default(ACTIVE)
+  apiConnected       Boolean       @default(false)
+  officialApiOnly    Boolean       @default(true)
+  autoPostingEnabled Boolean       @default(true)
+  dailyLimit         Int           @default(50)
+  windowLimit        Int           @default(6)
+  windowMinutes      Int           @default(15)
+  defaultPostTimes   String        @default("08:00,12:30,20:00")
+  apiStopFlag        Boolean       @default(false)
+  apiStopReason      String?
+  nextAllowedPostAt  DateTime?
+  lastPostedAt       DateTime?
+  lastError          String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  posts Post[]
-  apiLogs ApiUsageLog[]
-  credentials PlatformCredential[]
-  socialApiConnections SocialApiConnection[]
-  socialPostQueues SocialPostQueue[]
+  media                          Media                           @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  posts                          Post[]
+  apiLogs                        ApiUsageLog[]
+  credentials                    PlatformCredential[]
+  socialApiConnections           SocialApiConnection[]
+  socialPostQueues               SocialPostQueue[]
   socialPostPerformanceSnapshots SocialPostPerformanceSnapshot[]
-  socialImprovementSuggestions SocialImprovementSuggestion[]
+  socialImprovementSuggestions   SocialImprovementSuggestion[]
 
   @@unique([platform, handle])
 }
 
 model Post {
-  id              String     @id @default(cuid())
-  mediaId         String
-  socialAccountId String
-  platform        Platform
-  postType        PostType   @default(TEXT_WITH_LINK)
-  title           String
-  body            String
-  destinationUrl  String
-  linkUrl         String?
-  imageUrl        String?
-  creativeAssetId String?
-  mediaUploadStatus MediaUploadStatus @default(NOT_UPLOADED)
-  externalMediaId String?
-  mediaUploadError String?
-  madeWithAi      Boolean    @default(false)
-  status          PostStatus @default(DRAFT)
-  approvalStatus  ApprovalDecision?
-  linkCheckStatus LinkCheckStatus @default(NOT_CHECKED)
-  linkCheckReason String?
-  detectedUrls    Json?
-  checkedAt       DateTime?
-  aiGenerated     Boolean    @default(true)
-  aiPrompt        String?
-  aiResult        String?
-  complianceNotes String?
-  scheduledAt     DateTime?
-  publishedAt     DateTime?
-  externalPostId  String?
-  externalPostUrl String?
-  failureReason   String?
-  lastError        String?
-  retryCount       Int        @default(0)
-  lockedAt         DateTime?
+  id                  String            @id @default(cuid())
+  mediaId             String
+  socialAccountId     String
+  platform            Platform
+  postType            PostType          @default(TEXT_WITH_LINK)
+  title               String
+  body                String
+  destinationUrl      String
+  linkUrl             String?
+  imageUrl            String?
+  creativeAssetId     String?
+  mediaUploadStatus   MediaUploadStatus @default(NOT_UPLOADED)
+  externalMediaId     String?
+  mediaUploadError    String?
+  madeWithAi          Boolean           @default(false)
+  status              PostStatus        @default(DRAFT)
+  approvalStatus      ApprovalDecision?
+  linkCheckStatus     LinkCheckStatus   @default(NOT_CHECKED)
+  linkCheckReason     String?
+  detectedUrls        Json?
+  checkedAt           DateTime?
+  aiGenerated         Boolean           @default(true)
+  aiPrompt            String?
+  aiResult            String?
+  complianceNotes     String?
+  scheduledAt         DateTime?
+  publishedAt         DateTime?
+  externalPostId      String?
+  externalPostUrl     String?
+  failureReason       String?
+  lastError           String?
+  retryCount          Int               @default(0)
+  lockedAt            DateTime?
   processingStartedAt DateTime?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  socialAccount SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
-  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
-  approvals PostApproval[]
-  apiLogs ApiUsageLog[]
-  linkChecks LinkCheck[]
-  canvaDesignJobs CanvaDesignJob[]
-  creativeAssetUsages CreativeAssetUsage[]
-  revenueEvents RevenueEvent[]
-  socialPerformance SocialPostPerformanceDaily[]
-  socialPostQueues SocialPostQueue[]
+  media                          Media                           @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount                  SocialAccount                   @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  creativeAsset                  CreativeAsset?                  @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  approvals                      PostApproval[]
+  apiLogs                        ApiUsageLog[]
+  linkChecks                     LinkCheck[]
+  canvaDesignJobs                CanvaDesignJob[]
+  creativeAssetUsages            CreativeAssetUsage[]
+  revenueEvents                  RevenueEvent[]
+  socialPerformance              SocialPostPerformanceDaily[]
+  socialPostQueues               SocialPostQueue[]
   socialPostPerformanceSnapshots SocialPostPerformanceSnapshot[]
 
   @@index([status, scheduledAt])
@@ -1552,20 +1552,20 @@ model ApiUsageLog {
   createdAt       DateTime     @default(now())
 
   socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  post          Post?          @relation(fields: [postId], references: [id], onDelete: SetNull)
 
   @@index([platform, eventType, createdAt])
   @@index([socialAccountId, createdAt])
 }
 
 model LinkCheck {
-  id          String          @id @default(cuid())
-  postId      String?
-  url         String
-  status      LinkCheckStatus
-  reason      String?
-  checkedAt   DateTime        @default(now())
-  createdAt   DateTime        @default(now())
+  id        String          @id @default(cuid())
+  postId    String?
+  url       String
+  status    LinkCheckStatus
+  reason    String?
+  checkedAt DateTime        @default(now())
+  createdAt DateTime        @default(now())
 
   post Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
 
@@ -1615,19 +1615,19 @@ model WordPressSite {
   createdAt                    DateTime                  @default(now())
   updatedAt                    DateTime                  @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  posts WordPressPost[]
+  media      Media               @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  posts      WordPressPost[]
   mediaItems WordPressMedia[]
   categories WordPressCategory[]
-  tags WordPressTag[]
-  syncLogs WordPressSyncLog[]
+  tags       WordPressTag[]
+  syncLogs   WordPressSyncLog[]
 
   @@unique([mediaId, siteUrl])
   @@index([connectionStatus])
 }
 
 model WordPressPost {
-  id                   String                 @id @default(cuid())
+  id                   String               @id @default(cuid())
   mediaId              String
   wordpressSiteId      String
   title                String
@@ -1635,8 +1635,8 @@ model WordPressPost {
   excerpt              String?
   contentMarkdown      String
   contentHtml          String
-  status               String                 @default("draft")
-  localStatus          WordPressLocalStatus   @default(DRAFT_LOCAL)
+  status               String               @default("draft")
+  localStatus          WordPressLocalStatus @default(DRAFT_LOCAL)
   wordpressPostId      String?
   wordpressPostUrl     String?
   wordpressEditUrl     String?
@@ -1656,33 +1656,33 @@ model WordPressPost {
   publishedAt          DateTime?
   lastSyncedAt         DateTime?
   lastError            String?
-  duplicateCheckStatus DuplicateCheckStatus   @default(NOT_CHECKED)
+  duplicateCheckStatus DuplicateCheckStatus @default(NOT_CHECKED)
   duplicateCheckResult String?
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
-  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
-  syncLogs WordPressSyncLog[]
-  canvaDesignJobs CanvaDesignJob[]
-  creativeAssetUsages CreativeAssetUsage[]
-  affiliatePlacements AffiliatePlacement[]
-  revenueEvents RevenueEvent[]
-  contentPerformance ContentPerformanceDaily[]
-  ga4PageMetrics GA4PageMetricDaily[]
-  searchConsolePages SearchConsolePageDaily[]
-  searchConsoleQueryPages SearchConsoleQueryPageDaily[]
-  seoPageKeywords SeoPageKeyword[]
-  seoOpportunities SeoOpportunity[]
-  seoRecommendations SeoRecommendation[]
-  articleImprovementTasks ArticleImprovementTask[]
+  media                    Media                         @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressSite            WordPressSite                 @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+  creativeAsset            CreativeAsset?                @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  syncLogs                 WordPressSyncLog[]
+  canvaDesignJobs          CanvaDesignJob[]
+  creativeAssetUsages      CreativeAssetUsage[]
+  affiliatePlacements      AffiliatePlacement[]
+  revenueEvents            RevenueEvent[]
+  contentPerformance       ContentPerformanceDaily[]
+  ga4PageMetrics           GA4PageMetricDaily[]
+  searchConsolePages       SearchConsolePageDaily[]
+  searchConsoleQueryPages  SearchConsoleQueryPageDaily[]
+  seoPageKeywords          SeoPageKeyword[]
+  seoOpportunities         SeoOpportunity[]
+  seoRecommendations       SeoRecommendation[]
+  articleImprovementTasks  ArticleImprovementTask[]
   articleRevisionSnapshots ArticleRevisionSnapshot[]
-  rewriteDrafts RewriteDraft[]
-  wordpressDraftUpdates WordPressDraftUpdate[]
-  seoImpactMeasurements SeoImpactMeasurement[]
-  socialPostQueues SocialPostQueue[]
-  socialPostAttributions SocialPostAttribution[]
+  rewriteDrafts            RewriteDraft[]
+  wordpressDraftUpdates    WordPressDraftUpdate[]
+  seoImpactMeasurements    SeoImpactMeasurement[]
+  socialPostQueues         SocialPostQueue[]
+  socialPostAttributions   SocialPostAttribution[]
 
   @@unique([wordpressSiteId, slug])
   @@index([localStatus, updatedAt])
@@ -1706,9 +1706,9 @@ model WordPressMedia {
   createdAt         DateTime                   @default(now())
   updatedAt         DateTime                   @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
-  creativeAsset CreativeAsset? @relation("WordPressMediaAsset", fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  media                Media           @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressSite        WordPressSite   @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+  creativeAsset        CreativeAsset?  @relation("WordPressMediaAsset", fields: [creativeAssetId], references: [id], onDelete: SetNull)
   usedByCreativeAssets CreativeAsset[] @relation("AssetFeaturedWordPressMedia")
 }
 
@@ -1730,15 +1730,15 @@ model WordPressCategory {
 }
 
 model WordPressTag {
-  id             String   @id @default(cuid())
+  id              String   @id @default(cuid())
   wordpressSiteId String
-  wordpressTagId Int
-  name           String
-  slug           String
-  description    String?
-  count          Int      @default(0)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  wordpressTagId  Int
+  name            String
+  slug            String
+  description     String?
+  count           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
 
@@ -1748,8 +1748,8 @@ model WordPressTag {
 
 model WordPressSyncLog {
   id                     String   @id @default(cuid())
-  wordpressSiteId         String
-  wordpressPostId         String?
+  wordpressSiteId        String
+  wordpressPostId        String?
   action                 String
   endpoint               String
   method                 String
@@ -1761,7 +1761,7 @@ model WordPressSyncLog {
   mockMode               Boolean  @default(true)
   createdAt              DateTime @default(now())
 
-  wordpressSite WordPressSite @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
+  wordpressSite WordPressSite  @relation(fields: [wordpressSiteId], references: [id], onDelete: Cascade)
   wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
 
   @@index([wordpressSiteId, createdAt])
@@ -1785,130 +1785,130 @@ model CanvaConnection {
   createdAt             DateTime              @default(now())
   updatedAt             DateTime              @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media          Media                @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   brandTemplates CanvaBrandTemplate[]
-  designJobs CanvaDesignJob[]
-  syncLogs CanvaSyncLog[]
+  designJobs     CanvaDesignJob[]
+  syncLogs       CanvaSyncLog[]
 
   @@index([mediaId, connectionStatus])
 }
 
 model CanvaBrandTemplate {
-  id                  String              @id @default(cuid())
-  mediaId             String
-  canvaConnectionId   String?
-  templateName        String
-  canvaTemplateId     String
-  templateType        CanvaTemplateType
-  platform            Platform
-  aspectRatio         String
-  width               Int
-  height              Int
-  autofillFields      Json?
-  requiredFields      Json?
-  optionalFields      Json?
-  status              CanvaTemplateStatus @default(ACTIVE)
-  memo                String?
-  createdAt           DateTime            @default(now())
-  updatedAt           DateTime            @updatedAt
+  id                String              @id @default(cuid())
+  mediaId           String
+  canvaConnectionId String?
+  templateName      String
+  canvaTemplateId   String
+  templateType      CanvaTemplateType
+  platform          Platform
+  aspectRatio       String
+  width             Int
+  height            Int
+  autofillFields    Json?
+  requiredFields    Json?
+  optionalFields    Json?
+  status            CanvaTemplateStatus @default(ACTIVE)
+  memo              String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media           Media            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   canvaConnection CanvaConnection? @relation(fields: [canvaConnectionId], references: [id], onDelete: SetNull)
-  designJobs CanvaDesignJob[]
+  designJobs      CanvaDesignJob[]
 
   @@index([mediaId, templateType, status])
 }
 
 model CanvaDesignJob {
-  id                    String         @id @default(cuid())
-  mediaId               String
-  canvaConnectionId     String?
-  canvaBrandTemplateId  String?
-  wordpressPostId       String?
-  postId                String?
-  jobType               CanvaJobType
-  inputData             Json?
-  prompt                String?
-  status                CanvaJobStatus @default(DRAFT)
-  canvaDesignId         String?
-  canvaDesignUrl        String?
-  mockMode              Boolean        @default(true)
-  lastError             String?
-  createdAt             DateTime       @default(now())
-  updatedAt             DateTime       @updatedAt
+  id                   String         @id @default(cuid())
+  mediaId              String
+  canvaConnectionId    String?
+  canvaBrandTemplateId String?
+  wordpressPostId      String?
+  postId               String?
+  jobType              CanvaJobType
+  inputData            Json?
+  prompt               String?
+  status               CanvaJobStatus @default(DRAFT)
+  canvaDesignId        String?
+  canvaDesignUrl       String?
+  mockMode             Boolean        @default(true)
+  lastError            String?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  canvaConnection CanvaConnection? @relation(fields: [canvaConnectionId], references: [id], onDelete: SetNull)
+  media              Media               @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  canvaConnection    CanvaConnection?    @relation(fields: [canvaConnectionId], references: [id], onDelete: SetNull)
   canvaBrandTemplate CanvaBrandTemplate? @relation(fields: [canvaBrandTemplateId], references: [id], onDelete: SetNull)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
-  exports CanvaExport[]
-  creativeAssets CreativeAsset[]
-  syncLogs CanvaSyncLog[]
+  wordpressPost      WordPressPost?      @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  post               Post?               @relation(fields: [postId], references: [id], onDelete: SetNull)
+  exports            CanvaExport[]
+  creativeAssets     CreativeAsset[]
+  syncLogs           CanvaSyncLog[]
 
   @@index([mediaId, status, createdAt])
 }
 
 model CanvaExport {
-  id                String            @id @default(cuid())
-  canvaDesignJobId  String
-  exportFormat      String            @default("png")
-  exportStatus      CanvaExportStatus @default(QUEUED)
-  canvaExportJobId  String?
-  downloadUrl       String?
-  localFileUrl      String?
-  publicUrl         String?
-  fileSize          Int?
-  width             Int?
-  height            Int?
-  mimeType          String?
-  expiresAt         DateTime?
-  mockMode          Boolean           @default(true)
-  lastError         String?
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  id               String            @id @default(cuid())
+  canvaDesignJobId String
+  exportFormat     String            @default("png")
+  exportStatus     CanvaExportStatus @default(QUEUED)
+  canvaExportJobId String?
+  downloadUrl      String?
+  localFileUrl     String?
+  publicUrl        String?
+  fileSize         Int?
+  width            Int?
+  height           Int?
+  mimeType         String?
+  expiresAt        DateTime?
+  mockMode         Boolean           @default(true)
+  lastError        String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 
-  canvaDesignJob CanvaDesignJob @relation(fields: [canvaDesignJobId], references: [id], onDelete: Cascade)
+  canvaDesignJob CanvaDesignJob  @relation(fields: [canvaDesignJobId], references: [id], onDelete: Cascade)
   creativeAssets CreativeAsset[]
 }
 
 model CreativeAsset {
-  id                 String              @id @default(cuid())
-  mediaId            String
-  source             CreativeAssetSource @default(AI_MOCK)
-  assetType          CreativeAssetType
-  title              String
-  description        String?
-  altText            String?
-  localFileUrl       String?
-  publicUrl          String?
-  mimeType           String?
-  fileSize           Int?
-  width              Int?
-  height             Int?
-  canvaDesignJobId   String?
-  canvaExportId      String?
-  wordpressMediaId   String?
-  approvalStatus     AssetApprovalStatus @default(PENDING_APPROVAL)
-  approvedBy         String?
-  approvedAt         DateTime?
-  riskCheckStatus    LinkCheckStatus     @default(NOT_CHECKED)
-  riskCheckReason    String?
-  madeWithAi         Boolean             @default(true)
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
+  id               String              @id @default(cuid())
+  mediaId          String
+  source           CreativeAssetSource @default(AI_MOCK)
+  assetType        CreativeAssetType
+  title            String
+  description      String?
+  altText          String?
+  localFileUrl     String?
+  publicUrl        String?
+  mimeType         String?
+  fileSize         Int?
+  width            Int?
+  height           Int?
+  canvaDesignJobId String?
+  canvaExportId    String?
+  wordpressMediaId String?
+  approvalStatus   AssetApprovalStatus @default(PENDING_APPROVAL)
+  approvedBy       String?
+  approvedAt       DateTime?
+  riskCheckStatus  LinkCheckStatus     @default(NOT_CHECKED)
+  riskCheckReason  String?
+  madeWithAi       Boolean             @default(true)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  canvaDesignJob CanvaDesignJob? @relation(fields: [canvaDesignJobId], references: [id], onDelete: SetNull)
-  canvaExport CanvaExport? @relation(fields: [canvaExportId], references: [id], onDelete: SetNull)
-  wordpressMedia WordPressMedia? @relation("AssetFeaturedWordPressMedia", fields: [wordpressMediaId], references: [id], onDelete: SetNull)
-  posts Post[]
-  wordpressPosts WordPressPost[]
-  wordpressMediaItems WordPressMedia[] @relation("WordPressMediaAsset")
-  usages CreativeAssetUsage[]
-  approvals ImageApproval[]
-  socialMediaUploads SocialMediaUpload[]
-  socialPostQueues SocialPostQueue[]
+  media               Media                @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  canvaDesignJob      CanvaDesignJob?      @relation(fields: [canvaDesignJobId], references: [id], onDelete: SetNull)
+  canvaExport         CanvaExport?         @relation(fields: [canvaExportId], references: [id], onDelete: SetNull)
+  wordpressMedia      WordPressMedia?      @relation("AssetFeaturedWordPressMedia", fields: [wordpressMediaId], references: [id], onDelete: SetNull)
+  posts               Post[]
+  wordpressPosts      WordPressPost[]
+  wordpressMediaItems WordPressMedia[]     @relation("WordPressMediaAsset")
+  usages              CreativeAssetUsage[]
+  approvals           ImageApproval[]
+  socialMediaUploads  SocialMediaUpload[]
+  socialPostQueues    SocialPostQueue[]
 
   @@index([mediaId, assetType, approvalStatus])
   @@index([riskCheckStatus])
@@ -1925,10 +1925,10 @@ model CreativeAssetUsage {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
-  creativeAsset CreativeAsset @relation(fields: [creativeAssetId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  creativeAsset CreativeAsset  @relation(fields: [creativeAssetId], references: [id], onDelete: Cascade)
+  media         Media          @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
+  post          Post?          @relation(fields: [postId], references: [id], onDelete: SetNull)
 
   @@index([creativeAssetId, usageType])
 }
@@ -1949,8 +1949,8 @@ model ImageApproval {
 
 model CanvaSyncLog {
   id                     String   @id @default(cuid())
-  canvaConnectionId       String?
-  canvaDesignJobId        String?
+  canvaConnectionId      String?
+  canvaDesignJobId       String?
   action                 String
   endpoint               String
   method                 String
@@ -1963,7 +1963,7 @@ model CanvaSyncLog {
   createdAt              DateTime @default(now())
 
   canvaConnection CanvaConnection? @relation(fields: [canvaConnectionId], references: [id], onDelete: SetNull)
-  canvaDesignJob CanvaDesignJob? @relation(fields: [canvaDesignJobId], references: [id], onDelete: SetNull)
+  canvaDesignJob  CanvaDesignJob?  @relation(fields: [canvaDesignJobId], references: [id], onDelete: SetNull)
 
   @@index([action, success, createdAt])
   @@index([canvaConnectionId, createdAt])
@@ -1980,7 +1980,7 @@ model AffiliateNetwork {
   createdAt  DateTime              @default(now())
   updatedAt  DateTime              @updatedAt
 
-  programs AffiliateProgram[]
+  programs      AffiliateProgram[]
   revenueEvents RevenueEvent[]
   importBatches RevenueImportBatch[]
 
@@ -1988,36 +1988,36 @@ model AffiliateNetwork {
 }
 
 model AffiliateProgram {
-  id                    String                 @id @default(cuid())
-  affiliateNetworkId    String
-  programName           String
-  advertiserName        String?
-  genre                 String?
-  category              String?
-  programUrl            String?
-  rewardType            AffiliateRewardType    @default(FIXED)
-  rewardAmount          Decimal?               @db.Decimal(14, 2)
-  rewardRate            Decimal?               @db.Decimal(8, 4)
-  currency              String                 @default("JPY")
-  approvalRate          Decimal?               @db.Decimal(6, 4)
-  epc                   Decimal?               @db.Decimal(14, 4)
-  cookieDurationDays    Int?
-  conversionCondition   String?
-  prohibitedTerms       Json?
-  allowedMediaTypes     Json?
-  complianceNotes       String?
-  riskLevel             AffiliateRiskLevel     @default(MEDIUM)
-  status                AffiliateProgramStatus @default(DRAFT)
-  startDate             DateTime?
-  endDate               DateTime?
-  memo                  String?
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
+  id                  String                 @id @default(cuid())
+  affiliateNetworkId  String
+  programName         String
+  advertiserName      String?
+  genre               String?
+  category            String?
+  programUrl          String?
+  rewardType          AffiliateRewardType    @default(FIXED)
+  rewardAmount        Decimal?               @db.Decimal(14, 2)
+  rewardRate          Decimal?               @db.Decimal(8, 4)
+  currency            String                 @default("JPY")
+  approvalRate        Decimal?               @db.Decimal(6, 4)
+  epc                 Decimal?               @db.Decimal(14, 4)
+  cookieDurationDays  Int?
+  conversionCondition String?
+  prohibitedTerms     Json?
+  allowedMediaTypes   Json?
+  complianceNotes     String?
+  riskLevel           AffiliateRiskLevel     @default(MEDIUM)
+  status              AffiliateProgramStatus @default(DRAFT)
+  startDate           DateTime?
+  endDate             DateTime?
+  memo                String?
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
 
-  affiliateNetwork AffiliateNetwork @relation(fields: [affiliateNetworkId], references: [id], onDelete: Cascade)
-  mediaSites AffiliateProgramMediaSite[]
-  links AffiliateLink[]
-  revenueEvents RevenueEvent[]
+  affiliateNetwork AffiliateNetwork            @relation(fields: [affiliateNetworkId], references: [id], onDelete: Cascade)
+  mediaSites       AffiliateProgramMediaSite[]
+  links            AffiliateLink[]
+  revenueEvents    RevenueEvent[]
 
   @@index([affiliateNetworkId, status])
   @@index([riskLevel])
@@ -2036,7 +2036,7 @@ model AffiliateProgramMediaSite {
   createdAt          DateTime                   @default(now())
   updatedAt          DateTime                   @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media            Media            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   affiliateProgram AffiliateProgram @relation(fields: [affiliateProgramId], references: [id], onDelete: Cascade)
 
   @@unique([mediaId, affiliateProgramId])
@@ -2044,47 +2044,47 @@ model AffiliateProgramMediaSite {
 }
 
 model AffiliateLink {
-  id                  String                @id @default(cuid())
-  affiliateProgramId  String
-  mediaId             String
-  name                String
-  destinationUrl      String
-  affiliateUrl        String
-  affiliateUrlMasked  String
-  trackingId          String?
-  utmSource           String?
-  utmMedium           String?
-  utmCampaign         String?
-  utmContent          String?
-  linkType            AffiliateLinkType     @default(TEXT)
-  status              AffiliateEntityStatus @default(ACTIVE)
-  memo                String?
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
+  id                 String                @id @default(cuid())
+  affiliateProgramId String
+  mediaId            String
+  name               String
+  destinationUrl     String
+  affiliateUrl       String
+  affiliateUrlMasked String
+  trackingId         String?
+  utmSource          String?
+  utmMedium          String?
+  utmCampaign        String?
+  utmContent         String?
+  linkType           AffiliateLinkType     @default(TEXT)
+  status             AffiliateEntityStatus @default(ACTIVE)
+  memo               String?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
 
-  affiliateProgram AffiliateProgram @relation(fields: [affiliateProgramId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  placements AffiliatePlacement[]
-  revenueEvents RevenueEvent[]
+  affiliateProgram AffiliateProgram     @relation(fields: [affiliateProgramId], references: [id], onDelete: Cascade)
+  media            Media                @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  placements       AffiliatePlacement[]
+  revenueEvents    RevenueEvent[]
 
   @@index([mediaId, status])
   @@index([affiliateProgramId])
 }
 
 model AffiliatePlacement {
-  id               String                     @id @default(cuid())
-  affiliateLinkId  String
-  mediaId          String
-  wordpressPostId  String?
-  placementType    AffiliatePlacementType     @default(ARTICLE_TEXT)
-  placementLabel   String?
-  position         AffiliatePlacementPosition @default(MIDDLE)
-  status           AffiliateEntityStatus      @default(ACTIVE)
-  createdAt        DateTime                   @default(now())
-  updatedAt        DateTime                   @updatedAt
+  id              String                     @id @default(cuid())
+  affiliateLinkId String
+  mediaId         String
+  wordpressPostId String?
+  placementType   AffiliatePlacementType     @default(ARTICLE_TEXT)
+  placementLabel  String?
+  position        AffiliatePlacementPosition @default(MIDDLE)
+  status          AffiliateEntityStatus      @default(ACTIVE)
+  createdAt       DateTime                   @default(now())
+  updatedAt       DateTime                   @updatedAt
 
-  affiliateLink AffiliateLink @relation(fields: [affiliateLinkId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  affiliateLink AffiliateLink  @relation(fields: [affiliateLinkId], references: [id], onDelete: Cascade)
+  media         Media          @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
 
   @@index([mediaId, status])
@@ -2092,39 +2092,39 @@ model AffiliatePlacement {
 }
 
 model RevenueEvent {
-  id                  String         @id @default(cuid())
-  affiliateNetworkId  String
-  affiliateProgramId  String?
-  affiliateLinkId     String?
-  mediaId             String
-  wordpressPostId     String?
-  postId              String?
-  eventDate           DateTime
-  clickIdHash         String?
-  orderIdHash         String?
-  conversionType      String?
-  status              RevenueStatus  @default(PENDING)
-  estimatedReward     Decimal        @default(0) @db.Decimal(14, 2)
-  pendingReward       Decimal        @default(0) @db.Decimal(14, 2)
-  approvedReward      Decimal        @default(0) @db.Decimal(14, 2)
-  rejectedReward      Decimal        @default(0) @db.Decimal(14, 2)
-  adjustedReward      Decimal        @default(0) @db.Decimal(14, 2)
-  currency            String         @default("JPY")
-  quantity            Int            @default(1)
-  memo                String?
-  source              RevenueSource  @default(MANUAL)
-  dataConfidence      DataConfidence @default(MEDIUM)
-  importBatchId       String?
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
+  id                 String         @id @default(cuid())
+  affiliateNetworkId String
+  affiliateProgramId String?
+  affiliateLinkId    String?
+  mediaId            String
+  wordpressPostId    String?
+  postId             String?
+  eventDate          DateTime
+  clickIdHash        String?
+  orderIdHash        String?
+  conversionType     String?
+  status             RevenueStatus  @default(PENDING)
+  estimatedReward    Decimal        @default(0) @db.Decimal(14, 2)
+  pendingReward      Decimal        @default(0) @db.Decimal(14, 2)
+  approvedReward     Decimal        @default(0) @db.Decimal(14, 2)
+  rejectedReward     Decimal        @default(0) @db.Decimal(14, 2)
+  adjustedReward     Decimal        @default(0) @db.Decimal(14, 2)
+  currency           String         @default("JPY")
+  quantity           Int            @default(1)
+  memo               String?
+  source             RevenueSource  @default(MANUAL)
+  dataConfidence     DataConfidence @default(MEDIUM)
+  importBatchId      String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
-  affiliateNetwork AffiliateNetwork @relation(fields: [affiliateNetworkId], references: [id], onDelete: Cascade)
-  affiliateProgram AffiliateProgram? @relation(fields: [affiliateProgramId], references: [id], onDelete: SetNull)
-  affiliateLink AffiliateLink? @relation(fields: [affiliateLinkId], references: [id], onDelete: SetNull)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
-  importBatch RevenueImportBatch? @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
+  affiliateNetwork AffiliateNetwork    @relation(fields: [affiliateNetworkId], references: [id], onDelete: Cascade)
+  affiliateProgram AffiliateProgram?   @relation(fields: [affiliateProgramId], references: [id], onDelete: SetNull)
+  affiliateLink    AffiliateLink?      @relation(fields: [affiliateLinkId], references: [id], onDelete: SetNull)
+  media            Media               @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost    WordPressPost?      @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  post             Post?               @relation(fields: [postId], references: [id], onDelete: SetNull)
+  importBatch      RevenueImportBatch? @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
 
   @@index([mediaId, eventDate])
   @@index([status, eventDate])
@@ -2146,19 +2146,19 @@ model RevenueImportBatch {
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
 
-  affiliateNetwork AffiliateNetwork? @relation(fields: [affiliateNetworkId], references: [id], onDelete: SetNull)
-  errors RevenueImportRowError[]
-  revenueEvents RevenueEvent[]
+  affiliateNetwork AffiliateNetwork?       @relation(fields: [affiliateNetworkId], references: [id], onDelete: SetNull)
+  errors           RevenueImportRowError[]
+  revenueEvents    RevenueEvent[]
 }
 
 model RevenueImportRowError {
-  id          String   @id @default(cuid())
+  id            String   @id @default(cuid())
   importBatchId String
-  rowNumber   Int
-  severity    String   @default("error")
-  message     String
-  rawRow       Json?
-  createdAt   DateTime @default(now())
+  rowNumber     Int
+  severity      String   @default("error")
+  message       String
+  rawRow        Json?
+  createdAt     DateTime @default(now())
 
   importBatch RevenueImportBatch @relation(fields: [importBatchId], references: [id], onDelete: Cascade)
 
@@ -2167,18 +2167,18 @@ model RevenueImportRowError {
 
 model TrafficMetricDaily {
   id              String         @id @default(cuid())
-  mediaId          String
-  metricDate       DateTime
-  impressions      Int            @default(0)
-  linkClicks       Int            @default(0)
-  articleSessions  Int            @default(0)
-  sessions         Int            @default(0)
-  pageviews        Int            @default(0)
-  users            Int            @default(0)
-  source           RevenueSource  @default(MOCK)
-  dataConfidence   DataConfidence @default(MEDIUM)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  mediaId         String
+  metricDate      DateTime
+  impressions     Int            @default(0)
+  linkClicks      Int            @default(0)
+  articleSessions Int            @default(0)
+  sessions        Int            @default(0)
+  pageviews       Int            @default(0)
+  users           Int            @default(0)
+  source          RevenueSource  @default(MOCK)
+  dataConfidence  DataConfidence @default(MEDIUM)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
   media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
@@ -2187,7 +2187,7 @@ model TrafficMetricDaily {
 }
 
 model ContentPerformanceDaily {
-  id              String         @id @default(cuid())
+  id               String         @id @default(cuid())
   mediaId          String
   wordpressPostId  String?
   metricDate       DateTime
@@ -2202,7 +2202,7 @@ model ContentPerformanceDaily {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media         Media          @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
 
   @@index([mediaId, metricDate])
@@ -2210,7 +2210,7 @@ model ContentPerformanceDaily {
 }
 
 model SocialPostPerformanceDaily {
-  id              String         @id @default(cuid())
+  id               String         @id @default(cuid())
   postId           String
   metricDate       DateTime
   impressions      Int            @default(0)
@@ -2231,16 +2231,16 @@ model SocialPostPerformanceDaily {
 
 model OperatingCost {
   id             String                @id @default(cuid())
-  mediaId         String?
-  costDate        DateTime
-  category        OperatingCostCategory @default(OTHER)
-  amount          Decimal               @db.Decimal(14, 2)
-  currency        String                @default("JPY")
-  description     String?
-  recurring       Boolean               @default(false)
-  dataConfidence  DataConfidence        @default(HIGH)
-  createdAt       DateTime              @default(now())
-  updatedAt       DateTime              @updatedAt
+  mediaId        String?
+  costDate       DateTime
+  category       OperatingCostCategory @default(OTHER)
+  amount         Decimal               @db.Decimal(14, 2)
+  currency       String                @default("JPY")
+  description    String?
+  recurring      Boolean               @default(false)
+  dataConfidence DataConfidence        @default(HIGH)
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
 
   media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
 
@@ -2248,22 +2248,22 @@ model OperatingCost {
 }
 
 model GrowthScoreSnapshot {
-  id                String                   @id @default(cuid())
-  mediaId            String
-  periodStart        DateTime
-  periodEnd          DateTime
-  trafficScore       Int                      @default(0)
-  revenueScore       Int                      @default(0)
-  conversionScore    Int                      @default(0)
-  contentScore       Int                      @default(0)
-  riskScore          Int                      @default(0)
-  totalScore         Int                      @default(0)
-  recommendation     GrowthRecommendationType @default(RESEARCH_MORE)
-  dataConfidence     DataConfidence           @default(INSUFFICIENT)
-  dataWarnings       Json?
-  reasoning          String?
-  requiresHumanReview Boolean                 @default(true)
-  createdAt          DateTime                 @default(now())
+  id                  String                   @id @default(cuid())
+  mediaId             String
+  periodStart         DateTime
+  periodEnd           DateTime
+  trafficScore        Int                      @default(0)
+  revenueScore        Int                      @default(0)
+  conversionScore     Int                      @default(0)
+  contentScore        Int                      @default(0)
+  riskScore           Int                      @default(0)
+  totalScore          Int                      @default(0)
+  recommendation      GrowthRecommendationType @default(RESEARCH_MORE)
+  dataConfidence      DataConfidence           @default(INSUFFICIENT)
+  dataWarnings        Json?
+  reasoning           String?
+  requiresHumanReview Boolean                  @default(true)
+  createdAt           DateTime                 @default(now())
 
   media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
@@ -2295,14 +2295,14 @@ model GrowthRecommendation {
   createdAt   DateTime                   @default(now())
   updatedAt   DateTime                   @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media                   Media                    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   articleImprovementTasks ArticleImprovementTask[]
 
   @@index([mediaId, status, priority])
 }
 
 model GrowthStrategyBoardReport {
-  id                   String   @id @default(cuid())
+  id                    String   @id @default(cuid())
   periodStart           DateTime
   periodEnd             DateTime
   totalEstimatedRevenue Decimal  @default(0) @db.Decimal(14, 2)
@@ -2338,62 +2338,62 @@ model GoogleConnection {
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  ga4Properties GA4Property[]
+  media                   Media                   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  ga4Properties           GA4Property[]
   searchConsoleProperties SearchConsoleProperty[]
-  syncJobs GoogleSyncJob[]
-  syncRuns GoogleSyncRun[]
-  quotaLogs GoogleApiQuotaLog[]
-  errorLogs GoogleApiErrorLog[]
+  syncJobs                GoogleSyncJob[]
+  syncRuns                GoogleSyncRun[]
+  quotaLogs               GoogleApiQuotaLog[]
+  errorLogs               GoogleApiErrorLog[]
 
   @@index([mediaId, connectionStatus])
 }
 
 model GA4Property {
-  id                  String               @id @default(cuid())
-  mediaId             String
-  googleConnectionId  String?
-  propertyName        String
-  propertyId          String
-  propertyDisplayName String?
-  defaultUrl          String?
-  timezone            String               @default("Asia/Tokyo")
-  currency            String               @default("JPY")
-  connectionStatus    GooglePropertyStatus @default(NOT_CONNECTED)
-  mockMode            Boolean              @default(true)
-  lastSyncedAt        DateTime?
+  id                   String               @id @default(cuid())
+  mediaId              String
+  googleConnectionId   String?
+  propertyName         String
+  propertyId           String
+  propertyDisplayName  String?
+  defaultUrl           String?
+  timezone             String               @default("Asia/Tokyo")
+  currency             String               @default("JPY")
+  connectionStatus     GooglePropertyStatus @default(NOT_CONNECTED)
+  mockMode             Boolean              @default(true)
+  lastSyncedAt         DateTime?
   lastSuccessfulSyncAt DateTime?
-  lastError           String?
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  lastError            String?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
-  metrics GA4MetricDaily[]
-  pageMetrics GA4PageMetricDaily[]
+  media            Media                @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  googleConnection GoogleConnection?    @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+  metrics          GA4MetricDaily[]
+  pageMetrics      GA4PageMetricDaily[]
 
   @@unique([mediaId, propertyId])
 }
 
 model SearchConsoleProperty {
-  id                 String                    @id @default(cuid())
-  mediaId            String
-  googleConnectionId String?
-  siteUrl            String
-  propertyType       SearchConsolePropertyType @default(URL_PREFIX)
-  connectionStatus   GooglePropertyStatus      @default(NOT_CONNECTED)
-  mockMode           Boolean                   @default(true)
-  lastSyncedAt       DateTime?
+  id                   String                    @id @default(cuid())
+  mediaId              String
+  googleConnectionId   String?
+  siteUrl              String
+  propertyType         SearchConsolePropertyType @default(URL_PREFIX)
+  connectionStatus     GooglePropertyStatus      @default(NOT_CONNECTED)
+  mockMode             Boolean                   @default(true)
+  lastSyncedAt         DateTime?
   lastSuccessfulSyncAt DateTime?
-  lastError          String?
-  createdAt          DateTime                  @default(now())
-  updatedAt          DateTime                  @updatedAt
+  lastError            String?
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
-  queries SearchConsoleQueryDaily[]
-  pages SearchConsolePageDaily[]
-  queryPages SearchConsoleQueryPageDaily[]
+  media            Media                         @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  googleConnection GoogleConnection?             @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
+  queries          SearchConsoleQueryDaily[]
+  pages            SearchConsolePageDaily[]
+  queryPages       SearchConsoleQueryPageDaily[]
 
   @@unique([mediaId, siteUrl])
 }
@@ -2420,7 +2420,7 @@ model GA4MetricDaily {
   createdAt              DateTime       @default(now())
   updatedAt              DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media       Media        @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   ga4Property GA4Property? @relation(fields: [ga4PropertyId], references: [id], onDelete: SetNull)
 
   @@unique([mediaId, ga4PropertyId, date, source])
@@ -2450,13 +2450,13 @@ model GA4PageMetricDaily {
   createdAt             DateTime       @default(now())
   updatedAt             DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media         Media          @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  ga4Property GA4Property? @relation(fields: [ga4PropertyId], references: [id], onDelete: SetNull)
+  ga4Property   GA4Property?   @relation(fields: [ga4PropertyId], references: [id], onDelete: SetNull)
 
+  @@unique([mediaId, ga4PropertyId, date, pagePath, source])
   @@index([mediaId, date])
   @@index([wordpressPostId, date])
-  @@unique([mediaId, ga4PropertyId, date, pagePath, source])
 }
 
 model SearchConsoleQueryDaily {
@@ -2477,12 +2477,12 @@ model SearchConsoleQueryDaily {
   createdAt               DateTime       @default(now())
   updatedAt               DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media                 Media                  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   searchConsoleProperty SearchConsoleProperty? @relation(fields: [searchConsolePropertyId], references: [id], onDelete: SetNull)
 
+  @@unique([mediaId, searchConsolePropertyId, date, query, searchType, country, device, source])
   @@index([mediaId, date])
   @@index([query])
-  @@unique([mediaId, searchConsolePropertyId, date, query, searchType, country, device, source])
 }
 
 model SearchConsolePageDaily {
@@ -2502,13 +2502,13 @@ model SearchConsolePageDaily {
   createdAt               DateTime       @default(now())
   updatedAt               DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  media                 Media                  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost         WordPressPost?         @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
   searchConsoleProperty SearchConsoleProperty? @relation(fields: [searchConsolePropertyId], references: [id], onDelete: SetNull)
 
+  @@unique([mediaId, searchConsolePropertyId, date, pageUrl, searchType, source])
   @@index([mediaId, date])
   @@index([wordpressPostId, date])
-  @@unique([mediaId, searchConsolePropertyId, date, pageUrl, searchType, source])
 }
 
 model SearchConsoleQueryPageDaily {
@@ -2531,19 +2531,19 @@ model SearchConsoleQueryPageDaily {
   createdAt               DateTime       @default(now())
   updatedAt               DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  media                 Media                  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost         WordPressPost?         @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
   searchConsoleProperty SearchConsoleProperty? @relation(fields: [searchConsolePropertyId], references: [id], onDelete: SetNull)
 
+  @@unique([mediaId, searchConsolePropertyId, date, query, pageUrl, searchType, country, device, source])
   @@index([mediaId, date])
   @@index([query])
   @@index([wordpressPostId, date])
-  @@unique([mediaId, searchConsolePropertyId, date, query, pageUrl, searchType, country, device, source])
 }
 
 model SeoKeyword {
   id                String           @id @default(cuid())
-  mediaId            String
+  mediaId           String
   keyword           String
   normalizedKeyword String
   intent            SeoKeywordIntent @default(UNKNOWN)
@@ -2555,8 +2555,8 @@ model SeoKeyword {
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  pageKeywords SeoPageKeyword[]
+  media         Media            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  pageKeywords  SeoPageKeyword[]
   opportunities SeoOpportunity[]
 
   @@unique([mediaId, normalizedKeyword])
@@ -2578,33 +2578,33 @@ model SeoPageKeyword {
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media         Media         @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
-  seoKeyword SeoKeyword @relation(fields: [seoKeywordId], references: [id], onDelete: Cascade)
+  seoKeyword    SeoKeyword    @relation(fields: [seoKeywordId], references: [id], onDelete: Cascade)
 
   @@unique([wordpressPostId, seoKeywordId])
 }
 
 model SeoOpportunity {
-  id                 String               @id @default(cuid())
-  mediaId            String
-  wordpressPostId    String?
-  seoKeywordId       String?
-  opportunityType    SeoOpportunityType
-  priority           SeoPriority          @default(MEDIUM)
-  title              String
-  description        String
-  evidence           Json?
-  expectedImpact     String?
-  status             SeoOpportunityStatus @default(NEW)
-  opportunityScore   Int                  @default(0)
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  id               String               @id @default(cuid())
+  mediaId          String
+  wordpressPostId  String?
+  seoKeywordId     String?
+  opportunityType  SeoOpportunityType
+  priority         SeoPriority          @default(MEDIUM)
+  title            String
+  description      String
+  evidence         Json?
+  expectedImpact   String?
+  status           SeoOpportunityStatus @default(NEW)
+  opportunityScore Int                  @default(0)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  seoKeyword SeoKeyword? @relation(fields: [seoKeywordId], references: [id], onDelete: SetNull)
-  recommendations SeoRecommendation[]
+  media                   Media                    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost           WordPressPost?           @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  seoKeyword              SeoKeyword?              @relation(fields: [seoKeywordId], references: [id], onDelete: SetNull)
+  recommendations         SeoRecommendation[]
   articleImprovementTasks ArticleImprovementTask[]
 
   @@index([mediaId, priority, status])
@@ -2628,10 +2628,10 @@ model SeoRecommendation {
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  seoOpportunity SeoOpportunity? @relation(fields: [seoOpportunityId], references: [id], onDelete: SetNull)
-  actions SeoRecommendationAction[]
+  media                   Media                     @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost           WordPressPost?            @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  seoOpportunity          SeoOpportunity?           @relation(fields: [seoOpportunityId], references: [id], onDelete: SetNull)
+  actions                 SeoRecommendationAction[]
   articleImprovementTasks ArticleImprovementTask[]
 
   @@index([mediaId, approvalStatus, priority])
@@ -2651,23 +2651,23 @@ model SeoRecommendationAction {
 }
 
 model SeoAnalysisSnapshot {
-  id                String         @id @default(cuid())
-  mediaId            String
-  periodStart        DateTime
-  periodEnd          DateTime
-  totalClicks        Int            @default(0)
-  totalImpressions   Int            @default(0)
-  averageCtr         Float          @default(0)
-  averagePosition    Float          @default(0)
-  organicSessions    Int            @default(0)
-  topQueries         Json?
-  topPages           Json?
-  decliningPages     Json?
-  opportunityCount   Int            @default(0)
-  dataConfidence     DataConfidence @default(INSUFFICIENT)
-  summary            String?
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
+  id               String         @id @default(cuid())
+  mediaId          String
+  periodStart      DateTime
+  periodEnd        DateTime
+  totalClicks      Int            @default(0)
+  totalImpressions Int            @default(0)
+  averageCtr       Float          @default(0)
+  averagePosition  Float          @default(0)
+  organicSessions  Int            @default(0)
+  topQueries       Json?
+  topPages         Json?
+  decliningPages   Json?
+  opportunityCount Int            @default(0)
+  dataConfidence   DataConfidence @default(INSUFFICIENT)
+  summary          String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
   media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
@@ -2676,7 +2676,7 @@ model SeoAnalysisSnapshot {
 
 model SeoImportBatch {
   id            String          @id @default(cuid())
-  mediaId        String
+  mediaId       String
   importSource  SeoImportSource
   fileName      String
   importType    SeoImportType
@@ -2691,7 +2691,7 @@ model SeoImportBatch {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media  Media               @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   errors SeoImportRowError[]
 }
 
@@ -2727,9 +2727,9 @@ model GoogleSyncJob {
   createdAt          DateTime                @default(now())
   updatedAt          DateTime                @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media            Media             @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
-  runs GoogleSyncRun[]
+  runs             GoogleSyncRun[]
 
   @@index([mediaId, jobType, status])
 }
@@ -2755,8 +2755,8 @@ model GoogleSyncRun {
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
 
-  googleSyncJob GoogleSyncJob? @relation(fields: [googleSyncJobId], references: [id], onDelete: SetNull)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  googleSyncJob    GoogleSyncJob?    @relation(fields: [googleSyncJobId], references: [id], onDelete: SetNull)
+  media            Media             @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
 
   @@index([mediaId, status, startedAt])
@@ -2778,7 +2778,7 @@ model GoogleApiQuotaLog {
   success            Boolean             @default(false)
   createdAt          DateTime            @default(now())
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  media            Media?            @relation(fields: [mediaId], references: [id], onDelete: SetNull)
   googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
 
   @@index([apiName, createdAt])
@@ -2799,7 +2799,7 @@ model GoogleApiErrorLog {
   actionRequired     GoogleApiActionRequired @default(NONE)
   createdAt          DateTime                @default(now())
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  media            Media?            @relation(fields: [mediaId], references: [id], onDelete: SetNull)
   googleConnection GoogleConnection? @relation(fields: [googleConnectionId], references: [id], onDelete: SetNull)
 
   @@index([apiName, createdAt])
@@ -2837,8 +2837,8 @@ model ScheduledTask {
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  runs ScheduledTaskRun[]
+  media  Media?             @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  runs   ScheduledTaskRun[]
   leases TaskLease[]
 
   @@index([enabled, nextRunAt])
@@ -2865,8 +2865,8 @@ model ScheduledTaskRun {
   createdAt       DateTime               @default(now())
   updatedAt       DateTime               @updatedAt
 
-  scheduledTask ScheduledTask? @relation(fields: [scheduledTaskId], references: [id], onDelete: SetNull)
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  scheduledTask      ScheduledTask?      @relation(fields: [scheduledTaskId], references: [id], onDelete: SetNull)
+  media              Media?              @relation(fields: [mediaId], references: [id], onDelete: SetNull)
   notificationEvents NotificationEvent[]
 
   @@index([status, startedAt])
@@ -2874,16 +2874,16 @@ model ScheduledTaskRun {
 }
 
 model TaskLease {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   scheduledTaskId String
-  leaseKey        String   @unique
+  leaseKey        String    @unique
   ownerId         String
-  acquiredAt      DateTime @default(now())
-  heartbeatAt     DateTime @default(now())
+  acquiredAt      DateTime  @default(now())
+  heartbeatAt     DateTime  @default(now())
   expiresAt       DateTime
   releasedAt      DateTime?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   scheduledTask ScheduledTask @relation(fields: [scheduledTaskId], references: [id], onDelete: Cascade)
 
@@ -2891,20 +2891,20 @@ model TaskLease {
 }
 
 model DataFreshnessStatus {
-  id              String                @id @default(cuid())
-  mediaId         String?
-  source          DataFreshnessSource
-  priority        DataFreshnessPriority @default(MOCK)
-  status          FreshnessStatus       @default(UNKNOWN)
-  lastDataAt      DateTime?
-  checkedAt       DateTime              @default(now())
-  warningAfterHours Int                 @default(48)
-  criticalAfterHours Int                @default(96)
-  staleHours      Int?
-  message         String?
-  metadata        Json?
-  createdAt       DateTime              @default(now())
-  updatedAt       DateTime              @updatedAt
+  id                 String                @id @default(cuid())
+  mediaId            String?
+  source             DataFreshnessSource
+  priority           DataFreshnessPriority @default(MOCK)
+  status             FreshnessStatus       @default(UNKNOWN)
+  lastDataAt         DateTime?
+  checkedAt          DateTime              @default(now())
+  warningAfterHours  Int                   @default(48)
+  criticalAfterHours Int                   @default(96)
+  staleHours         Int?
+  message            String?
+  metadata           Json?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
 
   media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
@@ -2913,46 +2913,46 @@ model DataFreshnessStatus {
 }
 
 model AlertRule {
-  id              String        @id @default(cuid())
-  ruleKey         String        @unique
-  ruleName        String
-  ruleType        AlertRuleType
-  severity        AlertSeverity @default(WARNING)
-  enabled         Boolean       @default(true)
-  thresholdValue  Float?
-  lookbackDays    Int           @default(7)
-  compareDays     Int           @default(7)
-  dedupWindowHours Int          @default(24)
-  cooldownHours   Int           @default(24)
-  description     String?
-  metadata        Json?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  id               String        @id @default(cuid())
+  ruleKey          String        @unique
+  ruleName         String
+  ruleType         AlertRuleType
+  severity         AlertSeverity @default(WARNING)
+  enabled          Boolean       @default(true)
+  thresholdValue   Float?
+  lookbackDays     Int           @default(7)
+  compareDays      Int           @default(7)
+  dedupWindowHours Int           @default(24)
+  cooldownHours    Int           @default(24)
+  description      String?
+  metadata         Json?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   incidents AlertIncident[]
 }
 
 model AlertIncident {
-  id              String              @id @default(cuid())
-  alertRuleId     String
-  mediaId         String?
-  severity        AlertSeverity
-  status          AlertIncidentStatus @default(OPEN)
-  dedupKey        String
-  title           String
-  message         String
-  detectedAt      DateTime            @default(now())
-  acknowledgedAt  DateTime?
-  resolvedAt      DateTime?
-  dismissedAt     DateTime?
-  cooldownUntil   DateTime?
-  evidence        Json?
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
+  id             String              @id @default(cuid())
+  alertRuleId    String
+  mediaId        String?
+  severity       AlertSeverity
+  status         AlertIncidentStatus @default(OPEN)
+  dedupKey       String
+  title          String
+  message        String
+  detectedAt     DateTime            @default(now())
+  acknowledgedAt DateTime?
+  resolvedAt     DateTime?
+  dismissedAt    DateTime?
+  cooldownUntil  DateTime?
+  evidence       Json?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
 
-  alertRule AlertRule @relation(fields: [alertRuleId], references: [id], onDelete: Cascade)
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
-  notificationEvents NotificationEvent[]
+  alertRule               AlertRule                @relation(fields: [alertRuleId], references: [id], onDelete: Cascade)
+  media                   Media?                   @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  notificationEvents      NotificationEvent[]
   articleImprovementTasks ArticleImprovementTask[]
 
   @@unique([dedupKey])
@@ -2991,10 +2991,10 @@ model NotificationEvent {
   readAt             DateTime?
   dismissedAt        DateTime?
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
-  alertIncident AlertIncident? @relation(fields: [alertIncidentId], references: [id], onDelete: SetNull)
-  scheduledTaskRun ScheduledTaskRun? @relation(fields: [scheduledTaskRunId], references: [id], onDelete: SetNull)
-  deliveries NotificationDelivery[]
+  media            Media?                 @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  alertIncident    AlertIncident?         @relation(fields: [alertIncidentId], references: [id], onDelete: SetNull)
+  scheduledTaskRun ScheduledTaskRun?      @relation(fields: [scheduledTaskRunId], references: [id], onDelete: SetNull)
+  deliveries       NotificationDelivery[]
 
   @@index([status, priority, createdAt])
   @@index([dedupKey])
@@ -3012,7 +3012,7 @@ model NotificationDelivery {
   createdAt             DateTime                   @default(now())
   updatedAt             DateTime                   @updatedAt
 
-  notificationEvent NotificationEvent @relation(fields: [notificationEventId], references: [id], onDelete: Cascade)
+  notificationEvent   NotificationEvent   @relation(fields: [notificationEventId], references: [id], onDelete: Cascade)
   notificationChannel NotificationChannel @relation(fields: [notificationChannelId], references: [id], onDelete: Cascade)
 
   @@unique([notificationEventId, notificationChannelId])
@@ -3020,18 +3020,18 @@ model NotificationDelivery {
 }
 
 model OperationsHealthSnapshot {
-  id              String                 @id @default(cuid())
-  mediaId         String?
-  status          OperationsHealthStatus @default(UNKNOWN)
-  checkedAt       DateTime               @default(now())
-  scheduledTasksOk Boolean               @default(true)
-  freshnessOk     Boolean                @default(true)
-  apiQuotaOk      Boolean                @default(true)
-  openAlerts      Int                    @default(0)
-  failedRuns      Int                    @default(0)
-  summary         String?
-  details         Json?
-  createdAt       DateTime               @default(now())
+  id               String                 @id @default(cuid())
+  mediaId          String?
+  status           OperationsHealthStatus @default(UNKNOWN)
+  checkedAt        DateTime               @default(now())
+  scheduledTasksOk Boolean                @default(true)
+  freshnessOk      Boolean                @default(true)
+  apiQuotaOk       Boolean                @default(true)
+  openAlerts       Int                    @default(0)
+  failedRuns       Int                    @default(0)
+  summary          String?
+  details          Json?
+  createdAt        DateTime               @default(now())
 
   media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
 
@@ -3039,19 +3039,19 @@ model OperationsHealthSnapshot {
 }
 
 model WeeklyOperationsReport {
-  id                String                 @id @default(cuid())
-  mediaId           String?
-  periodStart       DateTime
-  periodEnd         DateTime
-  status            OperationsHealthStatus @default(UNKNOWN)
-  taskRunCount      Int                    @default(0)
-  failedRunCount    Int                    @default(0)
-  openAlertCount    Int                    @default(0)
-  criticalAlertCount Int                   @default(0)
-  notificationCount Int                    @default(0)
-  summary           String
-  recommendations   Json?
-  createdAt         DateTime               @default(now())
+  id                 String                 @id @default(cuid())
+  mediaId            String?
+  periodStart        DateTime
+  periodEnd          DateTime
+  status             OperationsHealthStatus @default(UNKNOWN)
+  taskRunCount       Int                    @default(0)
+  failedRunCount     Int                    @default(0)
+  openAlertCount     Int                    @default(0)
+  criticalAlertCount Int                    @default(0)
+  notificationCount  Int                    @default(0)
+  summary            String
+  recommendations    Json?
+  createdAt          DateTime               @default(now())
 
   media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
 
@@ -3082,18 +3082,18 @@ model ArticleImprovementTask {
   createdAt              DateTime                   @default(now())
   updatedAt              DateTime                   @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  seoOpportunity SeoOpportunity? @relation(fields: [seoOpportunityId], references: [id], onDelete: SetNull)
-  seoRecommendation SeoRecommendation? @relation(fields: [seoRecommendationId], references: [id], onDelete: SetNull)
-  alertIncident AlertIncident? @relation(fields: [alertIncidentId], references: [id], onDelete: SetNull)
-  growthRecommendation GrowthRecommendation? @relation(fields: [growthRecommendationId], references: [id], onDelete: SetNull)
-  sources ImprovementTaskSource[]
-  snapshots ArticleRevisionSnapshot[]
-  rewriteDrafts RewriteDraft[]
-  contentChangeSets ContentChangeSet[]
-  approvals RewriteApproval[]
-  executionLogs ImprovementExecutionLog[]
+  media                 Media                     @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost         WordPressPost?            @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  seoOpportunity        SeoOpportunity?           @relation(fields: [seoOpportunityId], references: [id], onDelete: SetNull)
+  seoRecommendation     SeoRecommendation?        @relation(fields: [seoRecommendationId], references: [id], onDelete: SetNull)
+  alertIncident         AlertIncident?            @relation(fields: [alertIncidentId], references: [id], onDelete: SetNull)
+  growthRecommendation  GrowthRecommendation?     @relation(fields: [growthRecommendationId], references: [id], onDelete: SetNull)
+  sources               ImprovementTaskSource[]
+  snapshots             ArticleRevisionSnapshot[]
+  rewriteDrafts         RewriteDraft[]
+  contentChangeSets     ContentChangeSet[]
+  approvals             RewriteApproval[]
+  executionLogs         ImprovementExecutionLog[]
   seoImpactMeasurements SeoImpactMeasurement[]
 
   @@index([mediaId, status, priority])
@@ -3133,10 +3133,10 @@ model ArticleRevisionSnapshot {
   capturedAt               DateTime                    @default(now())
   createdAt                DateTime                    @default(now())
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
+  media                  Media                   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost          WordPressPost           @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
   articleImprovementTask ArticleImprovementTask? @relation(fields: [articleImprovementTaskId], references: [id], onDelete: SetNull)
-  rewriteDrafts RewriteDraft[]
+  rewriteDrafts          RewriteDraft[]
 
   @@index([wordpressPostId, snapshotType, capturedAt])
   @@index([articleImprovementTaskId])
@@ -3158,36 +3158,36 @@ model RewriteDraft {
   createdAt                DateTime           @default(now())
   updatedAt                DateTime           @updatedAt
 
-  articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
-  baseSnapshot ArticleRevisionSnapshot? @relation(fields: [baseSnapshotId], references: [id], onDelete: SetNull)
-  suggestions RewriteSuggestion[]
-  contentChangeSets ContentChangeSet[]
-  approvals RewriteApproval[]
-  riskChecks RewriteRiskCheck[]
-  safetyChecks WordPressRewriteSafetyCheck[]
-  wordpressDraftUpdates WordPressDraftUpdate[]
+  articleImprovementTask ArticleImprovementTask        @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
+  media                  Media                         @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost          WordPressPost                 @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
+  baseSnapshot           ArticleRevisionSnapshot?      @relation(fields: [baseSnapshotId], references: [id], onDelete: SetNull)
+  suggestions            RewriteSuggestion[]
+  contentChangeSets      ContentChangeSet[]
+  approvals              RewriteApproval[]
+  riskChecks             RewriteRiskCheck[]
+  safetyChecks           WordPressRewriteSafetyCheck[]
+  wordpressDraftUpdates  WordPressDraftUpdate[]
 
   @@index([articleImprovementTaskId, draftStatus])
   @@index([wordpressPostId, version])
 }
 
 model RewriteSuggestion {
-  id               String                  @id @default(cuid())
-  rewriteDraftId   String
-  suggestionType   RewriteSuggestionType
-  targetField      RewriteTargetField
-  targetSelector   String?
-  beforeText       String?
-  afterText        String
-  reason           String
-  evidence         Json?
-  riskLevel        RewriteRiskLevel        @default(LOW)
-  status           RewriteSuggestionStatus @default(PROPOSED)
-  version          Int                     @default(1)
-  createdAt        DateTime                @default(now())
-  updatedAt        DateTime                @updatedAt
+  id             String                  @id @default(cuid())
+  rewriteDraftId String
+  suggestionType RewriteSuggestionType
+  targetField    RewriteTargetField
+  targetSelector String?
+  beforeText     String?
+  afterText      String
+  reason         String
+  evidence       Json?
+  riskLevel      RewriteRiskLevel        @default(LOW)
+  status         RewriteSuggestionStatus @default(PROPOSED)
+  version        Int                     @default(1)
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
 
   rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
 
@@ -3211,7 +3211,7 @@ model ContentChangeSet {
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
 
-  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+  rewriteDraft           RewriteDraft           @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
   articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
 
   @@index([rewriteDraftId, version, status])
@@ -3228,7 +3228,7 @@ model RewriteApproval {
   createdAt                DateTime                @default(now())
 
   articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
-  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+  rewriteDraft           RewriteDraft           @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
 
   @@index([rewriteDraftId, version])
 }
@@ -3251,17 +3251,17 @@ model RewriteRiskCheck {
 }
 
 model WordPressRewriteSafetyCheck {
-  id                 String                      @id @default(cuid())
-  rewriteDraftId     String
-  status             WordPressRewriteSafetyStatus
-  updateMode         WordPressRewriteUpdateMode   @default(CREATE_NEW_DRAFT)
-  checkedAt          DateTime                    @default(now())
-  reason             String?
+  id                   String                       @id @default(cuid())
+  rewriteDraftId       String
+  status               WordPressRewriteSafetyStatus
+  updateMode           WordPressRewriteUpdateMode   @default(CREATE_NEW_DRAFT)
+  checkedAt            DateTime                     @default(now())
+  reason               String?
   wordpressModifiedGmt DateTime?
-  expectedVersion    Int?
-  approvedVersion    Int?
-  details            Json?
-  createdAt          DateTime                    @default(now())
+  expectedVersion      Int?
+  approvedVersion      Int?
+  details              Json?
+  createdAt            DateTime                     @default(now())
 
   rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
 
@@ -3269,22 +3269,22 @@ model WordPressRewriteSafetyCheck {
 }
 
 model WordPressDraftUpdate {
-  id             String                     @id @default(cuid())
-  rewriteDraftId String
-  wordpressPostId String
-  updateMode     WordPressRewriteUpdateMode @default(CREATE_NEW_DRAFT)
-  status         WordPressDraftUpdateStatus
-  mockMode       Boolean                    @default(true)
-  wordpressDraftId String?
+  id                String                     @id @default(cuid())
+  rewriteDraftId    String
+  wordpressPostId   String
+  updateMode        WordPressRewriteUpdateMode @default(CREATE_NEW_DRAFT)
+  status            WordPressDraftUpdateStatus
+  mockMode          Boolean                    @default(true)
+  wordpressDraftId  String?
   wordpressDraftUrl String?
-  safetyCheckId String?
-  requestSummary String?
-  responseSummary String?
-  errorMessage   String?
-  createdAt      DateTime                   @default(now())
-  updatedAt      DateTime                   @updatedAt
+  safetyCheckId     String?
+  requestSummary    String?
+  responseSummary   String?
+  errorMessage      String?
+  createdAt         DateTime                   @default(now())
+  updatedAt         DateTime                   @updatedAt
 
-  rewriteDraft RewriteDraft @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
+  rewriteDraft  RewriteDraft  @relation(fields: [rewriteDraftId], references: [id], onDelete: Cascade)
   wordpressPost WordPressPost @relation(fields: [wordpressPostId], references: [id], onDelete: Cascade)
 
   @@index([rewriteDraftId, status])
@@ -3339,8 +3339,8 @@ model SeoImpactMeasurement {
   updatedAt                DateTime         @updatedAt
 
   articleImprovementTask ArticleImprovementTask @relation(fields: [articleImprovementTaskId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  media                  Media                  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost          WordPressPost?         @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
 
   @@index([status, verdict, measuredAt])
   @@index([mediaId, measuredAt])
@@ -3363,11 +3363,11 @@ model SocialApiConnection {
   createdAt          DateTime                  @default(now())
   updatedAt          DateTime                  @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
-  tokens SocialApiToken[]
-  queues SocialPostQueue[]
-  executions SocialPostExecution[]
+  media         Media                    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount SocialAccount?           @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
+  tokens        SocialApiToken[]
+  queues        SocialPostQueue[]
+  executions    SocialPostExecution[]
   rateLimitLogs SocialPostRateLimitLog[]
 
   @@index([platform, connectionStatus])
@@ -3375,16 +3375,16 @@ model SocialApiConnection {
 }
 
 model SocialApiToken {
-  id                    String   @id @default(cuid())
+  id                    String    @id @default(cuid())
   socialApiConnectionId String
   platform              Platform
   accessTokenEncrypted  String?
   refreshTokenEncrypted String?
   tokenExpiresAt        DateTime?
   scopes                String?
-  refreshTokenAvailable Boolean  @default(false)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  refreshTokenAvailable Boolean   @default(false)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
   socialApiConnection SocialApiConnection @relation(fields: [socialApiConnectionId], references: [id], onDelete: Cascade)
 
@@ -3392,7 +3392,7 @@ model SocialApiToken {
 }
 
 model SocialPostQueue {
-  id                    String                   @id @default(cuid())
+  id                    String                    @id @default(cuid())
   mediaId               String
   socialAccountId       String
   postId                String?
@@ -3400,52 +3400,52 @@ model SocialPostQueue {
   creativeAssetId       String?
   socialApiConnectionId String?
   platform              Platform
-  sourceType            SocialPostSourceType     @default(MANUAL)
+  sourceType            SocialPostSourceType      @default(MANUAL)
   sourceId              String?
-  queueStatus           SocialPostQueueStatus    @default(DRAFT)
-  approvalStatus        SocialPostApprovalStatus @default(PENDING)
-  linkCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
-  riskCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
-  dedupCheckStatus      SocialPostCheckStatus    @default(NOT_CHECKED)
-  rateLimitStatus       SocialRateLimitStatus    @default(OK)
+  queueStatus           SocialPostQueueStatus     @default(DRAFT)
+  approvalStatus        SocialPostApprovalStatus  @default(PENDING)
+  linkCheckStatus       SocialPostCheckStatus     @default(NOT_CHECKED)
+  riskCheckStatus       SocialPostCheckStatus     @default(NOT_CHECKED)
+  dedupCheckStatus      SocialPostCheckStatus     @default(NOT_CHECKED)
+  rateLimitStatus       SocialRateLimitStatus     @default(OK)
   manualReviewStatus    SocialManualReviewStatus?
   postText              String
   linkUrl               String?
   destinationUrl        String?
   imageUrl              String?
   scheduledAt           DateTime?
-  queuedAt              DateTime                 @default(now())
+  queuedAt              DateTime                  @default(now())
   lockedAt              DateTime?
   processingStartedAt   DateTime?
-  requestIdempotencyKey String                   @unique
-  madeWithAi            Boolean                  @default(true)
-  paidPartnership       Boolean                  @default(false)
+  requestIdempotencyKey String                    @unique
+  madeWithAi            Boolean                   @default(true)
+  paidPartnership       Boolean                   @default(false)
   utmCampaign           String?
   failureReason         String?
-  retryCount            Int                      @default(0)
+  retryCount            Int                       @default(0)
   nextRetryAt           DateTime?
   platformPostId        String?
   platformPostUrl       String?
   postedAt              DateTime?
-  createdAt             DateTime                 @default(now())
-  updatedAt             DateTime                 @updatedAt
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  socialAccount SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
-  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
-  socialApiConnection SocialApiConnection? @relation(fields: [socialApiConnectionId], references: [id], onDelete: SetNull)
-  executions SocialPostExecution[]
-  uploads SocialMediaUpload[]
-  safetyChecks SocialPostSafetyCheck[]
-  rateLimitLogs SocialPostRateLimitLog[]
-  retryLogs SocialPostRetryLog[]
-  performanceSnapshots SocialPostPerformanceSnapshot[]
-  attributions SocialPostAttribution[]
+  media                  Media                           @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount          SocialAccount                   @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  post                   Post?                           @relation(fields: [postId], references: [id], onDelete: SetNull)
+  wordpressPost          WordPressPost?                  @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  creativeAsset          CreativeAsset?                  @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  socialApiConnection    SocialApiConnection?            @relation(fields: [socialApiConnectionId], references: [id], onDelete: SetNull)
+  executions             SocialPostExecution[]
+  uploads                SocialMediaUpload[]
+  safetyChecks           SocialPostSafetyCheck[]
+  rateLimitLogs          SocialPostRateLimitLog[]
+  retryLogs              SocialPostRetryLog[]
+  performanceSnapshots   SocialPostPerformanceSnapshot[]
+  attributions           SocialPostAttribution[]
   improvementSuggestions SocialImprovementSuggestion[]
-  locks SocialPostLock[]
-  manualReviews SocialPostManualReview[]
+  locks                  SocialPostLock[]
+  manualReviews          SocialPostManualReview[]
 
   @@index([queueStatus, scheduledAt])
   @@index([mediaId, platform])
@@ -3474,49 +3474,49 @@ model SocialPostExecution {
   createdAt             DateTime                  @default(now())
   updatedAt             DateTime                  @updatedAt
 
-  socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
+  socialPostQueue     SocialPostQueue      @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
   socialApiConnection SocialApiConnection? @relation(fields: [socialApiConnectionId], references: [id], onDelete: SetNull)
-  retryLogs SocialPostRetryLog[]
+  retryLogs           SocialPostRetryLog[]
 
   @@index([platform, status, createdAt])
   @@index([socialPostQueueId, createdAt])
 }
 
 model SocialMediaUpload {
-  id                  String                  @id @default(cuid())
-  socialPostQueueId   String?
-  creativeAssetId     String?
-  platform            Platform
-  uploadStatus        SocialMediaUploadStatus @default(QUEUED)
-  mediaIdOnPlatform   String?
-  mediaKey            String?
-  mimeType            String?
-  fileSize            Int?
-  expiresAfterSecs    Int?
-  madeWithAi          Boolean                 @default(true)
-  errorMessage        String?
-  createdAt           DateTime                @default(now())
-  updatedAt           DateTime                @updatedAt
+  id                String                  @id @default(cuid())
+  socialPostQueueId String?
+  creativeAssetId   String?
+  platform          Platform
+  uploadStatus      SocialMediaUploadStatus @default(QUEUED)
+  mediaIdOnPlatform String?
+  mediaKey          String?
+  mimeType          String?
+  fileSize          Int?
+  expiresAfterSecs  Int?
+  madeWithAi        Boolean                 @default(true)
+  errorMessage      String?
+  createdAt         DateTime                @default(now())
+  updatedAt         DateTime                @updatedAt
 
   socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
-  creativeAsset CreativeAsset? @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
+  creativeAsset   CreativeAsset?   @relation(fields: [creativeAssetId], references: [id], onDelete: SetNull)
 
   @@index([platform, uploadStatus])
 }
 
 model SocialPostSafetyCheck {
-  id                    String                   @id @default(cuid())
-  socialPostQueueId     String
-  status                SocialPostCheckStatus    @default(NOT_CHECKED)
-  linkCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
-  riskCheckStatus       SocialPostCheckStatus    @default(NOT_CHECKED)
-  dedupCheckStatus      SocialPostCheckStatus    @default(NOT_CHECKED)
-  rateLimitStatus       SocialRateLimitStatus    @default(OK)
-  approvalStatus        SocialPostApprovalStatus @default(PENDING)
-  manualReviewRequired  Boolean                  @default(false)
-  reasons               Json?
-  checkedAt             DateTime                 @default(now())
-  createdAt             DateTime                 @default(now())
+  id                   String                   @id @default(cuid())
+  socialPostQueueId    String
+  status               SocialPostCheckStatus    @default(NOT_CHECKED)
+  linkCheckStatus      SocialPostCheckStatus    @default(NOT_CHECKED)
+  riskCheckStatus      SocialPostCheckStatus    @default(NOT_CHECKED)
+  dedupCheckStatus     SocialPostCheckStatus    @default(NOT_CHECKED)
+  rateLimitStatus      SocialRateLimitStatus    @default(OK)
+  approvalStatus       SocialPostApprovalStatus @default(PENDING)
+  manualReviewRequired Boolean                  @default(false)
+  reasons              Json?
+  checkedAt            DateTime                 @default(now())
+  createdAt            DateTime                 @default(now())
 
   socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
 
@@ -3536,7 +3536,7 @@ model SocialPostRateLimitLog {
   createdAt             DateTime              @default(now())
 
   socialApiConnection SocialApiConnection? @relation(fields: [socialApiConnectionId], references: [id], onDelete: SetNull)
-  socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
+  socialPostQueue     SocialPostQueue?     @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
 
   @@index([platform, status, createdAt])
 }
@@ -3551,7 +3551,7 @@ model SocialPostRetryLog {
   status                String   @default("scheduled")
   createdAt             DateTime @default(now())
 
-  socialPostQueue SocialPostQueue @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
+  socialPostQueue     SocialPostQueue      @relation(fields: [socialPostQueueId], references: [id], onDelete: Cascade)
   socialPostExecution SocialPostExecution? @relation(fields: [socialPostExecutionId], references: [id], onDelete: SetNull)
 
   @@index([socialPostQueueId, retryAt])
@@ -3579,30 +3579,30 @@ model SocialPostPerformanceSnapshot {
   updatedAt         DateTime                @updatedAt
 
   socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
-  post Post? @relation(fields: [postId], references: [id], onDelete: SetNull)
-  socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  post            Post?            @relation(fields: [postId], references: [id], onDelete: SetNull)
+  socialAccount   SocialAccount?   @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
+  media           Media            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
   @@index([mediaId, snapshotDate])
   @@index([platform, source])
 }
 
 model SocialPostAttribution {
-  id                    String                  @id @default(cuid())
-  socialPostQueueId     String?
-  mediaId               String
-  wordpressPostId       String?
-  date                  DateTime
-  sessions              Int                     @default(0)
-  conversions           Int                     @default(0)
-  approvedRevenue       Decimal                 @default(0) @db.Decimal(14, 2)
-  source                SocialPerformanceSource @default(MOCK)
-  dataConfidence        DataConfidence          @default(INSUFFICIENT)
-  createdAt             DateTime                @default(now())
+  id                String                  @id @default(cuid())
+  socialPostQueueId String?
+  mediaId           String
+  wordpressPostId   String?
+  date              DateTime
+  sessions          Int                     @default(0)
+  conversions       Int                     @default(0)
+  approvedRevenue   Decimal                 @default(0) @db.Decimal(14, 2)
+  source            SocialPerformanceSource @default(MOCK)
+  dataConfidence    DataConfidence          @default(INSUFFICIENT)
+  createdAt         DateTime                @default(now())
 
   socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  wordpressPost WordPressPost? @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
+  media           Media            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  wordpressPost   WordPressPost?   @relation(fields: [wordpressPostId], references: [id], onDelete: SetNull)
 
   @@index([mediaId, date])
 }
@@ -3636,8 +3636,8 @@ model SocialImprovementSuggestion {
   createdAt         DateTime                          @default(now())
   updatedAt         DateTime                          @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  socialAccount SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
+  media           Media            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  socialAccount   SocialAccount?   @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
   socialPostQueue SocialPostQueue? @relation(fields: [socialPostQueueId], references: [id], onDelete: SetNull)
 
   @@index([mediaId, status, priority])
@@ -3711,23 +3711,23 @@ model Campaign {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  objectives CampaignObjective[]
-  targets CampaignTarget[]
-  items CampaignItem[]
-  budgets CampaignBudget[]
-  costs CampaignCost[]
-  revenueAttributions CampaignRevenueAttribution[]
-  roiSnapshots CampaignRoiSnapshot[]
+  media                Media                         @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  objectives           CampaignObjective[]
+  targets              CampaignTarget[]
+  items                CampaignItem[]
+  budgets              CampaignBudget[]
+  costs                CampaignCost[]
+  revenueAttributions  CampaignRevenueAttribution[]
+  roiSnapshots         CampaignRoiSnapshot[]
   growthScoreSnapshots CampaignGrowthScoreSnapshot[]
-  recommendations CampaignRecommendation[]
-  risks CampaignRisk[]
-  milestones CampaignMilestone[]
-  calendarEvents ContentCalendarEvent[]
-  calendarConflicts ContentCalendarConflict[]
-  reportSchedules ReportSchedule[]
-  generatedReports GeneratedReport[]
-  businessInsights BusinessInsight[]
+  recommendations      CampaignRecommendation[]
+  risks                CampaignRisk[]
+  milestones           CampaignMilestone[]
+  calendarEvents       ContentCalendarEvent[]
+  calendarConflicts    ContentCalendarConflict[]
+  reportSchedules      ReportSchedule[]
+  generatedReports     GeneratedReport[]
+  businessInsights     BusinessInsight[]
 
   @@index([mediaId, status, periodStart])
   @@index([periodStart, periodEnd])
@@ -3798,7 +3798,7 @@ model CampaignBudget {
   updatedAt     DateTime           @updatedAt
 
   campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media    Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
   @@index([campaignId, budgetType])
 }
@@ -3817,7 +3817,7 @@ model CampaignCost {
   updatedAt    DateTime           @updatedAt
 
   campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media    Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
   @@index([campaignId, costDate])
 }
@@ -3840,7 +3840,7 @@ model CampaignRevenueAttribution {
   updatedAt            DateTime              @updatedAt
 
   campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media    Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
   @@unique([campaignId, sourceType, sourceId])
   @@index([sourceType, sourceId])
@@ -3868,7 +3868,7 @@ model CampaignRoiSnapshot {
   createdAt       DateTime       @default(now())
 
   campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media    Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
   @@index([campaignId, periodEnd])
 }
@@ -3892,24 +3892,24 @@ model CampaignGrowthScoreSnapshot {
   createdAt      DateTime       @default(now())
 
   campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media    Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
   @@index([campaignId, periodEnd])
 }
 
 model CampaignRecommendation {
-  id             String                         @id @default(cuid())
-  campaignId     String
-  recommendationType CampaignRecommendationType
-  priority       Int                            @default(50)
-  title          String
-  description    String
-  expectedImpact String?
-  status         CampaignRecommendationStatus   @default(PROPOSED)
-  requiresHumanReview Boolean                   @default(true)
-  sourceInsightId String?
-  createdAt      DateTime                       @default(now())
-  updatedAt      DateTime                       @updatedAt
+  id                  String                       @id @default(cuid())
+  campaignId          String
+  recommendationType  CampaignRecommendationType
+  priority            Int                          @default(50)
+  title               String
+  description         String
+  expectedImpact      String?
+  status              CampaignRecommendationStatus @default(PROPOSED)
+  requiresHumanReview Boolean                      @default(true)
+  sourceInsightId     String?
+  createdAt           DateTime                     @default(now())
+  updatedAt           DateTime                     @updatedAt
 
   campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
 
@@ -3950,25 +3950,25 @@ model CampaignMilestone {
 }
 
 model ContentCalendarEvent {
-  id              String              @id @default(cuid())
-  campaignId      String?
-  mediaId         String
-  eventType       CalendarEventType
-  status          CalendarEventStatus @default(PLANNED)
-  title           String
-  scheduledAt     DateTime
-  itemType        CampaignItemType?
-  itemId          String?
-  requiresApproval Boolean            @default(true)
-  approvalStatus  String?
-  linkCheckStatus String?
-  hasCreative     Boolean             @default(false)
-  notes           String?
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
+  id               String              @id @default(cuid())
+  campaignId       String?
+  mediaId          String
+  eventType        CalendarEventType
+  status           CalendarEventStatus @default(PLANNED)
+  title            String
+  scheduledAt      DateTime
+  itemType         CampaignItemType?
+  itemId           String?
+  requiresApproval Boolean             @default(true)
+  approvalStatus   String?
+  linkCheckStatus  String?
+  hasCreative      Boolean             @default(false)
+  notes            String?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
 
-  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
-  media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  campaign  Campaign?                 @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  media     Media                     @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   conflicts ContentCalendarConflict[]
 
   @@index([scheduledAt, eventType])
@@ -3976,20 +3976,20 @@ model ContentCalendarEvent {
 }
 
 model ContentCalendarConflict {
-  id           String                 @id @default(cuid())
-  campaignId   String?
+  id              String                 @id @default(cuid())
+  campaignId      String?
   calendarEventId String?
-  conflictType CalendarConflictType
-  status       CalendarConflictStatus @default(OPEN)
-  severity     CampaignRiskSeverity   @default(WARNING)
-  title        String
-  description  String
-  detectedAt   DateTime               @default(now())
-  resolvedAt   DateTime?
-  createdAt    DateTime               @default(now())
-  updatedAt    DateTime               @updatedAt
+  conflictType    CalendarConflictType
+  status          CalendarConflictStatus @default(OPEN)
+  severity        CampaignRiskSeverity   @default(WARNING)
+  title           String
+  description     String
+  detectedAt      DateTime               @default(now())
+  resolvedAt      DateTime?
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
 
-  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  campaign      Campaign?             @relation(fields: [campaignId], references: [id], onDelete: SetNull)
   calendarEvent ContentCalendarEvent? @relation(fields: [calendarEventId], references: [id], onDelete: SetNull)
 
   @@index([status, conflictType, detectedAt])
@@ -4006,58 +4006,58 @@ model ReportTemplate {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  media            Media?            @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   generatedReports GeneratedReport[]
-  reportSchedules ReportSchedule[]
+  reportSchedules  ReportSchedule[]
 
   @@index([reportType, enabled])
 }
 
 model ReportSchedule {
-  id             String       @id @default(cuid())
-  mediaId        String?
-  campaignId     String?
+  id               String       @id @default(cuid())
+  mediaId          String?
+  campaignId       String?
   reportTemplateId String?
-  reportType     ReportType
-  period         ReportPeriod @default(WEEKLY)
-  cronExpression String
-  enabled        Boolean      @default(false)
-  nextRunAt      DateTime?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  reportType       ReportType
+  period           ReportPeriod @default(WEEKLY)
+  cronExpression   String
+  enabled          Boolean      @default(false)
+  nextRunAt        DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  media          Media?          @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  campaign       Campaign?       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   reportTemplate ReportTemplate? @relation(fields: [reportTemplateId], references: [id], onDelete: SetNull)
 
   @@index([enabled, nextRunAt])
 }
 
 model GeneratedReport {
-  id              String                @id @default(cuid())
-  mediaId         String?
-  campaignId      String?
-  reportTemplateId String?
-  reportType      ReportType
-  status          GeneratedReportStatus @default(DRAFT)
-  periodStart     DateTime
-  periodEnd       DateTime
-  title           String
-  summary         String
-  contentMarkdown String
-  dataJson        Json?
-  sourceSummaryJson Json?
-  dataSource      String                @default("local")
-  generationKey   String                @unique
-  requiresHumanReview Boolean           @default(true)
-  createdAt       DateTime              @default(now())
-  updatedAt       DateTime              @updatedAt
+  id                  String                @id @default(cuid())
+  mediaId             String?
+  campaignId          String?
+  reportTemplateId    String?
+  reportType          ReportType
+  status              GeneratedReportStatus @default(DRAFT)
+  periodStart         DateTime
+  periodEnd           DateTime
+  title               String
+  summary             String
+  contentMarkdown     String
+  dataJson            Json?
+  sourceSummaryJson   Json?
+  dataSource          String                @default("local")
+  generationKey       String                @unique
+  requiresHumanReview Boolean               @default(true)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
-  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  media          Media?          @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  campaign       Campaign?       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   reportTemplate ReportTemplate? @relation(fields: [reportTemplateId], references: [id], onDelete: SetNull)
-  sections ReportSection[]
-  exports ReportExport[]
+  sections       ReportSection[]
+  exports        ReportExport[]
 
   @@index([reportType, status, createdAt])
   @@index([campaignId, periodEnd])
@@ -4095,23 +4095,105 @@ model ReportExport {
 }
 
 model BusinessInsight {
-  id             String                @id @default(cuid())
-  mediaId        String?
-  campaignId     String?
-  insightType    BusinessInsightType
-  status         BusinessInsightStatus @default(PROPOSED)
-  priority       Int                   @default(50)
-  title          String
-  summary        String
-  evidenceJson   Json?
-  recommendation String?
-  requiresHumanReview Boolean          @default(true)
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
+  id                  String                @id @default(cuid())
+  mediaId             String?
+  campaignId          String?
+  insightType         BusinessInsightType
+  status              BusinessInsightStatus @default(PROPOSED)
+  priority            Int                   @default(50)
+  title               String
+  summary             String
+  evidenceJson        Json?
+  recommendation      String?
+  requiresHumanReview Boolean               @default(true)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
 
-  media Media? @relation(fields: [mediaId], references: [id], onDelete: SetNull)
+  media    Media?    @relation(fields: [mediaId], references: [id], onDelete: SetNull)
   campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
 
   @@index([status, priority, createdAt])
   @@index([campaignId, insightType])
+}
+
+enum ApprovalGateRecordStatus {
+  DRAFT
+  REVIEW_REQUIRED
+  APPROVED
+  BLOCKED
+  DEFERRED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ApprovalGateReviewCheckStatus {
+  NOT_CHECKED
+  PASS
+  WARNING
+  BLOCKED
+  DEFERRED
+  NOT_APPLICABLE
+  UNKNOWN
+}
+
+enum ApprovalGateActorRole {
+  HUMAN_OWNER
+  REVIEWER
+  SYSTEM
+}
+
+enum ApprovalGateAuditEventType {
+  APPROVAL_GATE_TRANSITION
+}
+
+model ApprovalGateRecord {
+  id                         String                            @id @default(cuid())
+  approvalGateId             String                            @unique
+  status                     ApprovalGateRecordStatus
+  recordVersion              Int                               @default(0)
+  reviewTerms                ApprovalGateReviewCheckStatus     @default(NOT_CHECKED)
+  reviewDisclosure           ApprovalGateReviewCheckStatus     @default(NOT_CHECKED)
+  reviewProhibitedExpression ApprovalGateReviewCheckStatus     @default(NOT_CHECKED)
+  humanOwnerDecisionRequired Boolean                           @default(false)
+  createdAt                  DateTime                          @default(now())
+  updatedAt                  DateTime                          @updatedAt
+  processedTransitions       ApprovalGateProcessedTransition[]
+  auditEvents                ApprovalGateAuditEventRecord[]
+
+  @@index([status, updatedAt])
+}
+
+model ApprovalGateProcessedTransition {
+  id                  String                        @id @default(cuid())
+  approvalGateId      String
+  transitionRequestId String
+  createdAt           DateTime                      @default(now())
+  approvalGate        ApprovalGateRecord            @relation(fields: [approvalGateId], references: [approvalGateId], onDelete: Restrict, onUpdate: Cascade)
+  auditEvent          ApprovalGateAuditEventRecord?
+
+  @@unique([approvalGateId, transitionRequestId])
+  @@index([approvalGateId, createdAt, id])
+}
+
+model ApprovalGateAuditEventRecord {
+  id                            String                          @id @default(cuid())
+  approvalGateId                String
+  transitionRequestId           String
+  eventType                     ApprovalGateAuditEventType
+  fromStatus                    ApprovalGateRecordStatus
+  toStatus                      ApprovalGateRecordStatus
+  actorRole                     ApprovalGateActorRole
+  recordVersion                 Int
+  contentReference              String?
+  reviewReference               String?
+  evidenceReference             String?
+  publishRequestReference       String?
+  archiveReference              String?
+  authorizationSubjectReference String?
+  occurredAt                    DateTime                        @default(now())
+  approvalGate                  ApprovalGateRecord              @relation(fields: [approvalGateId], references: [approvalGateId], onDelete: Restrict, onUpdate: Cascade)
+  processedTransition           ApprovalGateProcessedTransition @relation(fields: [approvalGateId, transitionRequestId], references: [approvalGateId, transitionRequestId], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([approvalGateId, transitionRequestId])
+  @@index([approvalGateId, occurredAt, id])
 }
