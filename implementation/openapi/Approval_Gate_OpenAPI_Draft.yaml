@@ -176,17 +176,9 @@ paths:
         - Status Transitions
       summary: Request an Approval Gate status transition.
       description: |
-        Dedicated status transition endpoint candidate.
-        from_status must match the current approval_gate_status.
-        Draft to Published is not allowed.
-        Published without Review Required path is forbidden.
-        Published requires prior Approved status.
-        Blocked requires blocked_reason.
-        Deferred requires deferred_items.
-        Published requires published_at or publish_request_reference.
-        Unknown terms check status cannot be approved for MVP publishing.
-        Human Owner approval is required before this approval gate can transition into an approved execution state.
-        Unknown automation_allowed_status cannot be connected to automated publishing.
+        Draft transition endpoint candidate. The request uses the Core status values directly.
+        The B1 HTTP adapter must construct actor and authorization context from an authenticated server-side source; neither is accepted from this client DTO.
+        Duplicate transition_request_id handling takes precedence over version conflict handling.
       security:
         - BearerAuthPlaceholder: []
       parameters:
@@ -205,15 +197,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApprovalGateTransitionResponse"
         "400":
-          $ref: "#/components/responses/BadRequest"
+          $ref: "#/components/responses/ApprovalGateTransitionInvalidInput"
         "401":
           $ref: "#/components/responses/Unauthorized"
         "403":
           $ref: "#/components/responses/Forbidden"
         "404":
-          $ref: "#/components/responses/NotFound"
+          $ref: "#/components/responses/ApprovalGateTransitionNotFound"
+        "409":
+          $ref: "#/components/responses/ApprovalGateTransitionConflict"
         "422":
-          $ref: "#/components/responses/ValidationError"
+          $ref: "#/components/responses/ApprovalGateTransitionRejected"
+        "500":
+          $ref: "#/components/responses/ApprovalGateTransitionPersistenceFailure"
   /approval-gates/{approval_gate_id}/review-logs:
     get:
       operationId: listApprovalGateReviewLogs
@@ -432,10 +428,9 @@ components:
       name: approval_gate_id
       in: path
       required: true
-      description: Approval Gate ID candidate.
+      description: Approval Gate safe reference ID candidate.
       schema:
-        type: string
-        example: AG-20260708-0001
+        $ref: "#/components/schemas/SafeApprovalReference"
     LimitQuery:
       name: limit
       in: query
@@ -507,32 +502,58 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
+    ApprovalGateTransitionInvalidInput:
+      description: Transition request input is invalid. Rejected values are not echoed.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApprovalGateTransitionErrorResponse"
+    ApprovalGateTransitionNotFound:
+      description: Approval Gate record was not found.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApprovalGateTransitionErrorResponse"
+    ApprovalGateTransitionConflict:
+      description: Transition request conflicts with the current record version or a previously processed request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApprovalGateTransitionErrorResponse"
+    ApprovalGateTransitionRejected:
+      description: Transition request violates an Approval Gate rule.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApprovalGateTransitionErrorResponse"
+    ApprovalGateTransitionPersistenceFailure:
+      description: Transition persistence failed without exposing storage internals.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApprovalGateTransitionErrorResponse"
   schemas:
     ApprovalGateStatus:
       type: string
-      description: |
-        Approval Gate status candidate.
-        Invalidated is included as an alternative to deletion.
-        Published is allowed only after Approved and must not be reached directly from Draft.
+      description: Approval Gate Core status wire values.
       enum:
-        - Draft
-        - Review Required
-        - Approved
-        - Blocked
-        - Deferred
-        - Published
-        - Archived
-        - Invalidated
+        - DRAFT
+        - REVIEW_REQUIRED
+        - APPROVED
+        - BLOCKED
+        - DEFERRED
+        - PUBLISHED
+        - ARCHIVED
     DecisionCategory:
       type: string
       enum:
-        - Approved for MVP publishing
-        - Approved with manual review
-        - Blocked due to missing evidence
-        - Blocked due to terms uncertainty
-        - Deferred to later specification
-        - Requires Human Owner decision
-        - Requires official-source confirmation
+        - APPROVED_FOR_MVP_PUBLISHING
+        - APPROVED_WITH_MANUAL_REVIEW
+        - BLOCKED_MISSING_EVIDENCE
+        - BLOCKED_TERMS_UNCERTAINTY
+        - DEFERRED_LATER_SPECIFICATION
+        - REQUIRES_HUMAN_OWNER_DECISION
+        - REQUIRES_OFFICIAL_SOURCE_CONFIRMATION
     ReviewStatus:
       type: string
       enum:
@@ -541,15 +562,6 @@ components:
         - Reviewed
         - Approved
         - Blocked
-        - Deferred
-    TermsCheckStatus:
-      type: string
-      enum:
-        - Not Required
-        - Required
-        - Passed
-        - Failed
-        - Unknown
         - Deferred
     LabelCheckStatus:
       type: string
@@ -563,10 +575,11 @@ components:
     AutomationAllowedStatus:
       type: string
       enum:
-        - Allowed
-        - Not Allowed
-        - Unknown
-        - Deferred
+        - ALLOWED
+        - NOT_ALLOWED
+        - DEFERRED
+        - UNKNOWN
+        - NOT_APPLICABLE
     Role:
       type: string
       enum:
@@ -576,6 +589,98 @@ components:
         - Developer
         - Auditor
         - System
+    SafeApprovalReference:
+      type: string
+      maxLength: 128
+      pattern: "^[A-Za-z][A-Za-z0-9_]{0,31}-[A-Za-z0-9][A-Za-z0-9._-]{0,94}$"
+      description: Safe management reference identifier; URLs, control characters, and free-form text are not allowed.
+    ApprovalGateReviewCheckStatus:
+      type: string
+      enum:
+        - NOT_CHECKED
+        - PASS
+        - WARNING
+        - BLOCKED
+        - DEFERRED
+        - NOT_APPLICABLE
+        - UNKNOWN
+    ApprovalGateTransitionReviewChecks:
+      type: object
+      additionalProperties: false
+      required:
+        - terms
+        - disclosure
+        - prohibited_expression
+      properties:
+        terms:
+          $ref: "#/components/schemas/ApprovalGateReviewCheckStatus"
+        disclosure:
+          $ref: "#/components/schemas/ApprovalGateReviewCheckStatus"
+        prohibited_expression:
+          $ref: "#/components/schemas/ApprovalGateReviewCheckStatus"
+    PublishMode:
+      type: string
+      enum:
+        - MANUAL
+        - AUTOMATED
+    ApprovalGateActorRole:
+      type: string
+      enum:
+        - HUMAN_OWNER
+        - REVIEWER
+        - SYSTEM
+    ApprovalGateTransitionState:
+      type: object
+      additionalProperties: false
+      required:
+        - status
+        - record_version
+        - review_checks
+        - human_owner_decision_required
+      properties:
+        status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        record_version:
+          type: integer
+          minimum: 0
+        review_checks:
+          $ref: "#/components/schemas/ApprovalGateTransitionReviewChecks"
+        human_owner_decision_required:
+          type: boolean
+    ApprovalGateTransitionAuditEvent:
+      type: object
+      additionalProperties: false
+      required:
+        - event_type
+        - transition_request_id
+        - from_status
+        - to_status
+        - actor_role
+        - record_version
+      properties:
+        event_type:
+          const: APPROVAL_GATE_TRANSITION
+        transition_request_id:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        from_status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        to_status:
+          $ref: "#/components/schemas/ApprovalGateStatus"
+        actor_role:
+          $ref: "#/components/schemas/ApprovalGateActorRole"
+        record_version:
+          type: integer
+          minimum: 0
+        content_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        review_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        evidence_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        publish_request_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        archive_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
     ApprovalGate:
       type: object
       required:
@@ -713,90 +818,190 @@ components:
           example: 1
     ApprovalGateTransitionRequest:
       type: object
+      additionalProperties: false
       description: |
-        from_status must match the current approval_gate_status.
-        Draft to Published is not allowed.
-        Published requires prior Approved status.
-        Blocked requires blocked_reason.
-        Deferred requires deferred_items.
-        Published requires published_at or publish_request_reference.
-        Unknown terms check status cannot be approved for MVP publishing.
-        Human Owner approval is required before this transition request can move an approval gate into an approved execution state.
+        Client transition DTO. Actor role and authorization context are constructed only by the authenticated server-side B1 adapter.
+        BLOCKED requires blocked_reason; DEFERRED requires deferred_items; PUBLISHED requires published_at or publish_request_reference.
+        The Core validates allowed transitions, Human Owner authorization, review checks, and publication conditions.
       required:
         - from_status
         - to_status
-        - requested_by
-        - requested_at
+        - expected_record_version
+        - transition_request_id
       properties:
         from_status:
           $ref: "#/components/schemas/ApprovalGateStatus"
         to_status:
           $ref: "#/components/schemas/ApprovalGateStatus"
+        expected_record_version:
+          type: integer
+          minimum: 0
+        transition_request_id:
+          $ref: "#/components/schemas/SafeApprovalReference"
         decision_category:
           $ref: "#/components/schemas/DecisionCategory"
-        review_id:
-          type: string
-          example: REV-20260708-0001
-        evidence_reference:
-          type: string
-          example: dummy-evidence-reference
         decision_reason:
           type: string
-          example: dummy-reference
+          minLength: 1
+          pattern: ".*\\S.*"
         blocked_reason:
           type: string
-          example: dummy-reference
+          minLength: 1
+          pattern: ".*\\S.*"
         deferred_items:
-          type: string
-          example: dummy-reference
-        human_owner_decision_required:
-          type: boolean
-          example: true
-        requested_by:
-          $ref: "#/components/schemas/Role"
-        requested_at:
-          type: string
-          format: date-time
-          example: 2026-07-08T00:00:00Z
+          type: array
+          minItems: 1
+          items:
+            type: string
+            minLength: 1
+            pattern: ".*\\S.*"
+        content_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        review_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        evidence_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        publish_request_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        archive_reference:
+          $ref: "#/components/schemas/SafeApprovalReference"
+        review_checks:
+          $ref: "#/components/schemas/ApprovalGateTransitionReviewChecks"
+        publish_mode:
+          $ref: "#/components/schemas/PublishMode"
+        automation_allowed_status:
+          $ref: "#/components/schemas/AutomationAllowedStatus"
         published_at:
           type: string
           format: date-time
-          example: 2026-07-08T00:00:00Z
-        publish_request_reference:
-          type: string
-          example: dummy-reference
-        sns_terms_check_status:
-          $ref: "#/components/schemas/TermsCheckStatus"
-        asp_terms_check_status:
-          $ref: "#/components/schemas/TermsCheckStatus"
-        affiliate_terms_check_status:
-          $ref: "#/components/schemas/TermsCheckStatus"
-        automation_allowed_status:
-          $ref: "#/components/schemas/AutomationAllowedStatus"
+          maxLength: 40
+          pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+      allOf:
+        - if:
+            properties:
+              to_status:
+                const: BLOCKED
+            required:
+              - to_status
+          then:
+            required:
+              - blocked_reason
+              - decision_reason
+        - if:
+            properties:
+              to_status:
+                const: DEFERRED
+            required:
+              - to_status
+          then:
+            required:
+              - deferred_items
+              - decision_reason
+        - if:
+            properties:
+              to_status:
+                const: APPROVED
+            required:
+              - to_status
+          then:
+            required:
+              - review_reference
+              - evidence_reference
+              - decision_reason
+              - review_checks
+            properties:
+              decision_category:
+                not:
+                  const: APPROVED_WITH_MANUAL_REVIEW
+              review_checks:
+                allOf:
+                  - $ref: "#/components/schemas/ApprovalGateTransitionReviewChecks"
+                  - type: object
+                    properties:
+                      terms:
+                        enum:
+                          - PASS
+                          - NOT_APPLICABLE
+                      disclosure:
+                        enum:
+                          - PASS
+                          - NOT_APPLICABLE
+                      prohibited_expression:
+                        enum:
+                          - PASS
+                          - NOT_APPLICABLE
+        - if:
+            properties:
+              to_status:
+                const: PUBLISHED
+            required:
+              - to_status
+          then:
+            required:
+              - publish_mode
+              - automation_allowed_status
+            properties:
+              from_status:
+                const: APPROVED
+            anyOf:
+              - required:
+                  - published_at
+              - required:
+                  - publish_request_reference
+        - if:
+            properties:
+              to_status:
+                const: PUBLISHED
+              publish_mode:
+                const: AUTOMATED
+            required:
+              - to_status
+              - publish_mode
+          then:
+            properties:
+              automation_allowed_status:
+                const: ALLOWED
+        - if:
+            properties:
+              to_status:
+                const: PUBLISHED
+              publish_mode:
+                const: MANUAL
+            required:
+              - to_status
+              - publish_mode
+          then:
+            properties:
+              automation_allowed_status:
+                enum:
+                  - NOT_APPLICABLE
+                  - ALLOWED
+        - if:
+            properties:
+              from_status:
+                const: ARCHIVED
+              to_status:
+                const: REVIEW_REQUIRED
+            required:
+              - from_status
+              - to_status
+          then:
+            required:
+              - decision_reason
     ApprovalGateTransitionResponse:
       type: object
+      additionalProperties: false
       required:
         - approval_gate_id
-        - current_status
-        - validation_result
+        - state
+        - audit_event
       properties:
         approval_gate_id:
-          type: string
-          example: AG-20260708-0001
-        previous_status:
-          $ref: "#/components/schemas/ApprovalGateStatus"
-        current_status:
-          $ref: "#/components/schemas/ApprovalGateStatus"
-        decision_category:
-          $ref: "#/components/schemas/DecisionCategory"
-        evidence_reference:
-          type: string
-          example: dummy-evidence-reference
-        validation_result:
-          $ref: "#/components/schemas/ValidationResult"
-        audit_log_reference:
-          type: string
-          example: dummy-audit-log-reference
+          $ref: "#/components/schemas/SafeApprovalReference"
+        state:
+          $ref: "#/components/schemas/ApprovalGateTransitionState"
+        audit_event:
+          $ref: "#/components/schemas/ApprovalGateTransitionAuditEvent"
     ReviewLog:
       type: object
       properties:
@@ -913,11 +1118,7 @@ components:
       type: object
       description: |
         Error response candidate. Internal stack traces and secret values are not returned.
-        Error code candidates include APPROVAL_GATE_NOT_FOUND, INVALID_STATUS_TRANSITION,
-        MISSING_BLOCKED_REASON, MISSING_DEFERRED_ITEMS, MISSING_EVIDENCE_REFERENCE,
-        HUMAN_OWNER_DECISION_REQUIRED, TERMS_CHECK_UNKNOWN,
-        AUTOMATION_ALLOWED_STATUS_UNKNOWN, FORBIDDEN_ROLE, SECRET_VALUE_REJECTED,
-        and VALIDATION_FAILED.
+        This generic schema remains for non-transition draft endpoint candidates.
       required:
         - error_code
         - error_message
@@ -945,3 +1146,43 @@ components:
         audit_log_reference:
           type: string
           example: dummy-audit-log-reference
+    ApprovalGateTransitionErrorResponse:
+      type: object
+      additionalProperties: false
+      description: Fixed, non-reflective public error body for the transition endpoint.
+      required:
+        - error_code
+        - error_message
+      properties:
+        error_code:
+          type: string
+          enum:
+            - INVALID_INPUT
+            - APPROVAL_GATE_NOT_FOUND
+            - FROM_STATUS_MISMATCH
+            - INVALID_STATUS_TRANSITION
+            - MISSING_DECISION_REASON
+            - MISSING_BLOCKED_REASON
+            - MISSING_DEFERRED_ITEMS
+            - MISSING_REVIEW_ID
+            - MISSING_EVIDENCE_REFERENCE
+            - HUMAN_OWNER_DECISION_REQUIRED
+            - SYSTEM_CANNOT_APPROVE
+            - REVIEW_CHECK_INCOMPLETE
+            - AUTOMATION_NOT_ALLOWED
+            - MISSING_PUBLISH_REFERENCE
+            - FORBIDDEN_FIELD_DETECTED
+            - STALE_RECORD_VERSION
+            - DUPLICATE_TRANSITION_REQUEST_ID
+            - INVALID_REFERENCE
+            - UNTRUSTED_AUTHORIZATION_CONTEXT
+            - MISSING_AUTHORIZATION_SUBJECT_REFERENCE
+            - MISSING_HUMAN_OWNER_PERMISSION
+            - VERSION_CONFLICT
+            - DUPLICATE_REQUEST
+            - PERSISTENCE_FAILURE
+        error_message:
+          type: string
+          minLength: 1
+          maxLength: 160
+          description: Fixed public message. It must not echo request values or storage internals.

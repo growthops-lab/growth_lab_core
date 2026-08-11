@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-08-05 00:15 JST
+Last Updated: 2026-08-11 02:22 JST
 
 ## 1. Project Information
 
@@ -9,11 +9,12 @@ Last Updated: 2026-08-05 00:15 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-05 00:15 JST
+- Last Updated: 2026-08-11 02:22 JST
 
 ## 2. Current Status
 
-- Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, local master synchronization, and feature branch cleanup are complete. The approved persistence foundation is on `master` at `25f584ae26182fafabb5a27f8d31f91fb7c180aa`; database-connected operations remain separately gated and unexecuted.
+- Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, completion-record PR #25 Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, local master synchronization, and completion-record branch cleanup are complete. Handover v1.4 has been manually stored; database-connected operations remain separately gated and unexecuted.
+- MVP Approval Gate B0 Transition Contract Alignment implementation is in progress on `feat/mvp-approval-gate-transition-contract-alignment` from `a1e2575bffb2855045b3850883f938617cdd41b0`, limited to the OpenAPI draft and Spectral guardrail while Core, Application, Persistence, DB, HTTP, and OAuth behavior remain unchanged.
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
@@ -192,18 +193,21 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - Local `master` and `origin/master` were synchronized at the PR #24 Squash merge commit.
 - Local, remote, and remote-tracking `feat/mvp-approval-gate-persistence-foundation` references were deleted after merge while the protected untracked `docs/` scope remained unchanged.
 - Database connection, migration application, `migrate dev`, `migrate deploy`, `migrate resolve`, `db push`, seed, and dedicated verification-database integration tests were not performed.
+- Candidate A Production Persistence Foundation completion-record PR #25 was Squash merged into `master` as `a1e2575bffb2855045b3850883f938617cdd41b0`, followed by local master synchronization and completion-record branch cleanup.
+- Management-to-development handover v1.4 was manually stored by the Human Owner after the completion-record lifecycle closed.
+- B0 Transition Contract Alignment Foundation was selected as the next MVP boundary and its read-only detailed design was approved.
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
-- Production Persistence Foundation completion-record documentation lifecycle on `docs/mvp-approval-gate-persistence-foundation-merge-record`, with `Project_Progress.md` as the only tracked change and all database operations still separately gated.
+- MVP Approval Gate B0 Transition Contract Alignment implementation on `feat/mvp-approval-gate-transition-contract-alignment`, limited to `implementation/openapi/Approval_Gate_OpenAPI_Draft.yaml` and `implementation/lint_configs/openapi/approval_gate_openapi_spectral.yaml` while database operations remain separately gated.
 
 ## 5. Next Actions
 
-- Perform a read-only final review of the exact `Project_Progress.md`-only completion-record diff.
-- If the review recommends commit, create the approved local completion-record commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge it, synchronize local `master`, and clean up the completion-record branch references.
-- After the completion-record PR lifecycle is fully closed, prepare the updated management-to-development handover Word, PDF, and README artifacts; the Human Owner will manually store them under `C:\claudcode_ap\growth_lab_core\docs\handover\development-environment\20260729_codeql_advanced_setup`.
-- Keep database connection, migration application, `migrate dev`, `migrate deploy`, `migrate resolve`, `db push`, seed, and dedicated verification-database execution under separate Human Owner approval.
+- Complete the B0 two-file contract alignment and local quality gates.
+- Perform the B0 final read-only implementation review.
+- After Human Owner approval, create the B0 commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge, synchronize local `master`, and clean up branch references.
+- Consider B1 HTTP Transition Endpoint Adapter and Candidate C verification-database execution only as later boundaries; database execution remains separately approved.
 
 ## 6. Human Owner Decisions
 - Repository visibility: Public
@@ -230,6 +234,9 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - Do not modify, read, stage, commit, or publish the protected untracked `docs/` materials during the completion-record PR lifecycle.
 - After the completion-record PR is merged, synchronized, and cleaned up, update the management-to-development handover Word, PDF, and README artifacts externally; the Human Owner will manually store them in the approved handover folder.
 - Continue to require separate explicit Human Owner authorization for every database connection, migration application, `migrate resolve`, `db push`, seed, or dedicated verification-database execution.
+- B0 Transition Contract Alignment Foundation detailed design and implementation are approved on `feat/mvp-approval-gate-transition-contract-alignment` from `a1e2575bffb2855045b3850883f938617cdd41b0`.
+- B0 implementation scope is limited to the OpenAPI draft and Spectral config, with `Project_Progress.md` updated once for kickoff bookkeeping; Core, Application, Persistence, DB, HTTP, OAuth, UI, workers, and external Providers remain out of scope.
+- B1 must obtain a Human Owner decision on the source of the authenticated server-side actor context before implementation begins.
 ## 7. Issues and Risks
 
 - The previous broad-term Recovery codes scan is classified as inconclusive due to false-positive risk and is superseded for path-name classification by the specific metadata audit.
@@ -255,13 +262,15 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 
 - Prisma migration history is not established. Do not execute a migration against an existing database until the baseline, forward procedure, and rollback procedure have been approved.
 - Dedicated verification-database use remains outside the initial Candidate A implementation and requires separate explicit Human Owner authorization.
-- The Approval Gate OpenAPI draft is not the final Core enum or production HTTP contract and must be aligned before the later HTTP Transition Endpoint Adapter boundary begins.
-- The management-to-development handover remains at v1.3 until the completion-record PR lifecycle is fully closed; do not treat a draft v1.4 artifact as the current repository record.
-- The completion-record branch is documentation-only. Any implementation, Prisma, migration, dependency, API, UI, worker, provider, or protected `docs/` change is outside scope and must stop the workflow.
+- The Approval Gate OpenAPI draft is being aligned in B0 before the later HTTP Transition Endpoint Adapter boundary begins; B1 must not begin until the B0 final review is complete.
+- The management-to-development handover v1.4 has been manually stored after the completion-record lifecycle closed.
+- The authenticated server-side actor context source for B1 remains undecided; B0 does not implement authentication or OAuth.
+- Database connection, migration application, and verification-database execution remain separately approved and are outside B0.
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-08-11 02:22 JST | MVP-APPROVAL-GATE-TRANSITION-CONTRACT-ALIGNMENT-20260811 | Recorded PR #25 completion-record Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, master synchronization, completion-record branch cleanup, and Human Owner handover v1.4 storage; recorded B0 selection and detailed-design approval; created `feat/mvp-approval-gate-transition-contract-alignment` from the same SHA for the two-file OpenAPI and Spectral contract-alignment implementation while Core, Application, Persistence, DB, HTTP, and OAuth remain unchanged | Codex |
 | 2026-08-05 00:15 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-MERGE-COMPLETION-20260804 | Recorded Candidate A Production Persistence Foundation completion through implementation commit `0fc06f0742ecadeb281ea336b239aa284568db55`, 39/39 persistence tests, 126/126 full-suite tests, seven successful PR workflows and required checks, PR #24 Squash merge to `25f584ae26182fafabb5a27f8d31f91fb7c180aa`, local master synchronization, deletion of local/remote/remote-tracking feature branch references, preservation of the protected untracked `docs/` scope, continued database non-execution, and creation of the completion-record branch | Human Owner |
 | 2026-08-02 22:22 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-20260802 | Approved Candidate A, Production Persistence Foundation, as the next MVP boundary; created local branch feat/mvp-approval-gate-persistence-foundation from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94; fixed the current-schema baseline and Approval Gate addition migrations as separate artifacts; prohibited database connection, migration execution, db push, and seed in the initial pull request; and reserved dedicated verification-database execution for separate Human Owner authorization | Human Owner |
 | 2026-08-02 19:05 JST | MVP-APPROVAL-GATE-APPLICATION-LAYER-MERGE-COMPLETION-20260802 | Recorded PR #22 Squash merge completion at ad18cc4cf2824bc4cb8e68ce374cefb7a50be137 after nine successful checks; confirmed local master and origin/master synchronization; deleted local, remote, and remote-tracking feature branch references; preserved the protected untracked docs/ scope; and closed the MVP Approval Gate Application Layer implementation and merge lifecycle | Human Owner |
