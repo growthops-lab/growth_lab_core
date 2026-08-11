@@ -347,7 +347,7 @@ rules:
   glc-required-schemas:
     description: "[Major] Required reusable schemas must exist."
     message: "Required reusable schemas are missing."
-    severity: warn
+    severity: error
     given: "$.components.schemas"
     then:
       function: schema
@@ -360,6 +360,14 @@ rules:
             - ApprovalGateUpdateRequest
             - ApprovalGateTransitionRequest
             - ApprovalGateTransitionResponse
+            - ApprovalGateTransitionErrorResponse
+            - ApprovalGateTransitionState
+            - ApprovalGateTransitionAuditEvent
+            - ApprovalGateTransitionReviewChecks
+            - ApprovalGateReviewCheckStatus
+            - ApprovalGateActorRole
+            - SafeApprovalReference
+            - PublishMode
             - ReviewLog
             - ReviewLogCreateRequest
             - EvidenceReference
@@ -370,15 +378,13 @@ rules:
             - ApprovalGateStatus
             - DecisionCategory
             - ReviewStatus
-            - TermsCheckStatus
             - LabelCheckStatus
             - AutomationAllowedStatus
             - Role
-
   glc-required-responses:
     description: "[Major] Required reusable response components must exist."
     message: "Required reusable response components are missing."
-    severity: warn
+    severity: error
     given: "$.components.responses"
     then:
       function: schema
@@ -393,7 +399,11 @@ rules:
             - ValidationError
             - SecretValueRejected
             - InternalServerError
-
+            - ApprovalGateTransitionInvalidInput
+            - ApprovalGateTransitionNotFound
+            - ApprovalGateTransitionConflict
+            - ApprovalGateTransitionRejected
+            - ApprovalGateTransitionPersistenceFailure
   glc-required-parameters:
     description: "[Major] Required reusable parameter components must exist."
     message: "Required reusable parameter components are missing."
@@ -423,9 +433,9 @@ rules:
             - BearerAuthPlaceholder
 
   glc-approval-gate-status-enum:
-    description: "[Major] ApprovalGateStatus enum must contain the MVP status values."
-    message: "ApprovalGateStatus enum must contain all MVP status values."
-    severity: warn
+    description: "[Critical] ApprovalGateStatus must exactly match the Core status union."
+    message: "ApprovalGateStatus must contain exactly the seven Core status values."
+    severity: error
     given: "$.components.schemas.ApprovalGateStatus"
     then:
       field: enum
@@ -433,29 +443,21 @@ rules:
       functionOptions:
         schema:
           type: array
-          minItems: 8
+          minItems: 7
+          maxItems: 7
+          uniqueItems: true
           allOf:
-            - contains:
-                const: Draft
-            - contains:
-                const: Review Required
-            - contains:
-                const: Approved
-            - contains:
-                const: Blocked
-            - contains:
-                const: Deferred
-            - contains:
-                const: Published
-            - contains:
-                const: Archived
-            - contains:
-                const: Invalidated
-
+            - contains: { const: DRAFT }
+            - contains: { const: REVIEW_REQUIRED }
+            - contains: { const: APPROVED }
+            - contains: { const: BLOCKED }
+            - contains: { const: DEFERRED }
+            - contains: { const: PUBLISHED }
+            - contains: { const: ARCHIVED }
   glc-decision-category-enum:
-    description: "[Major] DecisionCategory enum must contain the MVP decision category values."
-    message: "DecisionCategory enum must contain all MVP decision category values."
-    severity: warn
+    description: "[Critical] DecisionCategory must exactly match the Core decision category union."
+    message: "DecisionCategory must contain exactly the Core decision category values."
+    severity: error
     given: "$.components.schemas.DecisionCategory"
     then:
       field: enum
@@ -464,22 +466,16 @@ rules:
         schema:
           type: array
           minItems: 7
+          maxItems: 7
+          uniqueItems: true
           allOf:
-            - contains:
-                const: Approved for MVP publishing
-            - contains:
-                const: Approved with manual review
-            - contains:
-                const: Blocked due to missing evidence
-            - contains:
-                const: Blocked due to terms uncertainty
-            - contains:
-                const: Deferred to later specification
-            - contains:
-                const: Requires Human Owner decision
-            - contains:
-                const: Requires official-source confirmation
-
+            - contains: { const: APPROVED_FOR_MVP_PUBLISHING }
+            - contains: { const: APPROVED_WITH_MANUAL_REVIEW }
+            - contains: { const: BLOCKED_MISSING_EVIDENCE }
+            - contains: { const: BLOCKED_TERMS_UNCERTAINTY }
+            - contains: { const: DEFERRED_LATER_SPECIFICATION }
+            - contains: { const: REQUIRES_HUMAN_OWNER_DECISION }
+            - contains: { const: REQUIRES_OFFICIAL_SOURCE_CONFIRMATION }
   glc-review-status-enum:
     description: "[Major] ReviewStatus enum must contain the MVP review status values."
     message: "ReviewStatus enum must contain all MVP review status values."
@@ -503,32 +499,6 @@ rules:
                 const: Approved
             - contains:
                 const: Blocked
-            - contains:
-                const: Deferred
-
-  glc-terms-check-status-enum:
-    description: "[Major] TermsCheckStatus enum must contain the MVP terms check status values."
-    message: "TermsCheckStatus enum must contain all MVP terms check status values."
-    severity: warn
-    given: "$.components.schemas.TermsCheckStatus"
-    then:
-      field: enum
-      function: schema
-      functionOptions:
-        schema:
-          type: array
-          minItems: 6
-          allOf:
-            - contains:
-                const: Not Required
-            - contains:
-                const: Required
-            - contains:
-                const: Passed
-            - contains:
-                const: Failed
-            - contains:
-                const: Unknown
             - contains:
                 const: Deferred
 
@@ -559,9 +529,9 @@ rules:
                 const: Deferred
 
   glc-automation-allowed-status-enum:
-    description: "[Major] AutomationAllowedStatus enum must contain the MVP automation status values."
-    message: "AutomationAllowedStatus enum must contain all MVP automation status values."
-    severity: warn
+    description: "[Critical] AutomationAllowedStatus must exactly match the Core union."
+    message: "AutomationAllowedStatus must contain exactly the Core automation values."
+    severity: error
     given: "$.components.schemas.AutomationAllowedStatus"
     then:
       field: enum
@@ -569,17 +539,15 @@ rules:
       functionOptions:
         schema:
           type: array
-          minItems: 4
+          minItems: 5
+          maxItems: 5
+          uniqueItems: true
           allOf:
-            - contains:
-                const: Allowed
-            - contains:
-                const: Not Allowed
-            - contains:
-                const: Unknown
-            - contains:
-                const: Deferred
-
+            - contains: { const: ALLOWED }
+            - contains: { const: NOT_ALLOWED }
+            - contains: { const: UNKNOWN }
+            - contains: { const: NOT_APPLICABLE }
+            - contains: { const: DEFERRED }
   glc-role-enum:
     description: "[Major] Role enum must contain the MVP role values."
     message: "Role enum must contain all MVP role values."
@@ -607,9 +575,9 @@ rules:
                 const: System
 
   glc-transition-request-required-fields:
-    description: "[Major] ApprovalGateTransitionRequest must include key transition fields."
-    message: "ApprovalGateTransitionRequest must include from_status, to_status, and decision_category."
-    severity: warn
+    description: "[Critical] Transition request must be closed and contain the Core wire-contract fields only."
+    message: "ApprovalGateTransitionRequest must require the four optimistic-concurrency request fields and allow only the approved contract fields."
+    severity: error
     given: "$.components.schemas.ApprovalGateTransitionRequest"
     then:
       function: schema
@@ -618,14 +586,61 @@ rules:
           type: object
           required:
             - properties
+            - required
+            - additionalProperties
+            - allOf
           properties:
+            additionalProperties:
+              const: false
+            required:
+              type: array
+              minItems: 4
+              maxItems: 4
+              uniqueItems: true
+              allOf:
+                - contains: { const: from_status }
+                - contains: { const: to_status }
+                - contains: { const: expected_record_version }
+                - contains: { const: transition_request_id }
             properties:
               type: object
+              propertyNames:
+                enum:
+                  - from_status
+                  - to_status
+                  - expected_record_version
+                  - transition_request_id
+                  - decision_category
+                  - decision_reason
+                  - blocked_reason
+                  - deferred_items
+                  - content_reference
+                  - review_reference
+                  - evidence_reference
+                  - publish_request_reference
+                  - archive_reference
+                  - review_checks
+                  - publish_mode
+                  - automation_allowed_status
+                  - published_at
               required:
                 - from_status
                 - to_status
+                - expected_record_version
+                - transition_request_id
                 - decision_category
-
+                - decision_reason
+                - blocked_reason
+                - deferred_items
+                - content_reference
+                - review_reference
+                - evidence_reference
+                - publish_request_reference
+                - archive_reference
+                - review_checks
+                - publish_mode
+                - automation_allowed_status
+                - published_at
   glc-blocked-reason-description:
     description: "[Major] Blocked transition must document blocked_reason requirement."
     message: "ApprovalGateTransitionRequest description should document blocked_reason requirement."
@@ -689,6 +704,294 @@ rules:
                 - error_code
                 - error_message
 
+  glc-approval-gate-review-check-status-enum:
+    description: "[Critical] Approval Gate review checks must exactly match the Core union."
+    message: "ApprovalGateReviewCheckStatus must contain exactly the seven Core review-check values."
+    severity: error
+    given: "$.components.schemas.ApprovalGateReviewCheckStatus"
+    then:
+      field: enum
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 7
+          maxItems: 7
+          uniqueItems: true
+          allOf:
+            - contains: { const: PASS }
+            - contains: { const: NOT_APPLICABLE }
+            - contains: { const: UNKNOWN }
+            - contains: { const: NOT_CHECKED }
+            - contains: { const: WARNING }
+            - contains: { const: BLOCKED }
+            - contains: { const: DEFERRED }
+
+  glc-safe-approval-reference-schema:
+    description: "[Critical] SafeApprovalReference must be a bounded administrative reference."
+    message: "SafeApprovalReference must be a string with the approved maximum length and pattern."
+    severity: error
+    given: "$.components.schemas.SafeApprovalReference"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - type
+            - maxLength
+            - pattern
+          properties:
+            type: { const: string }
+            maxLength: { const: 128 }
+            pattern:
+              {
+                const: "^[A-Za-z][A-Za-z0-9_]{0,31}-[A-Za-z0-9][A-Za-z0-9._-]{0,94}$",
+              }
+
+  glc-deferred-items-shape:
+    description: "[Critical] deferred_items must be a non-empty array of non-blank strings."
+    message: "deferred_items must be an array with at least one non-blank string item."
+    severity: error
+    given: "$.components.schemas.ApprovalGateTransitionRequest.properties.deferred_items"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - type
+            - minItems
+            - items
+          properties:
+            type: { const: array }
+            minItems: { const: 1 }
+            items:
+              type: object
+              required:
+                - type
+                - minLength
+                - pattern
+              properties:
+                type: { const: string }
+                minLength: { const: 1 }
+                pattern: { const: ".*\\S.*" }
+
+  glc-no-legacy-client-transition-fields:
+    description: "[Critical] B0 clients must not supply actor, authorization, or legacy transition-check fields."
+    message: "ApprovalGateTransitionRequest must not define forbidden client-controlled transition fields."
+    severity: error
+    given:
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.requested_by"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.requested_at"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.actor_role"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.authorization_context"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.human_owner_decision_required"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.review_id"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.sns_terms_check"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.asp_terms_check"
+      - "$.components.schemas.ApprovalGateTransitionRequest.properties.affiliate_terms_check"
+    then:
+      function: falsy
+  glc-transition-success-response-allowlist:
+    description: "[Critical] B0 transition success response must be closed and allowlisted."
+    message: "ApprovalGateTransitionResponse must contain only approval_gate_id, state, and audit_event."
+    severity: error
+    given: "$.components.schemas.ApprovalGateTransitionResponse"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - additionalProperties
+            - required
+            - properties
+          properties:
+            additionalProperties: { const: false }
+            required:
+              type: array
+              minItems: 3
+              maxItems: 3
+              uniqueItems: true
+              allOf:
+                - contains: { const: approval_gate_id }
+                - contains: { const: state }
+                - contains: { const: audit_event }
+            properties:
+              type: object
+              propertyNames:
+                enum:
+                  - approval_gate_id
+                  - state
+                  - audit_event
+
+  glc-transition-audit-event-allowlist:
+    description: "[Critical] B0 audit events must contain only fixed safe references and transition metadata."
+    message: "ApprovalGateTransitionAuditEvent must be closed and use only the approved field allowlist."
+    severity: error
+    given: "$.components.schemas.ApprovalGateTransitionAuditEvent"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - additionalProperties
+            - required
+            - properties
+          properties:
+            additionalProperties: { const: false }
+            required:
+              type: array
+              minItems: 6
+              maxItems: 6
+              uniqueItems: true
+              allOf:
+                - contains: { const: event_type }
+                - contains: { const: transition_request_id }
+                - contains: { const: from_status }
+                - contains: { const: to_status }
+                - contains: { const: actor_role }
+                - contains: { const: record_version }
+            properties:
+              type: object
+              propertyNames:
+                enum:
+                  - event_type
+                  - transition_request_id
+                  - from_status
+                  - to_status
+                  - actor_role
+                  - record_version
+                  - content_reference
+                  - review_reference
+                  - evidence_reference
+                  - publish_request_reference
+                  - archive_reference
+
+  glc-transition-error-response-allowlist:
+    description: "[Critical] B0 transition errors must be closed, fixed, and non-reflective."
+    message: "ApprovalGateTransitionErrorResponse must contain only error_code and error_message."
+    severity: error
+    given: "$.components.schemas.ApprovalGateTransitionErrorResponse"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - additionalProperties
+            - required
+            - properties
+          properties:
+            additionalProperties: { const: false }
+            required:
+              type: array
+              minItems: 2
+              maxItems: 2
+              uniqueItems: true
+              allOf:
+                - contains: { const: error_code }
+                - contains: { const: error_message }
+            properties:
+              type: object
+              propertyNames:
+                enum:
+                  - error_code
+                  - error_message
+  glc-transition-error-no-internals:
+    description: "[Critical] B0 transition errors must not expose request values or implementation internals."
+    message: "ApprovalGateTransitionErrorResponse must not define reflective, stack, persistence, authorization, or audit-internal fields."
+    severity: error
+    given:
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.input"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.stack"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.stack_trace"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.prisma_code"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.prismaCode"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.constraint"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.sql"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.path"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.internal_path"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.internalPath"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.driver"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.driver_info"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.driverInfo"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.subject_reference"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.authorization_subject_reference"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.validation_result"
+      - "$.components.schemas.ApprovalGateTransitionErrorResponse.properties.audit_reference"
+    then:
+      function: falsy
+
+  glc-transition-operation-required-response-codes:
+    description: "[Critical] B0 transition endpoint must expose all fixed success and error status codes."
+    message: "transitionApprovalGate must provide 200, 400, 404, 409, 422, and 500 responses."
+    severity: error
+    given: "$.paths['/approval-gates/{approval_gate_id}/transition'].post.responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - "200"
+            - "400"
+            - "404"
+            - "409"
+            - "422"
+            - "500"
+
+  glc-transition-operation-400-mapping:
+    description: "[Critical] 400 must use the fixed invalid-input response component."
+    message: "400 must reference ApprovalGateTransitionInvalidInput."
+    severity: error
+    given: "$.paths['/approval-gates/{approval_gate_id}/transition'].post.responses['400'].$ref"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^#/components/responses/ApprovalGateTransitionInvalidInput$"
+
+  glc-transition-operation-404-mapping:
+    description: "[Critical] 404 must use the fixed not-found response component."
+    message: "404 must reference ApprovalGateTransitionNotFound."
+    severity: error
+    given: "$.paths['/approval-gates/{approval_gate_id}/transition'].post.responses['404'].$ref"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^#/components/responses/ApprovalGateTransitionNotFound$"
+
+  glc-transition-operation-409-mapping:
+    description: "[Critical] 409 must use the fixed conflict response component."
+    message: "409 must reference ApprovalGateTransitionConflict."
+    severity: error
+    given: "$.paths['/approval-gates/{approval_gate_id}/transition'].post.responses['409'].$ref"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^#/components/responses/ApprovalGateTransitionConflict$"
+
+  glc-transition-operation-422-mapping:
+    description: "[Critical] 422 must use the fixed Core-rejected response component."
+    message: "422 must reference ApprovalGateTransitionRejected."
+    severity: error
+    given: "$.paths['/approval-gates/{approval_gate_id}/transition'].post.responses['422'].$ref"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^#/components/responses/ApprovalGateTransitionRejected$"
+
+  glc-transition-operation-500-mapping:
+    description: "[Critical] 500 must use the fixed persistence-failure response component."
+    message: "500 must reference ApprovalGateTransitionPersistenceFailure."
+    severity: error
+    given: "$.paths['/approval-gates/{approval_gate_id}/transition'].post.responses['500'].$ref"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^#/components/responses/ApprovalGateTransitionPersistenceFailure$"
   glc-no-secret-like-fields:
     description: "[Blocker] Secret-like fields must not be defined in the OpenAPI draft."
     message: "Secret-like fields must not be defined in the OpenAPI draft."
