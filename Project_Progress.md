@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-08-11 02:22 JST
+Last Updated: 2026-08-11 17:59 JST
 
 ## 1. Project Information
 
@@ -9,12 +9,13 @@ Last Updated: 2026-08-11 02:22 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-11 02:22 JST
+- Last Updated: 2026-08-11 17:59 JST
 
 ## 2. Current Status
 
 - Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, completion-record PR #25 Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, local master synchronization, and completion-record branch cleanup are complete. Handover v1.4 has been manually stored; database-connected operations remain separately gated and unexecuted.
-- MVP Approval Gate B0 Transition Contract Alignment implementation is in progress on `feat/mvp-approval-gate-transition-contract-alignment` from `a1e2575bffb2855045b3850883f938617cdd41b0`, limited to the OpenAPI draft and Spectral guardrail while Core, Application, Persistence, DB, HTTP, and OAuth behavior remain unchanged.
+- MVP Approval Gate B0 Transition Contract Alignment is complete. PR #26 was Squash merged to `d1cd3670c71728c753babf8a44d8699236deb9d5`; local `master`, `origin/master`, and remote `master` were synchronized; local, remote, and remote-tracking B0 feature refs were cleaned up; management-to-development handover v1.5 was manually stored.
+- MVP Approval Gate B1A Auth Context Provider Foundation is in progress on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`. The approved D2 boundary accepts provider output as `unknown`, validates and normalizes it at runtime, is source-independent and fail-closed, and initially supports `HUMAN_OWNER` only. Production human IdP selection remains a separate B1B Human Owner decision.
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
@@ -196,18 +197,22 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - Candidate A Production Persistence Foundation completion-record PR #25 was Squash merged into `master` as `a1e2575bffb2855045b3850883f938617cdd41b0`, followed by local master synchronization and completion-record branch cleanup.
 - Management-to-development handover v1.4 was manually stored by the Human Owner after the completion-record lifecycle closed.
 - B0 Transition Contract Alignment Foundation was selected as the next MVP boundary and its read-only detailed design was approved.
+- MVP Approval Gate B0 Transition Contract Alignment implementation completed with the Core-aligned seven-state wire contract, CAS/idempotency request fields, trusted server-side actor boundary, closed public response/error contract, and zero-warning Spectral guardrails.
+- PR #26 completed its Draft/Ready/Squash lifecycle and was merged to `master` as `d1cd3670c71728c753babf8a44d8699236deb9d5`; local master synchronization and local/remote/remote-tracking B0 feature branch cleanup completed.
+- Management-to-development handover v1.5 was manually stored after the B0 lifecycle closed.
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
-- MVP Approval Gate B0 Transition Contract Alignment implementation on `feat/mvp-approval-gate-transition-contract-alignment`, limited to `implementation/openapi/Approval_Gate_OpenAPI_Draft.yaml` and `implementation/lint_configs/openapi/approval_gate_openapi_spectral.yaml` while database operations remain separately gated.
+- MVP Approval Gate B1A Auth Context Provider Foundation implementation on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`, limited to the approved D2 provider/resolver file, its unit test, and one-time `Project_Progress.md` kickoff bookkeeping.
 
 ## 5. Next Actions
 
-- Complete the B0 two-file contract alignment and local quality gates.
-- Perform the B0 final read-only implementation review.
-- After Human Owner approval, create the B0 commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge, synchronize local `master`, and clean up branch references.
-- Consider B1 HTTP Transition Endpoint Adapter and Candidate C verification-database execution only as later boundaries; database execution remains separately approved.
+- Complete the B1A D2 Auth Context Provider Foundation implementation and DB/provider-free local quality gates.
+- Perform the B1A final read-only implementation review.
+- After Human Owner approval, create the B1A commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge, synchronize local `master`, and clean up branch references.
+- Before B1B begins, obtain a separate Human Owner decision on the production human identity provider, with Google Workspace / OIDC as the current first candidate; issuer, audience, opaque subject mapping, session/token handling, role/permission policy, and credential lifecycle remain outside B1A.
+- Database connection, migration application, seed, and dedicated verification-database execution remain separately approved.
 
 ## 6. Human Owner Decisions
 - Repository visibility: Public
@@ -237,6 +242,12 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - B0 Transition Contract Alignment Foundation detailed design and implementation are approved on `feat/mvp-approval-gate-transition-contract-alignment` from `a1e2575bffb2855045b3850883f938617cdd41b0`.
 - B0 implementation scope is limited to the OpenAPI draft and Spectral config, with `Project_Progress.md` updated once for kickoff bookkeeping; Core, Application, Persistence, DB, HTTP, OAuth, UI, workers, and external Providers remain out of scope.
 - B1 must obtain a Human Owner decision on the source of the authenticated server-side actor context before implementation begins.
+- B1A Auth Context Provider Foundation detailed design is approved using D2: `unknown` provider output plus runtime validation and normalization.
+- Use `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5` for the B1A implementation lifecycle.
+- Keep B1A limited to `Project_Progress.md`, `src/lib/approval-gate/application/approval-gate-actor-context-provider.ts`, and `src/lib/approval-gate/application/approval-gate-actor-context-provider.test.ts`.
+- B1A initially supports `HUMAN_OWNER` only and must remain source-independent, fail-closed, HTTP-independent, DB-independent, and external-IdP-independent.
+- Production human identity provider selection and Google Workspace / OIDC integration require a separate Human Owner decision before B1B.
+- Existing CRON authentication behavior and `CRON_SECRET` must not be reused as the B1A/B1 Human Owner identity source.
 ## 7. Issues and Risks
 
 - The previous broad-term Recovery codes scan is classified as inconclusive due to false-positive risk and is superseded for path-name classification by the specific metadata audit.
@@ -262,14 +273,17 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 
 - Prisma migration history is not established. Do not execute a migration against an existing database until the baseline, forward procedure, and rollback procedure have been approved.
 - Dedicated verification-database use remains outside the initial Candidate A implementation and requires separate explicit Human Owner authorization.
-- The Approval Gate OpenAPI draft is being aligned in B0 before the later HTTP Transition Endpoint Adapter boundary begins; B1 must not begin until the B0 final review is complete.
+- B0 Transition Contract Alignment is complete. B1A Auth Context Provider Foundation is the active source-independent, fail-closed boundary; the later B1 HTTP adapter and B1B production human identity-provider integration remain separate boundaries.
 - The management-to-development handover v1.4 has been manually stored after the completion-record lifecycle closed.
-- The authenticated server-side actor context source for B1 remains undecided; B0 does not implement authentication or OAuth.
+- B1A uses a source-independent authenticated actor-context provider boundary. Production human identity-provider selection remains a separate Human Owner decision before B1B, with Google Workspace / OIDC retained as the current first candidate; B1A does not implement authentication or OAuth.
 - Database connection, migration application, and verification-database execution remain separately approved and are outside B0.
+- Existing CRON authentication behavior is not an acceptable Human Owner identity source for B1A/B1 and remains outside the B1A implementation scope.
+- B1A deliberately does not select or connect a production human IdP. Google Workspace / OIDC is the current first candidate for B1B, but production issuer, audience, subject mapping, session/token handling, role/permission policy, and credential lifecycle require separate Human Owner approval.
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
+| 2026-08-11 17:59 JST | MVP-APPROVAL-GATE-AUTH-CONTEXT-PROVIDER-FOUNDATION-20260811 | Recorded B0 PR #26 Squash merge to d1cd3670c71728c753babf8a44d8699236deb9d5, master synchronization, B0 branch cleanup, and Human Owner handover v1.5 storage; approved and started B1A Auth Context Provider Foundation on `feat/mvp-approval-gate-auth-context-provider-foundation` from the same SHA using the D2 unknown-output runtime-validation design, HUMAN_OWNER-only initial scope, source-independent fail-closed boundary, separate B1B production IdP decision, and continued DB non-execution | Human Owner |
 | 2026-08-11 02:22 JST | MVP-APPROVAL-GATE-TRANSITION-CONTRACT-ALIGNMENT-20260811 | Recorded PR #25 completion-record Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, master synchronization, completion-record branch cleanup, and Human Owner handover v1.4 storage; recorded B0 selection and detailed-design approval; created `feat/mvp-approval-gate-transition-contract-alignment` from the same SHA for the two-file OpenAPI and Spectral contract-alignment implementation while Core, Application, Persistence, DB, HTTP, and OAuth remain unchanged | Codex |
 | 2026-08-05 00:15 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-MERGE-COMPLETION-20260804 | Recorded Candidate A Production Persistence Foundation completion through implementation commit `0fc06f0742ecadeb281ea336b239aa284568db55`, 39/39 persistence tests, 126/126 full-suite tests, seven successful PR workflows and required checks, PR #24 Squash merge to `25f584ae26182fafabb5a27f8d31f91fb7c180aa`, local master synchronization, deletion of local/remote/remote-tracking feature branch references, preservation of the protected untracked `docs/` scope, continued database non-execution, and creation of the completion-record branch | Human Owner |
 | 2026-08-02 22:22 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-20260802 | Approved Candidate A, Production Persistence Foundation, as the next MVP boundary; created local branch feat/mvp-approval-gate-persistence-foundation from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94; fixed the current-schema baseline and Approval Gate addition migrations as separate artifacts; prohibited database connection, migration execution, db push, and seed in the initial pull request; and reserved dedicated verification-database execution for separate Human Owner authorization | Human Owner |
