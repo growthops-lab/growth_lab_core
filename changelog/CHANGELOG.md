@@ -2,6 +2,9 @@
 
 ## Version 1.0 Draft
 
+- Added the B1B fail-closed Google Workspace Human Identity Provider Foundation with Authorization Code + PKCE, encrypted server-side transaction state, strict ID-token claims gates, HMAC identity lookup, opaque `AUTH_SUBJECT` propagation, secure session-hash lifecycle, HUMAN_OWNER-only grants, allowlisted audit artifacts, and injected-double coverage without real DB or IdP connections.
+- Added `openid-client` 6.8.4 and consolidated B1B recurrence-prevention rules for baseline handling, shell-independent startup, Prisma placeholders, Windows-to-WSL2 fallback, GitHub DNS recovery, native runtime isolation, and Japanese Word/PDF verification.
+
 - Removed non-SQL package execution output from both generated migration SQL artifacts.
 - Limited P2002 duplicate classification to the processed-transition create phase and expanded mapper and Store failure-path coverage.
 

@@ -4146,6 +4146,70 @@ enum ApprovalGateAuditEventType {
   APPROVAL_GATE_TRANSITION
 }
 
+enum HumanIdentityGrantRole {
+  HUMAN_OWNER
+}
+
+enum HumanIdentityAuditEventType {
+  LOGIN_SUCCEEDED
+  SESSION_REVOKED
+  LOGGED_OUT
+}
+
+model HumanIdentity {
+  id                     String                    @id @default(cuid())
+  externalSubjectHmac    String                    @unique
+  opaqueSubjectReference String                    @unique
+  disabledAt             DateTime?
+  createdAt              DateTime                  @default(now())
+  updatedAt              DateTime                  @updatedAt
+  grants                 HumanIdentityGrant[]
+  sessions               HumanIdentitySession[]
+  auditEvents            HumanIdentityAuditEvent[]
+
+  @@index([disabledAt, createdAt])
+}
+
+model HumanIdentityGrant {
+  id              String                 @id @default(cuid())
+  humanIdentityId String
+  role            HumanIdentityGrantRole
+  revokedAt       DateTime?
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+  humanIdentity   HumanIdentity          @relation(fields: [humanIdentityId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([humanIdentityId, role])
+  @@index([role, revokedAt])
+}
+
+model HumanIdentitySession {
+  id               String                    @id @default(cuid())
+  humanIdentityId  String
+  sessionTokenHash String                    @unique
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  createdAt        DateTime                  @default(now())
+  humanIdentity    HumanIdentity             @relation(fields: [humanIdentityId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  auditEvents      HumanIdentityAuditEvent[]
+
+  @@index([humanIdentityId, expiresAt])
+  @@index([expiresAt, revokedAt])
+}
+
+model HumanIdentityAuditEvent {
+  id              String                      @id @default(cuid())
+  humanIdentityId String
+  sessionId       String?
+  eventType       HumanIdentityAuditEventType
+  occurredAt      DateTime                    @default(now())
+  humanIdentity   HumanIdentity               @relation(fields: [humanIdentityId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  session         HumanIdentitySession?       @relation(fields: [sessionId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  @@index([humanIdentityId, occurredAt, id])
+  @@index([sessionId, occurredAt])
+}
+
 model ApprovalGateRecord {
   id                         String                            @id @default(cuid())
   approvalGateId             String                            @unique
