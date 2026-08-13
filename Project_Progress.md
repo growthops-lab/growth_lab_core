@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-08-13 23:54 JST
+Last Updated: 2026-08-13 23:58 JST
 
 ## 1. Project Information
 
@@ -9,14 +9,14 @@ Last Updated: 2026-08-13 23:54 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-13 23:54 JST
+- Last Updated: 2026-08-13 23:58 JST
 
 ## 2. Current Status
 
 - Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, completion-record PR #25 Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, local master synchronization, and completion-record branch cleanup are complete. Handover v1.4 has been manually stored; database-connected operations remain separately gated and unexecuted.
 - MVP Approval Gate B0 Transition Contract Alignment is complete. PR #26 was Squash merged to `d1cd3670c71728c753babf8a44d8699236deb9d5`; local `master`, `origin/master`, and remote `master` were synchronized; local, remote, and remote-tracking B0 feature refs were cleaned up; management-to-development handover v1.5 was manually stored.
 - MVP Approval Gate B1A Auth Context Provider Foundation is in progress on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`. The approved D2 boundary accepts provider output as `unknown`, validates and normalizes it at runtime, is source-independent and fail-closed, and initially supports `HUMAN_OWNER` only. Production human IdP selection remains a separate B1B Human Owner decision.
-- MVP Approval Gate B1B Human Identity Provider Foundation implementation and local security-quality validation are complete on `feat/mvp-approval-gate-human-identity-provider-foundation` from baseline `25b1b1b39e1e25475e1547006b78eab502a7ab3a`. The remaining approved action is a normal commit, push, and one Draft PR to `master`.
+- MVP Approval Gate B1B Human Identity Provider Foundation implementation and local security-quality validation are complete on `feat/mvp-approval-gate-human-identity-provider-foundation` from baseline `25b1b1b39e1e25475e1547006b78eab502a7ab3a`. Commit `2fbe34718201a23938b2848e34bf029275362365` is pushed and Draft PR #28 targets `master`; Human Owner review and remote checks remain pending.
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
@@ -204,12 +204,13 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - B1B Human Identity Provider Foundation implemented a fail-closed Google Workspace OIDC contract with Authorization Code, PKCE, state, nonce, strict issuer/signature/audience/expiry/nonce/domain validation, HMAC-derived external identity lookup, opaque `AUTH_SUBJECT` propagation, and a secure opaque session contract.
 - B1B added only additive Prisma artifacts for identity, the `HUMAN_OWNER`-only grant, session hashes, and allowlisted audit events; no initial owner is inferred or created from email, groups, or browser input.
 - B1B focused tests and B1A regression passed 46/46; the full test suite passed 172/172; TypeScript, ESLint, Prettier, OpenAPI, production build, Prisma validate with the temporary local placeholder, and final diff checks passed without real DB or IdP connections.
+- B1B implementation commit `2fbe34718201a23938b2848e34bf029275362365` was pushed to the approved feature branch and Draft PR #28 was opened against `master` without marking it Ready for review or changing merge/protection settings.
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
 - MVP Approval Gate B1A Auth Context Provider Foundation implementation on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`, limited to the approved D2 provider/resolver file, its unit test, and one-time `Project_Progress.md` kickoff bookkeeping.
-- Publish the verified B1B Human Identity Provider Foundation from `feat/mvp-approval-gate-human-identity-provider-foundation` through one normal commit, push, and Draft PR to `master`; do not mark it Ready for review, merge, or connect real services.
+- B1B Draft PR #28 awaits Human Owner review and remote quality checks; do not mark it Ready for review, merge, auto-merge, add reviewers, or connect real services without separate authorization.
 
 ## 5. Next Actions
 
@@ -218,7 +219,7 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - After Human Owner approval, create the B1A commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge, synchronize local `master`, and clean up branch references.
 - Before B1B begins, obtain a separate Human Owner decision on the production human identity provider, with Google Workspace / OIDC as the current first candidate; issuer, audience, opaque subject mapping, session/token handling, role/permission policy, and credential lifecycle remain outside B1A.
 - Database connection, migration application, seed, and dedicated verification-database execution remain separately approved.
-- After the Draft PR is created, obtain separate Human Owner authorization before any real IdP configuration, real OAuth flow, database connection, migration application, seed, or dedicated verification-database execution.
+- After B1B Draft PR #28 review, obtain separate Human Owner authorization before any real IdP configuration, real OAuth flow, database connection, migration application, seed, or dedicated verification-database execution.
 
 ## 6. Human Owner Decisions
 - Repository visibility: Public
@@ -292,7 +293,7 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 
 | Date and Time | Work ID | Summary | Updated By |
 |---|---|---|---|
-| 2026-08-13 23:54 JST | MVP-APPROVAL-GATE-HUMAN-IDENTITY-PROVIDER-FOUNDATION-20260813 | Passed the v1.7 WSL2 preflight and implemented the fail-closed Google Workspace OIDC Human Identity Provider Foundation: Authorization Code + PKCE + state + nonce; strict issuer, signature, audience, expiry, nonce, and Workspace-domain gates; HMAC external identity lookup; opaque `AUTH_SUBJECT`; secure cookie/session-hash lifecycle; HUMAN_OWNER-only grant; and allowlisted audit. Added `openid-client@6.8.4`, additive Prisma artifacts, and injected-double tests for normal, invalid-claim, configuration, grant, disabled identity, transaction, revoke, expiry, logout, and B1A regression paths. Focused/B1A tests passed 46/46, full tests 172/172, and typecheck, lint, format, OpenAPI, build, placeholder-only Prisma validate, and diff checks passed. No real DB, IdP, credential, Windows, or protection action was performed. | Codex |
+| 2026-08-13 23:58 JST | MVP-APPROVAL-GATE-HUMAN-IDENTITY-PROVIDER-FOUNDATION-20260813 | Passed the v1.7 WSL2 preflight and implemented the fail-closed Google Workspace OIDC Human Identity Provider Foundation: Authorization Code + PKCE + state + nonce; strict issuer, signature, audience, expiry, nonce, and Workspace-domain gates; HMAC external identity lookup; opaque `AUTH_SUBJECT`; secure cookie/session-hash lifecycle; HUMAN_OWNER-only grant; and allowlisted audit. Added `openid-client@6.8.4`, additive Prisma artifacts, and injected-double tests for normal, invalid-claim, configuration, grant, disabled identity, transaction, revoke, expiry, logout, and B1A regression paths. Focused/B1A tests passed 46/46, full tests 172/172, and typecheck, lint, format, OpenAPI, build, placeholder-only Prisma validate, and diff checks passed. Commit `2fbe34718201a23938b2848e34bf029275362365` was pushed and Draft PR #28 was opened against `master`; no real DB, IdP, credential, Windows, protection, Ready-for-review, merge, or auto-merge action was performed. | Codex |
 | 2026-08-11 17:59 JST | MVP-APPROVAL-GATE-AUTH-CONTEXT-PROVIDER-FOUNDATION-20260811 | Recorded B0 PR #26 Squash merge to d1cd3670c71728c753babf8a44d8699236deb9d5, master synchronization, B0 branch cleanup, and Human Owner handover v1.5 storage; approved and started B1A Auth Context Provider Foundation on `feat/mvp-approval-gate-auth-context-provider-foundation` from the same SHA using the D2 unknown-output runtime-validation design, HUMAN_OWNER-only initial scope, source-independent fail-closed boundary, separate B1B production IdP decision, and continued DB non-execution | Human Owner |
 | 2026-08-11 02:22 JST | MVP-APPROVAL-GATE-TRANSITION-CONTRACT-ALIGNMENT-20260811 | Recorded PR #25 completion-record Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, master synchronization, completion-record branch cleanup, and Human Owner handover v1.4 storage; recorded B0 selection and detailed-design approval; created `feat/mvp-approval-gate-transition-contract-alignment` from the same SHA for the two-file OpenAPI and Spectral contract-alignment implementation while Core, Application, Persistence, DB, HTTP, and OAuth remain unchanged | Codex |
 | 2026-08-05 00:15 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-MERGE-COMPLETION-20260804 | Recorded Candidate A Production Persistence Foundation completion through implementation commit `0fc06f0742ecadeb281ea336b239aa284568db55`, 39/39 persistence tests, 126/126 full-suite tests, seven successful PR workflows and required checks, PR #24 Squash merge to `25f584ae26182fafabb5a27f8d31f91fb7c180aa`, local master synchronization, deletion of local/remote/remote-tracking feature branch references, preservation of the protected untracked `docs/` scope, continued database non-execution, and creation of the completion-record branch | Human Owner |
