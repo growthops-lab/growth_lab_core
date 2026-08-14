@@ -2,6 +2,7 @@
 
 ## Version 1.0 Draft
 
+- Stabilized the Human Owner approval-reference test fixture with an alphanumeric prefix before its random base64url suffix, while retaining fail-closed rejection of invalid references.
 - Corrected the B1C fixed WSL distribution expectation to the verified `Ubuntu-24.04` host value and retained fail-closed mismatch coverage.
 - Added the B1C fail-closed clean-workspace preflight utility and exact `pnpm b1c:preflight` script. It verifies the dedicated WSL2 workspace, native Node.js and pnpm versions, the fixed HTTPS origin, count-only dirty state, origin/master, GitHub authentication, and optional branch or pull-request collisions with stable safe codes only.
 - Added injected-adapter B1C regression coverage and configured Vitest and Prettier to exclude protected environment and sandbox-secret paths from automatic reads during local quality checks.

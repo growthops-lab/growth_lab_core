@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-08-14 21:08 JST
+Last Updated: 2026-08-14 21:43 JST
 
 ## 1. Project Information
 
@@ -9,14 +9,14 @@ Last Updated: 2026-08-14 21:08 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-14 21:08 JST
+- Last Updated: 2026-08-14 21:43 JST
 
 ## 2. Current Status
 
 - Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, completion-record PR #25 Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, local master synchronization, and completion-record branch cleanup are complete. Handover v1.4 has been manually stored; database-connected operations remain separately gated and unexecuted.
 - MVP Approval Gate B0 Transition Contract Alignment is complete. PR #26 was Squash merged to `d1cd3670c71728c753babf8a44d8699236deb9d5`; local `master`, `origin/master`, and remote `master` were synchronized; local, remote, and remote-tracking B0 feature refs were cleaned up; management-to-development handover v1.5 was manually stored.
 - MVP Approval Gate B1A Auth Context Provider Foundation is in progress on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`. The approved D2 boundary accepts provider output as `unknown`, validates and normalizes it at runtime, is source-independent and fail-closed, and initially supports `HUMAN_OWNER` only. Production human IdP selection remains a separate B1B Human Owner decision.
-- MVP Approval Gate B1B Human Identity Provider Foundation implementation and local security-quality validation are complete. PR #28 was merged by the Human Owner; no unverified merge SHA is recorded here.
+- MVP Approval Gate B1B Human Identity Provider Foundation implementation and local security-quality validation are complete. PR #28 was merged by the Human Owner; no unverified merge SHA is recorded here. The verified Human Owner B1A-boundary fixture is deterministic and retains fail-closed invalid-reference coverage.
 - B1C Clean Workspace Preflight correction and local validation are complete on `feat/b1c-clean-workspace-preflight`. The fixed WSL distribution is `Ubuntu-24.04`; the host publication block remains the only action outside Codex's Git boundary.
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
@@ -209,6 +209,7 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - B1C Clean Workspace Preflight added a fail-closed Node.js utility with stable safe result codes, exact-origin validation, WSL2/native-runtime and count-only dirty-state gates, origin/master and GitHub-auth checks, and optional branch/PR collision checks.
 - B1C added 12 focused injected-adapter regression tests, the exact `pnpm b1c:preflight` script, and protected-path exclusions for test and formatting tools. Focused tests passed 12/12; the full suite passed 184/184; typecheck, ESLint, Prettier, OpenAPI lint, Prisma schema validation, and production build passed without a real database or identity-provider connection.
 - B1C corrected the fixed WSL distribution to `Ubuntu-24.04`; focused coverage accepts that verified host value and fails closed for `Ubuntu`. Focused tests passed 12/12, the full suite passed 184/184, and all requested local quality gates passed without Git mutation, real-service access, or protected-path content reads.
+- B1B stabilized the Human Owner B1A-boundary test by prefixing the random base64url suffix with an alphanumeric approval-reference segment; an invalid segment-start reference remains fail-closed. Focused tests passed 16/16, coverage passed 185/185, and all requested local quality gates passed without real DB/IdP access or protected-path content reads.
 
 ## 4. In Progress
 
@@ -219,6 +220,7 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 ## 5. Next Actions
 
 - Run the v1.3 WSL host publication block for B1C; review the resulting Draft PR before any Ready-for-review or merge decision.
+- Keep randomized opaque approval-reference fixtures prefixed with an alphanumeric segment; do not relax production format validation.
 - Complete the B1A D2 Auth Context Provider Foundation implementation and DB/provider-free local quality gates.
 - Perform the B1A final read-only implementation review.
 - After Human Owner approval, create the B1A commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge, synchronize local `master`, and clean up branch references.
@@ -283,14 +285,17 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - The untracked docs/ directory contains approved protected materials and must remain unstaged, unmodified, and excluded from the Approval Gate Application Layer merge-completion record commit.
 - The In-memory Approval Gate Store is test-only. A future durable Adapter must preserve atomic state, processed request ID, and audit event persistence and must return DUPLICATE_REQUEST before VERSION_CONFLICT when both conditions apply.
 - B1B verifies behavior with injected OIDC and persistence doubles only. Its Google Workspace discovery/token exchange, credentials, database connection, migration application, seed, and verification database remain intentionally unexecuted and require separate Human Owner authorization.
+- Raw base64url can begin with `-` or `_`; fixtures must not place it at a production contract segment start.
 - B1C build validation completed with protected environment files unavailable to the process. Next.js emitted a non-blocking standalone-copy warning for that protected file; the build exited successfully and no protected value or file content was read.
 
 ### Recurrence-Prevention Memory
 
 - Use the clean WSL2 clone as the sole Codex content-write target; never use `/mnt/c`; preserve the older dirty worktree untouched; keep environment and sandbox-secret paths denied; report dirty state by count only; run the host bootstrap once before branch creation; and stop on any declared gate failure. The WSL host writes `.git`, while Codex cannot: use the v1.3 host bootstrap and publication blocks, without repeating ownership, chmod, or sandbox-diagnosis attempts unless the host write probe fails.
+- For random opaque fixture IDs, prepend a fixed alphanumeric segment before base64url material when a production-format contract requires an alphanumeric segment start.
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
+| 2026-08-14 21:43 JST | B1B-DETERMINISTIC-APPROVAL-REFERENCE-FIXTURE-20260814 | Stabilized the verified Human Owner B1A-boundary test by using an opaque approval reference with a fixed alphanumeric segment before its random base64url suffix; added fail-closed coverage for a reference whose suffix starts with `_`. Focused tests passed 16/16, coverage passed 185/185, and typecheck, lint, format, OpenAPI, placeholder-only Prisma validation, and production build passed without Git mutation, real DB/IdP access, or protected-path content reads. | Codex |
 | 2026-08-14 21:08 JST | B1C-PUBLICATION-PREFLIGHT-CORRECTION-20260814 | Corrected the B1C fixed WSL distribution expectation to `Ubuntu-24.04`; added explicit pass coverage for that verified host value and fail-closed coverage for `Ubuntu`. Focused tests passed 12/12, the full suite passed 184/184, and typecheck, lint, format, OpenAPI, placeholder-only Prisma validation, and production build passed. The v1.3 WSL host publication block remains required; Codex performed no Git mutation, real DB/IdP access, or protected-path content read. | Codex |
 | 2026-08-14 20:41 JST | B1C-CLEAN-WORKSPACE-PREFLIGHT-20260814 | Implemented the fail-closed B1C clean-workspace preflight with exact-origin, WSL2/dedicated-root, native Node.js/pnpm, count-only dirty-state, origin/master, GitHub-auth, optional branch, and PR-collision gates; added 12 injected-adapter tests, the `pnpm b1c:preflight` script, and protected-path exclusions for Vitest and Prettier. Focused tests passed 12/12, the full suite passed 184/184, and typecheck, lint, format, OpenAPI, Prisma schema validation, and production build passed without Git mutation, a real database, or a real identity provider. The v1.3 host publication block remains required for staging, commit, push, and Draft PR creation. | Codex |
 |---|---|---|---|
