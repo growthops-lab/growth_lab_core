@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-08-13 23:58 JST
+Last Updated: 2026-08-14 21:08 JST
 
 ## 1. Project Information
 
@@ -9,14 +9,15 @@ Last Updated: 2026-08-13 23:58 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-13 23:58 JST
+- Last Updated: 2026-08-14 21:08 JST
 
 ## 2. Current Status
 
 - Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, completion-record PR #25 Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, local master synchronization, and completion-record branch cleanup are complete. Handover v1.4 has been manually stored; database-connected operations remain separately gated and unexecuted.
 - MVP Approval Gate B0 Transition Contract Alignment is complete. PR #26 was Squash merged to `d1cd3670c71728c753babf8a44d8699236deb9d5`; local `master`, `origin/master`, and remote `master` were synchronized; local, remote, and remote-tracking B0 feature refs were cleaned up; management-to-development handover v1.5 was manually stored.
 - MVP Approval Gate B1A Auth Context Provider Foundation is in progress on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`. The approved D2 boundary accepts provider output as `unknown`, validates and normalizes it at runtime, is source-independent and fail-closed, and initially supports `HUMAN_OWNER` only. Production human IdP selection remains a separate B1B Human Owner decision.
-- MVP Approval Gate B1B Human Identity Provider Foundation implementation and local security-quality validation are complete on `feat/mvp-approval-gate-human-identity-provider-foundation` from baseline `25b1b1b39e1e25475e1547006b78eab502a7ab3a`. Commit `2fbe34718201a23938b2848e34bf029275362365` is pushed and Draft PR #28 targets `master`; Human Owner review and remote checks remain pending.
+- MVP Approval Gate B1B Human Identity Provider Foundation implementation and local security-quality validation are complete. PR #28 was merged by the Human Owner; no unverified merge SHA is recorded here.
+- B1C Clean Workspace Preflight correction and local validation are complete on `feat/b1c-clean-workspace-preflight`. The fixed WSL distribution is `Ubuntu-24.04`; the host publication block remains the only action outside Codex's Git boundary.
 Status: GitHub account initial setup completed through section 14. Repository creation preparation is in progress. Project progress management has been established for ongoing Codex work.
 GitHub publication preparation guide has been created as Word and PDF review artifacts.
 GitHub initial publication pre-review and local publication commit preparation have been completed. Initial push remains pending.
@@ -204,22 +205,26 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - B1B Human Identity Provider Foundation implemented a fail-closed Google Workspace OIDC contract with Authorization Code, PKCE, state, nonce, strict issuer/signature/audience/expiry/nonce/domain validation, HMAC-derived external identity lookup, opaque `AUTH_SUBJECT` propagation, and a secure opaque session contract.
 - B1B added only additive Prisma artifacts for identity, the `HUMAN_OWNER`-only grant, session hashes, and allowlisted audit events; no initial owner is inferred or created from email, groups, or browser input.
 - B1B focused tests and B1A regression passed 46/46; the full test suite passed 172/172; TypeScript, ESLint, Prettier, OpenAPI, production build, Prisma validate with the temporary local placeholder, and final diff checks passed without real DB or IdP connections.
-- B1B implementation commit `2fbe34718201a23938b2848e34bf029275362365` was pushed to the approved feature branch and Draft PR #28 was opened against `master` without marking it Ready for review or changing merge/protection settings.
+- B1B implementation commit `2fbe34718201a23938b2848e34bf029275362365` was published for PR #28, which was subsequently merged by the Human Owner; no unverified merge SHA is recorded here.
+- B1C Clean Workspace Preflight added a fail-closed Node.js utility with stable safe result codes, exact-origin validation, WSL2/native-runtime and count-only dirty-state gates, origin/master and GitHub-auth checks, and optional branch/PR collision checks.
+- B1C added 12 focused injected-adapter regression tests, the exact `pnpm b1c:preflight` script, and protected-path exclusions for test and formatting tools. Focused tests passed 12/12; the full suite passed 184/184; typecheck, ESLint, Prettier, OpenAPI lint, Prisma schema validation, and production build passed without a real database or identity-provider connection.
+- B1C corrected the fixed WSL distribution to `Ubuntu-24.04`; focused coverage accepts that verified host value and fails closed for `Ubuntu`. Focused tests passed 12/12, the full suite passed 184/184, and all requested local quality gates passed without Git mutation, real-service access, or protected-path content reads.
 
 ## 4. In Progress
 
 - GitHub account initial setup procedure section 15 and later
 - MVP Approval Gate B1A Auth Context Provider Foundation implementation on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`, limited to the approved D2 provider/resolver file, its unit test, and one-time `Project_Progress.md` kickoff bookkeeping.
-- B1B Draft PR #28 awaits Human Owner review and remote quality checks; do not mark it Ready for review, merge, auto-merge, add reviewers, or connect real services without separate authorization.
+- B1C WSL host publication block for the reviewed implementation; it remains the sole owner of Git staging, commit, push, and Draft PR creation.
 
 ## 5. Next Actions
 
+- Run the v1.3 WSL host publication block for B1C; review the resulting Draft PR before any Ready-for-review or merge decision.
 - Complete the B1A D2 Auth Context Provider Foundation implementation and DB/provider-free local quality gates.
 - Perform the B1A final read-only implementation review.
 - After Human Owner approval, create the B1A commit, push the branch, open a Draft PR, move it to Ready for review after successful checks, Squash merge, synchronize local `master`, and clean up branch references.
 - Before B1B begins, obtain a separate Human Owner decision on the production human identity provider, with Google Workspace / OIDC as the current first candidate; issuer, audience, opaque subject mapping, session/token handling, role/permission policy, and credential lifecycle remain outside B1A.
 - Database connection, migration application, seed, and dedicated verification-database execution remain separately approved.
-- After B1B Draft PR #28 review, obtain separate Human Owner authorization before any real IdP configuration, real OAuth flow, database connection, migration application, seed, or dedicated verification-database execution.
+- Obtain separate Human Owner authorization before any real IdP configuration, real OAuth flow, database connection, migration application, seed, or dedicated verification-database execution.
 
 ## 6. Human Owner Decisions
 - Repository visibility: Public
@@ -278,22 +283,18 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - The untracked docs/ directory contains approved protected materials and must remain unstaged, unmodified, and excluded from the Approval Gate Application Layer merge-completion record commit.
 - The In-memory Approval Gate Store is test-only. A future durable Adapter must preserve atomic state, processed request ID, and audit event persistence and must return DUPLICATE_REQUEST before VERSION_CONFLICT when both conditions apply.
 - B1B verifies behavior with injected OIDC and persistence doubles only. Its Google Workspace discovery/token exchange, credentials, database connection, migration application, seed, and verification database remain intentionally unexecuted and require separate Human Owner authorization.
+- B1C build validation completed with protected environment files unavailable to the process. Next.js emitted a non-blocking standalone-copy warning for that protected file; the build exited successfully and no protected value or file content was read.
 
 ### Recurrence-Prevention Memory
 
-- Do not restore a missing candidate commit; treat B1A/B1B as process labels and begin from the approved baseline SHA on a new feature branch.
-- Do not make PowerShell `rg` or similar commands a start condition.
-- When `DATABASE_URL` is absent, use only a temporary `127.0.0.1:1` placeholder for Prisma validation and never connect to a real database.
-- If a Windows native elevated helper recurs with normal privileges, move to the approved WSL2 clone and do not change Windows settings manually.
-- If ordinary WSL2 sandbox GitHub DNS fails, do not reissue credentials; use the approved GitHub-only read path.
-- Verify the Node archive SHA and actual extracted directory; put only native Linux Node/pnpm on `PATH` and never use `/mnt/c`.
-- Generate Japanese Word and PDF from identical source content, then verify embedded PDF fonts and every rendered page.
-- Keep the B1B VS Code title and Explorer root fixed to the approved WSL2 worktree; on mismatch, do not switch to a Windows clone.
+- Use the clean WSL2 clone as the sole Codex content-write target; never use `/mnt/c`; preserve the older dirty worktree untouched; keep environment and sandbox-secret paths denied; report dirty state by count only; run the host bootstrap once before branch creation; and stop on any declared gate failure. The WSL host writes `.git`, while Codex cannot: use the v1.3 host bootstrap and publication blocks, without repeating ownership, chmod, or sandbox-diagnosis attempts unless the host write probe fails.
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
+| 2026-08-14 21:08 JST | B1C-PUBLICATION-PREFLIGHT-CORRECTION-20260814 | Corrected the B1C fixed WSL distribution expectation to `Ubuntu-24.04`; added explicit pass coverage for that verified host value and fail-closed coverage for `Ubuntu`. Focused tests passed 12/12, the full suite passed 184/184, and typecheck, lint, format, OpenAPI, placeholder-only Prisma validation, and production build passed. The v1.3 WSL host publication block remains required; Codex performed no Git mutation, real DB/IdP access, or protected-path content read. | Codex |
+| 2026-08-14 20:41 JST | B1C-CLEAN-WORKSPACE-PREFLIGHT-20260814 | Implemented the fail-closed B1C clean-workspace preflight with exact-origin, WSL2/dedicated-root, native Node.js/pnpm, count-only dirty-state, origin/master, GitHub-auth, optional branch, and PR-collision gates; added 12 injected-adapter tests, the `pnpm b1c:preflight` script, and protected-path exclusions for Vitest and Prettier. Focused tests passed 12/12, the full suite passed 184/184, and typecheck, lint, format, OpenAPI, Prisma schema validation, and production build passed without Git mutation, a real database, or a real identity provider. The v1.3 host publication block remains required for staging, commit, push, and Draft PR creation. | Codex |
 |---|---|---|---|
-| 2026-08-13 23:58 JST | MVP-APPROVAL-GATE-HUMAN-IDENTITY-PROVIDER-FOUNDATION-20260813 | Passed the v1.7 WSL2 preflight and implemented the fail-closed Google Workspace OIDC Human Identity Provider Foundation: Authorization Code + PKCE + state + nonce; strict issuer, signature, audience, expiry, nonce, and Workspace-domain gates; HMAC external identity lookup; opaque `AUTH_SUBJECT`; secure cookie/session-hash lifecycle; HUMAN_OWNER-only grant; and allowlisted audit. Added `openid-client@6.8.4`, additive Prisma artifacts, and injected-double tests for normal, invalid-claim, configuration, grant, disabled identity, transaction, revoke, expiry, logout, and B1A regression paths. Focused/B1A tests passed 46/46, full tests 172/172, and typecheck, lint, format, OpenAPI, build, placeholder-only Prisma validate, and diff checks passed. Commit `2fbe34718201a23938b2848e34bf029275362365` was pushed and Draft PR #28 was opened against `master`; no real DB, IdP, credential, Windows, protection, Ready-for-review, merge, or auto-merge action was performed. | Codex |
+| 2026-08-13 23:58 JST | MVP-APPROVAL-GATE-HUMAN-IDENTITY-PROVIDER-FOUNDATION-20260813 | Passed the v1.7 WSL2 preflight and implemented the fail-closed Google Workspace OIDC Human Identity Provider Foundation: Authorization Code + PKCE + state + nonce; strict issuer, signature, audience, expiry, nonce, and Workspace-domain gates; HMAC identity lookup; opaque `AUTH_SUBJECT`; secure cookie/session-hash lifecycle; HUMAN_OWNER-only grant; and allowlisted audit. Added `openid-client@6.8.4`, additive Prisma artifacts, and injected-double tests for normal, invalid-claim, configuration, grant, disabled identity, transaction, revoke, expiry, logout, and B1A regression paths. Focused/B1A tests passed 46/46, full tests 172/172, and typecheck, lint, format, OpenAPI, build, placeholder-only Prisma validate, and diff checks passed. Commit `2fbe34718201a23938b2848e34bf029275362365` was published for PR #28, which was subsequently merged by the Human Owner; no unverified merge SHA is recorded here. No real DB, IdP, credential, Windows, protection, Ready-for-review, merge, or auto-merge action was performed by Codex. | Codex |
 | 2026-08-11 17:59 JST | MVP-APPROVAL-GATE-AUTH-CONTEXT-PROVIDER-FOUNDATION-20260811 | Recorded B0 PR #26 Squash merge to d1cd3670c71728c753babf8a44d8699236deb9d5, master synchronization, B0 branch cleanup, and Human Owner handover v1.5 storage; approved and started B1A Auth Context Provider Foundation on `feat/mvp-approval-gate-auth-context-provider-foundation` from the same SHA using the D2 unknown-output runtime-validation design, HUMAN_OWNER-only initial scope, source-independent fail-closed boundary, separate B1B production IdP decision, and continued DB non-execution | Human Owner |
 | 2026-08-11 02:22 JST | MVP-APPROVAL-GATE-TRANSITION-CONTRACT-ALIGNMENT-20260811 | Recorded PR #25 completion-record Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, master synchronization, completion-record branch cleanup, and Human Owner handover v1.4 storage; recorded B0 selection and detailed-design approval; created `feat/mvp-approval-gate-transition-contract-alignment` from the same SHA for the two-file OpenAPI and Spectral contract-alignment implementation while Core, Application, Persistence, DB, HTTP, and OAuth remain unchanged | Codex |
 | 2026-08-05 00:15 JST | MVP-APPROVAL-GATE-PERSISTENCE-FOUNDATION-MERGE-COMPLETION-20260804 | Recorded Candidate A Production Persistence Foundation completion through implementation commit `0fc06f0742ecadeb281ea336b239aa284568db55`, 39/39 persistence tests, 126/126 full-suite tests, seven successful PR workflows and required checks, PR #24 Squash merge to `25f584ae26182fafabb5a27f8d31f91fb7c180aa`, local master synchronization, deletion of local/remote/remote-tracking feature branch references, preservation of the protected untracked `docs/` scope, continued database non-execution, and creation of the completion-record branch | Human Owner |

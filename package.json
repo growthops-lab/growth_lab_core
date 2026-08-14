@@ -27,7 +27,8 @@
     "smoke:phase9": "tsx scripts/phase9-smoke.ts",
     "smoke:phase10": "tsx scripts/phase10-smoke.ts",
     "lint:openapi": "spectral lint -r implementation/lint_configs/openapi/approval_gate_openapi_spectral.yaml implementation/openapi/Approval_Gate_OpenAPI_Draft.yaml",
-    "lint:openapi:version": "spectral --version"
+    "lint:openapi:version": "spectral --version",
+    "b1c:preflight": "tsx scripts/quality-gates/b1c-clean-workspace-preflight.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
