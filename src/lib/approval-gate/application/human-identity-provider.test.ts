@@ -24,6 +24,10 @@ function opaque(): string {
   return randomBytes(32).toString("base64url");
 }
 
+function opaqueSubjectReference(): string {
+  return `AUTH_SUBJECT-owner_${opaque()}`;
+}
+
 function config(): HumanIdentityProviderConfig {
   return {
     clientId: "human-owner-client",
@@ -216,7 +220,7 @@ function allowIdentity(
       ISSUER,
       providerSubject,
     ),
-    opaqueSubjectReference: `AUTH_SUBJECT-${opaque()}`,
+    opaqueSubjectReference: opaqueSubjectReference(),
     disabledAt: null,
     hasActiveHumanOwnerGrant: true,
   };
@@ -430,6 +434,31 @@ describe("HumanIdentityProviderService", () => {
           permissions: ["APPROVAL_GATE_HUMAN_OWNER_DECIDE"],
         },
       },
+    });
+  });
+
+  it("fails closed at the B1A boundary for an invalid opaque subject reference", async () => {
+    const { service, oidc, identities, configuration } = prepared();
+    const providerSubject = opaque();
+    oidc.response.providerSubject = providerSubject;
+    allowIdentity(identities, configuration, providerSubject);
+    if (!identities.identity) {
+      throw new Error("expected identity");
+    }
+    identities.identity.opaqueSubjectReference = "AUTH_SUBJECT-_invalid";
+
+    const login = await service.complete(callbackUrl(await begin(service)));
+    if (!login.ok) {
+      throw new Error("expected login");
+    }
+    const provider = new HumanIdentityApprovalGateActorContextProvider(
+      service,
+      () => login.value.sessionCookie.value,
+    );
+
+    await expect(resolveTrustedHumanOwnerActor(provider)).resolves.toEqual({
+      ok: false,
+      kind: "UPSTREAM_CONTEXT_INVALID",
     });
   });
 });
