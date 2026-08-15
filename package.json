@@ -28,14 +28,14 @@
     "smoke:phase10": "tsx scripts/phase10-smoke.ts",
     "lint:openapi": "spectral lint -r implementation/lint_configs/openapi/approval_gate_openapi_spectral.yaml implementation/openapi/Approval_Gate_OpenAPI_Draft.yaml",
     "lint:openapi:version": "spectral --version",
-    "b1c:preflight": "tsx scripts/quality-gates/b1c-clean-workspace-preflight.ts"
+    "b1c:preflight": "tsx scripts/quality-gates/b1c-clean-workspace-preflight.ts",
+    "b1d:quality-gate": "node scripts/quality-gates/verify-b1d-oidc-integration-readiness.mjs"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "next": "^15.0.3",
     "node-cron": "^3.0.3",
     "openid-client": "6.8.4",
-    "prisma": "^5.22.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^3.23.8"
@@ -53,6 +53,7 @@
     "eslint-config-next": "^15.0.3",
     "postcss": "^8.4.49",
     "prettier": "3.9.5",
+    "prisma": "^5.22.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "vitest": "4.1.10",
