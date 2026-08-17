@@ -89,6 +89,28 @@ export class InMemoryApprovalGateStore implements ApprovalGateStore {
     return stored ? cloneAggregate(stored.aggregate) : null;
   }
 
+  async create(
+    aggregate: ApprovalGateAggregate,
+  ): Promise<ApprovalGateAggregate | null> {
+    if (this.records.has(aggregate.approvalGateId)) {
+      return null;
+    }
+
+    const created = cloneAggregate(aggregate);
+    this.records.set(created.approvalGateId, {
+      aggregate: created,
+      auditEvents: [],
+    });
+
+    return cloneAggregate(created);
+  }
+
+  async list(): Promise<readonly ApprovalGateAggregate[]> {
+    return [...this.records.values()].map(({ aggregate }) =>
+      cloneAggregate(aggregate),
+    );
+  }
+
   async commitTransition(
     input: CommitApprovalGateTransitionInput,
   ): Promise<CommitApprovalGateTransitionResult> {

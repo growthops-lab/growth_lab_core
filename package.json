@@ -29,7 +29,8 @@
     "lint:openapi": "spectral lint -r implementation/lint_configs/openapi/approval_gate_openapi_spectral.yaml implementation/openapi/Approval_Gate_OpenAPI_Draft.yaml",
     "lint:openapi:version": "spectral --version",
     "b1c:preflight": "tsx scripts/quality-gates/b1c-clean-workspace-preflight.ts",
-    "b1d:quality-gate": "node scripts/quality-gates/verify-b1d-oidc-integration-readiness.mjs"
+    "b1d:quality-gate": "node scripts/quality-gates/verify-b1d-oidc-integration-readiness.mjs",
+    "b1e:quality-gate": "node scripts/quality-gates/verify-b1e-minimal-approval-gate.mjs"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

@@ -2,6 +2,10 @@
 
 ## Version 1.0 Draft
 
+- Added the B1E internal Approval Gate HTTP boundary at the existing root App Router: create, list, get, and transition routes use only a process-local in-memory store and a fixed, injected fake Human Owner actor context.
+- Added fail-closed create/input, unknown-ID, invalid-actor, invalid-transition, duplicate-transition, and secret-like-key contract coverage. Public responses omit processed request identifiers and internal audit events.
+- Added the post-commit B1E static scope gate and the `b1e:quality-gate` package command, without changing existing scripts, dependencies, or the lockfile. Human Owner WSL remains responsible for Git finalization and the committed-snapshot build.
+
 - Added an offline, in-memory OIDC integration-readiness validator with stable fail-closed results, secret-indicating-key rejection, hostile-input containment, focused boundary tests, and a post-commit static quality-gate command. It has no runtime environment, filesystem, network, database, or OIDC-client dependency. Public-only clones use an allowed-file-set scope-aware preflight; protected broad state is excluded from the decision, and only unexpected paths block publication.
 - Stabilized the Human Owner approval-reference test fixture with an alphanumeric prefix before its random base64url suffix, while retaining fail-closed rejection of invalid references.
 - Corrected the B1C fixed WSL distribution expectation to the verified `Ubuntu-24.04` host value and retained fail-closed mismatch coverage.
