@@ -13,6 +13,7 @@ import { findForbiddenKeys, isSafeApprovalReference } from "../sanitize";
 import type { ApprovalGateState } from "../types";
 
 const CREATE_KEYS = new Set(["approvalGateId"]);
+const MAX_GENERATED_ID = 999_999;
 const DEFAULT_ACTOR_CONTEXT = {
   actorRole: "HUMAN_OWNER",
   authorizationContext: {
@@ -168,20 +169,29 @@ export function createInMemoryApprovalGateApi(
         return invalidInput();
       }
 
-      let approvalGateId = input.approvalGateId;
-      let created: ApprovalGateAggregate | null;
-
-      do {
-        approvalGateId ??= nextGeneratedId(generatedId++);
-        created = await store.create({
-          approvalGateId,
+      if (input.approvalGateId !== undefined) {
+        const created = await store.create({
+          approvalGateId: input.approvalGateId,
           state: initialState(),
         });
-      } while (!created && input.approvalGateId === undefined);
 
-      return created
-        ? response(201, { item: publicAggregate(created) })
-        : response(409, { error: "DUPLICATE_APPROVAL_GATE_ID" });
+        return created
+          ? response(201, { item: publicAggregate(created) })
+          : response(409, { error: "DUPLICATE_APPROVAL_GATE_ID" });
+      }
+
+      while (generatedId <= MAX_GENERATED_ID) {
+        const created = await store.create({
+          approvalGateId: nextGeneratedId(generatedId++),
+          state: initialState(),
+        });
+
+        if (created) {
+          return response(201, { item: publicAggregate(created) });
+        }
+      }
+
+      return response(500, { error: "IN_MEMORY_ID_SPACE_EXHAUSTED" });
     },
 
     async list() {

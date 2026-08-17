@@ -49,6 +49,21 @@ describe("in-memory Approval Gate HTTP contract", () => {
     expect(JSON.stringify(created.body)).not.toContain("auditEvent");
   });
 
+  it("skips a client-specified ID when generating the next in-memory ID", async () => {
+    const api = createInMemoryApprovalGateApi();
+
+    await expect(
+      api.create({ approvalGateId: "AG-000001" }),
+    ).resolves.toMatchObject({
+      status: 201,
+      body: { item: { approvalGateId: "AG-000001" } },
+    });
+    await expect(api.create({})).resolves.toMatchObject({
+      status: 201,
+      body: { item: { approvalGateId: "AG-000002" } },
+    });
+  });
+
   it("rejects secret-like create input without reflecting it", async () => {
     const api = createInMemoryApprovalGateApi();
 
