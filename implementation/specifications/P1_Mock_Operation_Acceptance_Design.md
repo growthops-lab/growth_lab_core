@@ -22,7 +22,7 @@ B1EのApproval Gateを、外部接続・永続化・資格情報なしで運用�
 
 1. P1-MOCK-001〜002はP1受入テスト、P1-MOCK-003は既存API契約テストで自動確認する。
 2. `pnpm test`、`pnpm lint`、`pnpm typecheck`、`pnpm format:check`、`pnpm lint:openapi`、`pnpm build` が成功する。
-3. 実DB、実OIDC、アプリケーションの外部サービス接続、資格情報読取、Git commit/pushを実施していない。
+3. 実DB、実OIDC、アプリケーションの外部サービス接続、資格情報読取を実施していない。Git commit/pushはP1の実装境界ではなく、変更管理として別途記録する。
 
 ## 次段階への境界
 
@@ -33,4 +33,4 @@ P1はMock運用検証で完結する。P2の手動連携またはP3の公式API�
 - P1受入テストを含む `pnpm test` は11 test files・208 tests成功、終了コード0。
 - `pnpm lint`、`pnpm typecheck`、`pnpm format:check`、`pnpm lint:openapi`、`pnpm build` はすべて終了コード0。
 - `git diff --check` は終了コード0。追加差分は本書と `p1-mock-operation-acceptance.test.ts` の2ファイルのみである。
-- 実DB接続、migration、seed、実OIDC/IdP、アプリケーションの外部サービス接続、資格情報の読取り、Git commit/pushは実施していない。
+- 実DB接続、migration、seed、実OIDC/IdP、アプリケーションの外部サービス接続、資格情報の読取りは実施していない。Git commit/pushは変更管理としてPR #32に記録する。
