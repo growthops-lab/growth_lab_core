@@ -2,6 +2,14 @@
 
 ## Version 1.0 Draft
 
+### P3E-5 Nonproduction Manual Deployment Foundation
+
+- Added a nonproduction-only manual `workflow_dispatch` deployment workflow that authenticates with GitHub OIDC through the existing repository-and-master-restricted Workload Identity Federation provider. It builds the existing Docker image, publishes it to the existing nonproduction Artifact Registry repository, and deploys Cloud Run with `internal-and-cloud-load-balancing` ingress and the approved public-invoker prerequisite for the later load-balancer path.
+
+- Excluded generated Google GitHub Actions credential files from Git and Docker build contexts.
+
+- Corrected the repository operational-progress path to the canonical WSL execution worktree; the obsolete Windows worktree remains reference-only.
+
 - Added the B1E internal Approval Gate HTTP boundary at the existing root App Router: create, list, get, and transition routes use only a process-local in-memory store and a fixed, injected fake Human Owner actor context.
 - Added fail-closed create/input, unknown-ID, invalid-actor, invalid-transition, duplicate-transition, and secret-like-key contract coverage. Public responses omit processed request identifiers and internal audit events.
 - Added the post-commit B1E static scope gate and the `b1e:quality-gate` package command, without changing existing scripts, dependencies, or the lockfile. Human Owner WSL remains responsible for Git finalization and the committed-snapshot build.

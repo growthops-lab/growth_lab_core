@@ -3,7 +3,7 @@
 ## Project Progress Update Rule
 
 For every material task in this repository, maintain:
-C:\claudcode_ap\growth_lab_core\Project_Progress.md
+/home/sns-ops-pc/growth_lab_core_b1e_execution_work/Project_Progress.md
 
 Required behavior:
 1. At task start, update Current Status and In Progress only when the status materially changes.

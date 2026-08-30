@@ -36,3 +36,5 @@ Thumbs.db
 
 # Generated human-readable publication exports
 docs_export/github_publication/
+
+gha-creds-*.json
