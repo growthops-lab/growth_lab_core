@@ -4,6 +4,8 @@
 
 ### P3E-5 Nonproduction Manual Deployment Foundation
 
+- Pinned every GitHub Actions reference to an immutable commit SHA and added a permanent nonproduction deployment policy guard to `pnpm run lint`. The guard rejects automatic triggers, mutable Action tags, static credentials, and changes to the approved Cloud Run boundary.
+
 - Added a nonproduction-only manual `workflow_dispatch` deployment workflow that authenticates with GitHub OIDC through the existing repository-and-master-restricted Workload Identity Federation provider. It builds the existing Docker image, publishes it to the existing nonproduction Artifact Registry repository, and deploys Cloud Run with `internal-and-cloud-load-balancing` ingress and the approved public-invoker prerequisite for the later load-balancer path.
 
 - Excluded generated Google GitHub Actions credential files from Git and Docker build contexts.
