@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-08-14 21:43 JST
+Last Updated: 2026-08-30 23:50 JST
 
 ## 1. Project Information
 
@@ -9,7 +9,7 @@ Last Updated: 2026-08-14 21:43 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-08-14 21:43 JST
+- Last Updated: 2026-08-30 23:50 JST
 
 ## 2. Current Status
 
@@ -47,6 +47,8 @@ Local master and origin/master were synchronized at the PR #22 merge commit. The
 The MVP Approval Gate Application Layer implementation and merge lifecycle are complete.
 
 Candidate A, Production Persistence Foundation, is approved as the next MVP boundary on feat/mvp-approval-gate-persistence-foundation, starting from master commit 72cd0a5bb28927ccba4a88a1cf61312b13066d94. The first implementation PR will separate the current-schema baseline migration from the Approval Gate addition migration and will not connect to a database, apply migrations, run db push, or seed data. Dedicated verification-database execution requires separate Human Owner authorization.
+
+- P3E-5 Nonproduction Application Publishing / Cloudflare Access path is in progress under explicit Human Owner approval for 2026-08-30 23:00–00:00 JST. The approved boundary is only `nonprod.growthlab-ops.com`; production, real DB, OAuth, GA4/Search Console, and secret material remain excluded. Read-only preflight confirmed `master` at `af25642`, the nonproduction GCP project, Artifact Registry, service accounts, the repository-and-master-restricted GitHub WIF provider, and the three known P3B/P3C/P3D untracked decision documents. Compute Engine and Certificate Manager APIs were enabled with an external execution log. Initial application deployment remains manual `workflow_dispatch` only.
 
 ## 3. Completed
 
@@ -216,6 +218,8 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - B1E contract and existing non-persistence Approval Gate tests passed 150/150. ESLint, Prettier, OpenAPI lint, and B1E-targeted type checking passed without a database, IdP, credential, or Git operation.
 
 ## 4. In Progress
+
+- P3E-5 manual nonproduction deployment workflow preparation on a dedicated `feat/p3e5-nonproduction-public-path` branch. The workflow must remain `workflow_dispatch` only and use GitHub OIDC/WIF; GitHub push, manual dispatch, Cloud Run, GCLB, Cloud Armor, Certificate Manager DNS authorization, Cloudflare DNS, and Cloudflare Access changes remain separately sequenced and must not be marked complete until evidence exists.
 
 - GitHub account initial setup procedure section 15 and later
 - MVP Approval Gate B1A Auth Context Provider Foundation implementation on `feat/mvp-approval-gate-auth-context-provider-foundation` from `d1cd3670c71728c753babf8a44d8699236deb9d5`, limited to the approved D2 provider/resolver file, its unit test, and one-time `Project_Progress.md` kickoff bookkeeping.
