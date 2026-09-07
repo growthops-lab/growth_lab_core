@@ -78,7 +78,9 @@ jobs:
             --image="${IMAGE_URI}:${GITHUB_SHA}" \
             --service-account="${RUNTIME_SERVICE_ACCOUNT}" \
             --ingress=internal-and-cloud-load-balancing \
-            --allow-unauthenticated \
+            --iap \
+            --invoker-iam-check \
+            --no-default-url \
             --port=3000 \
             --cpu=1 \
             --memory=512Mi \

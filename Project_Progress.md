@@ -1,6 +1,6 @@
 # Growth Lab Core Project Progress
 
-Last Updated: 2026-09-01 23:12 JST
+Last Updated: 2026-09-08 00:22:48 JST
 
 ## 1. Project Information
 
@@ -9,9 +9,11 @@ Last Updated: 2026-09-01 23:12 JST
 - Progress File: C:\claudcode_ap\growth_lab_core\Project_Progress.md
 - Human Owner: Growth Lab Operations
 - Updated By: Human Owner
-- Last Updated: 2026-09-01 23:12 JST
+- Last Updated: 2026-09-08 00:22:48 JST
 
 ## 2. Current Status
+
+- P3E4-PRISMA-REPAIR-20260907 (2026-09-08 00:22:48 JST): The exact four-file local repair and authorized static checks are complete. P3E-4 remains 「変更適用PASS・全体受入未完了」. The 2026-09-08 00:06–00:07 JST stop under the original zero-existing-change condition remains recorded; work resumed at 00:20:23 JST under the v1.0.0 addendum because 元指示書の開始条件を対象範囲に合わせて是正. No Human Owner exception-approval or external-change approval is inferred. The existing protected difference and this Work ID's stop record were retained; protected timestamp changes observed during work are recorded under Issues and Risks.
 
 - Candidate A Production Persistence Foundation implementation, mandatory fixes, final reviews, PR #24 merge, completion-record PR #25 Squash merge to `a1e2575bffb2855045b3850883f938617cdd41b0`, local master synchronization, and completion-record branch cleanup are complete. Handover v1.4 has been manually stored; database-connected operations remain separately gated and unexecuted.
 - MVP Approval Gate B0 Transition Contract Alignment is complete. PR #26 was Squash merged to `d1cd3670c71728c753babf8a44d8699236deb9d5`; local `master`, `origin/master`, and remote `master` were synchronized; local, remote, and remote-tracking B0 feature refs were cleaned up; management-to-development handover v1.5 was manually stored.
@@ -52,6 +54,8 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - The first manual `workflow_dispatch` run `33514021924` reached Google OIDC/WIF authentication, Google Cloud CLI setup, and Artifact Registry authentication, then stopped during the Docker dependency install. No image push or Cloud Run deployment occurred. The corrective change is limited to copying the existing `pnpm-workspace.yaml` before `pnpm install`, so pnpm 11 applies the approved explicit `allowBuilds` policy without broad lifecycle-script permission, local Docker installation, or PowerShell changes.
 
 ## 3. Completed
+
+- P3E4-PRISMA-REPAIR-20260907: At 2026-09-08 00:06–00:07 JST, preflight and progress-record checks passed except the original clean-worktree prerequisite; repair was not applied in that attempt. On resumption at 00:20:23 JST, read both instructions in full and verified the applicable AGENTS.md, canonical root, branch `fix/p3e4-prisma-openssl3-20260907`, baseline HEAD `1ec35888eccd6058bf48c45a0c8b05067a37a888`, four regular-file starting blob hashes, source-instruction and patch SHA-256, progress-only existing diff, unchanged changelog, and staged count 0. `git apply --check /tmp/glc-p3e4-resume-ggjaly04/repair.patch` passed; the unchanged patch was then applied to the worktree only. Docker deps/builder/runner inherit the OpenSSL-equipped Alpine base; Prisma binary targets are `native` and `linux-musl-openssl-3.0.x`; the manual workflow requires direct IAP, invoker IAM check and disabled default URL; the guard requires those flags and rejects both anonymous-access flags. `env -u NODE_OPTIONS -u NODE_PATH node --check scripts/check-nonprod-deploy-workflow.mjs` and `env -u NODE_OPTIONS -u NODE_PATH node scripts/check-nonprod-deploy-workflow.mjs` exited 0 (policy output: `nonprod deployment policy: PASS`), using the existing yaml dependency with no install. Six-path `git diff --check` and authorized diff review passed. Prisma outside the generator is byte-identical to HEAD; migrations, dependency/lockfile/pnpm-policy paths have no tracked changes. Workflow dispatch-only trigger, confirmation inputs, pinned Action SHAs, WIF, project and ingress remain unchanged. Anonymous-flag rejection was reviewed in code only; no negative execution test was run. Updated the existing changelog Version section with one repair record. Final scope/HEAD/index/path-metadata checks confirm only the six authorized task paths plus the pre-existing protected difference, unchanged HEAD, staged 0, and the same three untracked paths; those documents were not read or modified by this task.
 
 - Google Workspace Business Starter initial setup
 - Primary account setup for growth.ops@growthlab-ops.com
@@ -220,6 +224,8 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 
 ## 4. In Progress
 
+- P3E4-PRISMA-REPAIR-20260907: Local repair and authorized static validation are finished; P3E-4 overall acceptance remains incomplete. Runtime/image/engine checks, Git finalization/publication, and external application remain pending outside this local task.
+
 - P3E-5 manual nonproduction deployment workflow preparation on a dedicated `feat/p3e5-nonproduction-public-path` branch. The workflow must remain `workflow_dispatch` only and use GitHub OIDC/WIF; GitHub push, manual dispatch, Cloud Run, GCLB, Cloud Armor, Certificate Manager DNS authorization, Cloudflare DNS, and Cloudflare Access changes remain separately sequenced and must not be marked complete until evidence exists.
 - P3E-5 Docker dependency-install correction is in progress on a dedicated fix branch. It changes only the dependency-layer availability of the existing pnpm build-policy configuration; WIF, Artifact Registry, Cloud Run, production, database, OAuth, Cloudflare, GA4, and Search Console scope remains unchanged.
 
@@ -230,6 +236,8 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - B1E Draft PR #31 remediation: keep the PR Draft, complete and revalidate the generated-ID collision correction, then obtain a separate Human Owner Ready-for-review decision. Do not approve, merge, or release as part of this work.
 
 ## 5. Next Actions
+
+- P3E4-PRISMA-REPAIR-20260907: Hand off the six-file local diff and static evidence for the next verification stage. Verify a protected-file-free committed snapshot and the validation environment before full lint/typecheck/test/build, Prisma generation/validation and Docker image/engine checks. Separately confirm Codex Docker CLI availability and daemon access, locate the Cloud Armor JSON-array parsing insertion point, and complete live acceptance only within its authorized scope. Git finalization/publication and external changes remain Human Owner stages. Human Owner may investigate the observed protected timestamp change if needed; this task does not read or normalize that file.
 
 - Restore read-write access to this clone's `.git` mount, then resume the approved B1D scope-aware publication flow from branch creation; do not re-run broad worktree or protected-metadata scans.
 - Run the v1.3 WSL host publication block for B1C; review the resulting Draft PR before any Ready-for-review or merge decision.
@@ -279,6 +287,8 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 - Existing CRON authentication behavior and `CRON_SECRET` must not be reused as the B1A/B1 Human Owner identity source.
 ## 7. Issues and Risks
 
+- P3E4-PRISMA-REPAIR-20260907: The original 00:06–00:07 JST stop was caused by the zero-existing-change prerequisite; the addendum corrected that condition without requiring cleanup of the pre-existing protected difference. Its origin and the discrepancy between host and Codex detection remain unknown. A metadata comparison during the resumed work found changed `.env.example` mtime/ctime; mode, inode and size matched at that comparison and its Git state remained an unstaged modification. The combined metadata assertion exited 1 at timestamp equality after Prisma/scope/HEAD/index/untracked checks passed; metadata equality is therefore NOT_PASS and content equality is unverified. No content read, copy, hash, automatic load, edit, explicit permission/time modification or restoration of that file was performed by this task. Per the addendum's host WSL evidence, `/usr/bin/docker` resolves to `/mnt/wsl/docker-desktop/cli-tools/usr/bin/docker`, a statically linked Linux ELF 64-bit x86-64 executable; this is supplied host evidence, not a Codex execution check. Codex CLI availability, daemon access, build and generated Prisma-engine operation remain unverified. Negative execution tests, full lint/typecheck/test/build, Prisma generate/validate, Docker build and application startup are NOT_RUN. Cloud Armor JSON-array repair remains insertion-point-unconfirmed and unapplied. Existing IAM-binding audit/removal, real-image verification, P3E-4 overall acceptance, external application and Git finalization/publication remain incomplete; no resolution of `libssl.so.1.1` is claimed. No DB, GCP, Cloudflare, DNS, IAM, deploy, Docker push, workflow dispatch, PR or Git metadata mutation was performed.
+
 - The previous broad-term Recovery codes scan is classified as inconclusive due to false-positive risk and is superseded for path-name classification by the specific metadata audit.
 - No Recovery codes-specific path-name metadata was detected within the defined audit boundary. This does not verify file contents or any external secure storage location.
 - Do not record the Recovery codes file name, content, or exact secure storage location in this file.
@@ -314,6 +324,7 @@ Candidate A, Production Persistence Foundation, is approved as the next MVP boun
 ## 8. Recent Updates
 
 | Date and Time | Work ID | Summary | Updated By |
+| 2026-09-08 00:22:48 JST | P3E4-PRISMA-REPAIR-20260907 | Retained the 00:06–00:07 JST stop; resumed at 00:20:23 JST after 元指示書の開始条件を対象範囲に合わせて是正 under the addendum. Exact four-file patch applied; Node syntax/policy and scoped diff/static review PASS. Updated only six authorized task paths; HEAD unchanged, staged 0 and existing untracked 3 retained. Protected mtime/ctime changed during work (cause/content unknown; no task content access or edit). Host Docker Linux ELF evidence supplied; Codex/runtime/image checks, Cloud Armor repair, overall acceptance and publication remain unexecuted. | Codex |
 | 2026-08-18 JST | B1E-MINIMAL-APPROVAL-GATE-API-IMPLEMENTATION-20260817 | Initial B1E finalize completed at `0b42c261d55617fd3903534286f81d4655512dff`; Draft PR #31 is OPEN and its initial nine GitHub checks passed. The internal process-local boundary uses a fixed fake Human Owner context, rejects secret-like input, treats unknown IDs fail-closed, enforces Core/Application transition validation and duplicate idempotency, and omits processed request IDs and audit events from public responses. v1.6 adds only the post-commit `b1e:quality-gate` command and its `package.json` allowlist entry; dependencies and lockfile remain unchanged. A Draft-only review found a generated-ID collision defect; its correction and revalidation are required before Ready for review. No Prisma generation, real DB/IdP, credential, Ready-for-review, approval, merge, or release operation occurred. | Codex |
 | 2026-08-15  | B1D-OIDC-INTEGRATION-READINESS-PUBLISH-20260815 | Confirmed the v1.2 Word/PDF instructions read-only and completed the allowed scope-aware checks: exact origin, HEAD/origin-master synchronization, and no branch or PR collision. Integrated the public-only-clone recurrence-prevention policy into the B1D records. Publication then stopped before branch creation because the clone's `.git` mount is read-only and cannot create `index.lock`. A final seven-path-only query found no out-of-scope path, but only four expected paths still differ; no commit, push, Draft PR, real service, credential, or GitHub settings operation occurred. | Codex |
 | 2026-08-15 13:35 JST | B1D-OIDC-INTEGRATION-READINESS-AUTOMATION-20260815 | Added the offline in-memory OIDC integration-readiness validator, 12 focused fail-closed tests, and the post-commit B1D static quality-gate script with no runtime dependency, database, network, IdP, credential, Prisma artifact, or environment-template change. Focused/B1B regression and full tests passed 197/197; typecheck, lint, format, OpenAPI, scoped diff, and isolated placeholder-only Prisma schema validation passed. Production build, post-commit gate, host Git commit/push, Draft PR, and CI observation remain pending because the ordinary build runner auto-discovers a protected environment file. | Codex |

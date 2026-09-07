@@ -2,6 +2,10 @@
 
 ## Version 1.0 Draft
 
+### P3E-4 Prisma/OpenSSL Local Repair — 2026-09-08
+
+- `P3E4-PRISMA-REPAIR-20260907`: Added OpenSSL to a shared Alpine base inherited by Docker deps, builder, and runner; configured Prisma client binary targets as `native` and `linux-musl-openssl-3.0.x` without data-model or dependency changes. Replaced the manual nonproduction deployment's `--allow-unauthenticated` flag with `--iap`, `--invoker-iam-check`, and `--no-default-url`; updated the policy guard to require these three settings and reject `--allow-unauthenticated` and `--no-invoker-iam-check`. This is a local implementation/configuration repair only: no deployment, existing IAM-binding audit/removal, real-image verification, Prisma incident resolution, or overall P3E-4 acceptance is claimed.
+
 ### P3E-5 Nonproduction Manual Deployment Foundation
 
 - Corrected the Docker dependency stage to copy the existing `pnpm-workspace.yaml` before `pnpm install`, ensuring pnpm 11 applies the already approved explicit lifecycle-build allowlist without enabling broad build-script permission.
