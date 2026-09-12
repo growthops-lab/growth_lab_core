@@ -2,6 +2,8 @@
 
 ## Version 1.0 Draft
 
+- P3E4-PRISMA-REPAIR-20260907: 実機検証済み候補を基にDockerfileをローカル反映。Node 22 Alpineの成功ビルドで使用した公開ベースdigestを既定値に固定し、全段階のOpenSSL継承、pnpm 11.7.0、公開依存取得と通信遮断下のPrisma生成／Nextビルドを明示した。既存候補のengine・起動／待受／停止PASSを記録。反映後の正本Dockerfileフルビルド・実環境受入は未実施。
+
 ### P3E-4 Prisma/OpenSSL Local Repair — 2026-09-08
 
 - `P3E4-PRISMA-REPAIR-20260907`: Added OpenSSL to a shared Alpine base inherited by Docker deps, builder, and runner; configured Prisma client binary targets as `native` and `linux-musl-openssl-3.0.x` without data-model or dependency changes. Replaced the manual nonproduction deployment's `--allow-unauthenticated` flag with `--iap`, `--invoker-iam-check`, and `--no-default-url`; updated the policy guard to require these three settings and reject `--allow-unauthenticated` and `--no-invoker-iam-check`. This is a local implementation/configuration repair only: no deployment, existing IAM-binding audit/removal, real-image verification, Prisma incident resolution, or overall P3E-4 acceptance is claimed.
