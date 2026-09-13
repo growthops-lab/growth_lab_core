@@ -58,7 +58,9 @@ const requirements = [
   ["workload_identity_provider:", "Workload Identity Federation"],
   ["service_account:", "deployer service account"],
   ["--ingress=internal-and-cloud-load-balancing", "approved Cloud Run ingress"],
-  ["--allow-unauthenticated", "approved load-balancer invoker prerequisite"],
+  ["--iap", "direct Cloud Run IAP"],
+  ["--invoker-iam-check", "Cloud Run invoker IAM check"],
+  ["--no-default-url", "disabled default Cloud Run URL"],
 ];
 
 for (const [requirement, label] of requirements) {
@@ -70,6 +72,13 @@ for (const [requirement, label] of requirements) {
   if (!found) {
     fail(`missing ${label}`);
   }
+}
+
+if (
+  text.includes("--allow-unauthenticated") ||
+  text.includes("--no-invoker-iam-check")
+) {
+  fail("anonymous Cloud Run access flag detected");
 }
 
 if (
