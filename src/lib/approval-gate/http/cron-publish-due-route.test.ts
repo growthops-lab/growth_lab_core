@@ -58,10 +58,38 @@ describe("cron publish-due route", () => {
     expect(publishDuePostsMock).not.toHaveBeenCalled();
   });
 
-  it("rejects a missing or incorrect authorization header", async () => {
+  it("rejects a missing authorization header", async () => {
     process.env.CRON_SECRET = "test-only-cron-secret";
 
     const response = await GET(createRequest());
+
+    expect(response.status).toBe(401);
+    await expect(response.json()).resolves.toEqual({ error: "Unauthorized" });
+    expect(publishDuePostsMock).not.toHaveBeenCalled();
+  });
+
+  it("fails closed when cron authorization is empty", async () => {
+    process.env.CRON_SECRET = "";
+
+    const response = await GET(createRequest());
+
+    expect(response.status).toBe(503);
+    await expect(response.json()).resolves.toEqual({
+      error: "Service unavailable",
+    });
+    expect(publishDuePostsMock).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    "wrong-token",
+    "Bearer wrong-token",
+    "bearer test-only-cron-secret",
+    "Bearer test-only-cron-secret extra",
+    "Bearer  test-only-cron-secret",
+  ])("rejects an incorrect authorization header %s", async (authorization) => {
+    process.env.CRON_SECRET = "test-only-cron-secret";
+
+    const response = await GET(createRequest(authorization));
 
     expect(response.status).toBe(401);
     await expect(response.json()).resolves.toEqual({ error: "Unauthorized" });
